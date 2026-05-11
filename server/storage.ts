@@ -131,4 +131,143 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+export class MemoryStorage implements IStorage {
+  private inquiryId = 1;
+  private postId = 1;
+  private corporateContentId = 1;
+  private siteContentId = 1;
+  private siteImageId = 1;
+
+  private inquiries: Inquiry[] = [];
+  private posts: Post[] = [];
+  private corporateContent: CorporateContent[] = [];
+  private siteContent: SiteContent[] = [];
+  private siteImages: SiteImage[] = [];
+
+  async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
+    const inquiry: Inquiry = {
+      id: this.inquiryId++,
+      eventType: insertInquiry.eventType,
+      location: insertInquiry.location,
+      date: insertInquiry.date,
+      name: insertInquiry.name,
+      email: insertInquiry.email ?? null,
+      phone: insertInquiry.phone ?? null,
+      createdAt: new Date(),
+    };
+    this.inquiries.push(inquiry);
+    return inquiry;
+  }
+
+  async getInquiries(): Promise<Inquiry[]> {
+    return [...this.inquiries].sort((a, b) => {
+      return (a.createdAt?.getTime() ?? 0) - (b.createdAt?.getTime() ?? 0);
+    });
+  }
+
+  async getPosts(): Promise<Post[]> {
+    return [...this.posts];
+  }
+
+  async createPost(insertPost: InsertPost): Promise<Post> {
+    const post: Post = {
+      id: this.postId++,
+      location: insertPost.location,
+      title: insertPost.title,
+      category: insertPost.category,
+      imageUrl: insertPost.imageUrl ?? null,
+      content: insertPost.content ?? null,
+      createdAt: new Date(),
+    };
+    this.posts.push(post);
+    return post;
+  }
+
+  async getCorporateContent(): Promise<CorporateContent[]> {
+    return [...this.corporateContent];
+  }
+
+  async getCorporateContentByKey(sectionKey: string): Promise<CorporateContent | undefined> {
+    return this.corporateContent.find((content) => content.sectionKey === sectionKey);
+  }
+
+  async upsertCorporateContent(data: InsertCorporateContent): Promise<CorporateContent> {
+    const existing = await this.getCorporateContentByKey(data.sectionKey);
+    if (existing) {
+      existing.content = data.content;
+      existing.updatedAt = new Date();
+      return existing;
+    }
+
+    const content: CorporateContent = {
+      id: this.corporateContentId++,
+      sectionKey: data.sectionKey,
+      content: data.content,
+      updatedAt: new Date(),
+    };
+    this.corporateContent.push(content);
+    return content;
+  }
+
+  async getSiteContent(): Promise<SiteContent[]> {
+    return [...this.siteContent];
+  }
+
+  async getSiteContentByKey(sectionKey: string): Promise<SiteContent | undefined> {
+    return this.siteContent.find((content) => content.sectionKey === sectionKey);
+  }
+
+  async upsertSiteContent(data: InsertSiteContent): Promise<SiteContent> {
+    const existing = await this.getSiteContentByKey(data.sectionKey);
+    if (existing) {
+      existing.content = data.content;
+      existing.updatedAt = new Date();
+      return existing;
+    }
+
+    const content: SiteContent = {
+      id: this.siteContentId++,
+      sectionKey: data.sectionKey,
+      content: data.content,
+      updatedAt: new Date(),
+    };
+    this.siteContent.push(content);
+    return content;
+  }
+
+  async getSiteImages(): Promise<SiteImage[]> {
+    return [...this.siteImages];
+  }
+
+  async getSiteImageByKey(imageKey: string): Promise<SiteImage | undefined> {
+    return this.siteImages.find((image) => image.imageKey === imageKey);
+  }
+
+  async upsertSiteImage(data: InsertSiteImage): Promise<SiteImage> {
+    const existing = await this.getSiteImageByKey(data.imageKey);
+    if (existing) {
+      existing.url = data.url;
+      existing.originalName = data.originalName ?? null;
+      existing.updatedAt = new Date();
+      return existing;
+    }
+
+    const image: SiteImage = {
+      id: this.siteImageId++,
+      imageKey: data.imageKey,
+      url: data.url,
+      originalName: data.originalName ?? null,
+      updatedAt: new Date(),
+    };
+    this.siteImages.push(image);
+    return image;
+  }
+
+  async deleteSiteImage(imageKey: string): Promise<void> {
+    this.siteImages = this.siteImages.filter((image) => image.imageKey !== imageKey);
+  }
+}
+
+export const storage = process.env.DATABASE_URL
+  ? new DatabaseStorage()
+  : new MemoryStorage();

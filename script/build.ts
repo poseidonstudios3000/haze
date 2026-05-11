@@ -4,7 +4,14 @@ import path from "path";
 const rootDir = path.resolve(import.meta.dirname, "..");
 
 console.log("Building frontend with Vite...");
-execSync("npx vite build", {
+execSync("npm run build:client", {
+  cwd: rootDir,
+  stdio: "inherit",
+  env: { ...process.env, NODE_ENV: "production" },
+});
+
+console.log("Building server with esbuild...");
+execSync("npm run build:server", {
   cwd: rootDir,
   stdio: "inherit",
   env: { ...process.env, NODE_ENV: "production" },

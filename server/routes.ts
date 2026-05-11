@@ -72,9 +72,17 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  const sessionSecret =
+    process.env.SESSION_SECRET ||
+    (process.env.NODE_ENV === "production" ? undefined : "dev-session-secret");
+
+  if (!sessionSecret) {
+    throw new Error("SESSION_SECRET must be set in production");
+  }
+
   app.use(
     session({
-      secret: process.env.SESSION_SECRET!,
+      secret: sessionSecret,
       resave: false,
       saveUninitialized: false,
       cookie: {
@@ -98,7 +106,7 @@ export async function registerRoutes(
 
   app.post("/api/admin/login", (req, res) => {
     const { password } = req.body;
-    if (password === process.env.ADMIN_PASSWORD) {
+    if (process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD) {
       (req.session as any).isAdmin = true;
       res.json({ success: true });
     } else {
