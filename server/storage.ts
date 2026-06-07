@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { db } from "./db.js";
 import {
   inquiries,
   posts,
@@ -15,11 +15,12 @@ import {
   type InsertSiteContent,
   type SiteImage,
   type InsertSiteImage,
-} from "@shared/schema";
+} from "../shared/schema.js";
 import { eq } from "drizzle-orm";
 
 export interface IStorage {
   createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
+  deleteInquiry(id: number): Promise<void>;
   getInquiries(): Promise<Inquiry[]>;
   getPosts(): Promise<Post[]>;
   createPost(post: InsertPost): Promise<Post>;
@@ -39,6 +40,10 @@ export class DatabaseStorage implements IStorage {
   async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
     const [inquiry] = await db.insert(inquiries).values(insertInquiry).returning();
     return inquiry;
+  }
+
+  async deleteInquiry(id: number): Promise<void> {
+    await db.delete(inquiries).where(eq(inquiries.id, id));
   }
 
   async getInquiries(): Promise<Inquiry[]> {
@@ -157,6 +162,10 @@ export class MemoryStorage implements IStorage {
     };
     this.inquiries.push(inquiry);
     return inquiry;
+  }
+
+  async deleteInquiry(id: number): Promise<void> {
+    this.inquiries = this.inquiries.filter((inquiry) => inquiry.id !== id);
   }
 
   async getInquiries(): Promise<Inquiry[]> {

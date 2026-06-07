@@ -139,16 +139,24 @@ const PRIVATE_FAQ: FAQItem[] = [
 ];
 
 const OTHER_FAQ: FAQItem[] = [
-  { category: "DJ & MC Services", question: "Can you DJ and MC?", answer: "Yes, DJ Miss Haze is a professional DJ with live, dynamic music mixing who also MCs her events. She handles all necessary announcements, introductions, and coordinates with your team to ensure every timeline transition is executed flawlessly." },
-  { category: "DJ & MC Services", question: "How experienced are you with PR Shows and Brand Events?", answer: "Over the past 10 years, DJ Miss Haze has worked with publicists, brands, and creative agencies on events ranging from red carpet galas and brand activations to product launches and influencer events." },
-  { category: "DJ & MC Services", question: "Can you play multiple genres?", answer: "Absolutely. DJ Miss Haze specializes in Classics, Country, EDM, Hip Hop/Rap, R&B and Soul, Latin, Pop / Top 40. She curates music to match your brand's identity and event objectives." },
-  { category: "Booking", question: "How far in advance should I book?", answer: "We recommend booking 2-6 months in advance. DJ Miss Haze is able to cover last minute events and offer same-day emergency DJ services, subject to availability." },
-  { category: "Booking", question: "What is your minimum booking fee?", answer: "Event pricing varies based on scope, location, and requirements. Final pricing will be determined during the first contact call or zoom meeting with DJ Miss Haze." },
+  { category: "DJ & MC Services", question: "Can you DJ and MC?", answer: "Yes, DJ Miss Haze is a professional DJ with live, dynamic music mixing who also MCs her events and is known to engage the audience while hosting. This is a critical dual role for a seamless event. DJ Miss Haze handles all necessary announcements, introductions (with phonetic pronunciation checks), and coordinates with your planner/vendors to ensure every timeline transition (grand entrance, toasts, first dance, etc.) is executed flawlessly and professionally." },
+  { category: "DJ & MC Services", question: "How experienced are you with events?", answer: "Over the past 16 years, DJ Miss Haze curated 500+ events, from club nights to sports events, fashion shows, galas, fundraisers, pop-ups and more." },
+  { category: "DJ & MC Services", question: "How do you keep the dance floor going at my specific event?", answer: "DJ Miss Haze is an experienced professional who treats the dance floor as a dynamic environment. Her reputation is built on quickly assessing the room's energy and adjusting the music in real-time—blending tracks from different eras and genres seamlessly. DJ Miss Haze honors her clients playlist and do-not-playlist and builds out her music framework based on her clients music taste plus guest inclusion. You can trust DJ Miss Haze' expertise to keep everyone engaged, ensuring a vibrant, high-energy dance party without relying on a pre-set, unchangeable mix." },
+  { category: "DJ & MC Services", question: "Can you play multiple genres?", answer: "Absolutely. DJ Miss Haze specializes in Classics, Country, EDM, Hip Hop/Rap, R&B and Soul, Reggaeton, Pop / Top 40. She is also experienced with cultural and culture fusion events, including Afrobeats, Latin, Middle Eastern, Indian, Asian and Balkan Music. She is known for her deep knowledge of music, versatility and ability to blend various music flavors into a single event with flow." },
+  { category: "DJ & MC Services", question: "How do you handle guest requests?", answer: "Requests are handled thoughtfully—always aligned with the host's vision and the room's energy." },
+  { category: "DJ & MC Services", question: "How involved can we be in the music selection?", answer: "With DJ Miss Haze, you can be as involved as you like to. She is proven to DJ entire events without guidance, and also adheres to playlists and do-not-playlist. You can also work with DJ Miss Haze on custom song edits. She is very experienced editing songs for key moments as well." },
+  { category: "DJ & MC Services", question: "We have very different music tastes among our guests. How do you manage that?", answer: "DJ Miss Haze specializes in versatility. She excels at curating sets to set the tone for any event type and transitions smoothly between phases, genres and energy levels to ensure she always delivers what the crowd needs in the moment." },
+  { category: "DJ & MC Services", question: "Do you play clean only or also songs with explicit lyrics?", answer: "DJ Miss Haze is experienced DJing entirely family-friendly, clean events, and can also deliver events with explicit lyrics. She always complies to her clients preference when it comes to lyrics." },
+  { category: "Booking", question: "How far in advance should I book?", answer: "We recommend booking 1-6 months in advance for other event types. DJ Miss Haze is able to cover last minute events and offer same-day emergency DJ services, subject to availability." },
+  { category: "Booking", question: "What is your minimum booking fee?", answer: "Other events range heavily in their requirements. Final pricing will be determined during the first contact call or zoom meeting with DJ Miss Haze, or you can request a proposal now." },
+  { category: "Booking", question: "How do we secure booking with DJ Miss Haze?", answer: "Your event date is secured with a signed contract and paid retainer. DJ Miss Haze offers zero-fee payment plans that fit your budgeting needs." },
   { category: "Booking", question: "Which payment methods do you accept?", answer: "DJ Miss Haze offers the following payment methods: ACH, Cash, Check, Credit and Debit Card, Cryptocurrencies, Wire, and Zelle." },
-  { category: "Equipment", question: "What equipment do you bring?", answer: "DJ Miss Haze brings a professional BOSE speaker system, Shure cordless microphone with mic stand, and dance floor lighting. All equipment is insured, maintained and tested before every event." },
-  { category: "Locations", question: "Which locations do you service?", answer: "DJ Miss Haze operates out of three hubs: Chicago (Illinois), Dallas Fort Worth (Texas) and Denver (Colorado). She is also available for nationwide and international travel." },
-  { category: "Locations", question: "Do you charge travel fees?", answer: "Events in Chicago, Dallas Fort Worth and Denver plus 100 miles radius have ZERO travel fees. Events beyond are subject to travel fees." },
+  { category: "Equipment", question: "What equipment do you bring to an event?", answer: "DJ Miss Haze brings a professional BOSE speaker system, Shure cordless microphone with mic stand, and dance floor lighting. All equipment is insured, maintained and tested before every event." },
+  { category: "Equipment", question: "Which add-ons do you offer?", answer: "DJ Miss Haze offers the following add-ons: Photo Booth, Lighting, Audio Guestbook, Monogram, Dancing on the Clouds, Smoke Machine, Yard Games, and CO2 Cannons. Bundle pricing is available for two items or more." },
+  { category: "Locations", question: "Which locations do you service?", answer: "DJ Miss Haze operates out of three hubs: Chicago (Illinois), Dallas Fort Worth (Texas) and Denver (Colorado). She has her complete equipment stack plus lighting, photo booths, dancing on the clouds, fog machine, yard games and CO2 cannons at each hub. She is also available for events beyond her hubs. You can work with her anywhere in the world. Travel fees may apply." },
+  { category: "Locations", question: "Do you charge travel fees?", answer: "Events in Chicago, Dallas Fort Worth and Denver plus 100 miles radius have ZERO travel fees. Events beyond those regions will be priced individually." },
   { category: "Logistics & Reliability", question: "Are you insured?", answer: "Yes, DJ Miss Haze carries full liability insurance. If your venue requires a Certificate of Insurance, we are happy to provide it directly to them at no extra charge." },
+  { category: "Logistics & Reliability", question: "What is your policy on breaks, attire and vendor meal?", answer: "Miss Haze does not take breaks during your event's contracted time and does not consume alcohol. She dresses in professional attire appropriate for your event's formality. A vendor meal is requested for events lasting 5+ hours to maintain focus and energy throughout the night." },
 ];
 
 const SHARED_ABOUT: AboutContent = {
@@ -174,11 +182,11 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
       locations: ["Chicago", "Dallas", "Denver"],
     },
     ticker: {
-      items: ["HIGH-ENERGY", "CLASSY & TIMELESS", "BOLD & ECLECTIC", "SOPHISTICATED", "ON BRAND", "FUN & INCLUSIVE"],
+      items: ["HIGH-ENERGY", "CLASSY & TIMELESS", "BOLD & ECLECTIC", "SOPHISTICATED", "VERSATILE", "FUN & INCLUSIVE"],
     },
     signature: {
       quote: "DJ Miss Haze delivers a premium experience that aligns with your brand and engages your audience.",
-      description: "Specializing in Corporate Events across Chicago, Dallas\u2013Fort Worth, and Denver plus surrounding areas, DJ Miss Haze is trusted by companies, agencies, and event planners who expect professionalism, adaptability, and premium sound design. She is also available for nationwide and destination travel.",
+      description: "Specializing in Corporate Events across Chicago, Dallas–Fort Worth, and Denver plus surrounding areas, DJ Miss Haze is trusted by companies, agencies, and event planners who expect professionalism, adaptability, and premium sound design. She is also available for nationwide and destination travel.",
     },
     mantra: { ...SHARED_MANTRA },
     about: { ...SHARED_ABOUT },
@@ -245,11 +253,11 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
       locations: ["Chicago", "Dallas", "Denver"],
     },
     ticker: {
-      items: ["HIGH-ENERGY", "MEMORABLE", "PERSONALIZED", "SOPHISTICATED", "FUN", "UNFORGETTABLE"],
+      items: ["HIGH-ENERGY", "MEMORABLE", "PERSONALIZED", "SOPHISTICATED", "FUN", "CURATED"],
     },
     signature: {
       quote: "Every private celebration deserves an atmosphere that feels both exclusive and effortlessly fun.",
-      description: "Specializing in Private Events across Chicago, Dallas\u2013Fort Worth, and Denver plus surrounding areas, DJ Miss Haze brings sophistication and energy to birthdays, anniversaries, holiday parties, and intimate gatherings. Whether it's an elegant cocktail affair or a high-energy dance party, she curates the perfect vibe for you and your guests. Available for nationwide and destination travel.",
+      description: "Specializing in Private Events across Chicago, Dallas–Fort Worth, and Denver plus surrounding areas, DJ Miss Haze brings sophistication and energy to birthdays, anniversaries, holiday parties, and intimate gatherings. Whether it's an elegant cocktail affair or a high-energy dance party, she curates the perfect vibe for you and your guests. Available for nationwide and destination travel.",
     },
     mantra: { ...SHARED_MANTRA },
     about: { ...SHARED_ABOUT },
@@ -263,12 +271,13 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
       items: [...PRIVATE_FAQ],
     },
     reviews: {
-      title: "PARTY REVIEWS",
+      title: "EVENT REVIEWS",
       ratingText: "5.0 stars",
       items: [
-        { author: "Sarah M.", role: "Birthday Party Host", text: "DJ Miss Haze made our party unforgettable! She read the room perfectly and kept everyone dancing all night long.", rating: 5 },
-        { author: "Marcus T.", role: "Birthday Party Host", text: "Incredible energy and professionalism. She knows exactly how to get the party started and keep it going!", rating: 5 },
-        { author: "Elena R.", role: "Event Planner", text: "I've worked with many DJs over the years, and DJ Miss Haze is truly one of the best. Professional, talented, and always brings the perfect vibe.", rating: 5 },
+        { author: "Rosy", role: "Naperville, IL", text: "DJ Miss Haze was wonderful to work with. Very punctual, professional, friendly with our guests and most important, she played amazing music. I HIGHLY recommend her to be your next DJ.", rating: 5 },
+        { author: "JM", role: "Denver, CO", text: "We used DJ Miss Haze for our elopement reception and she was amazing! We decided within a month of our reception to get a DJ and she was so accommodating and easy to work with. She answered all our questions and stayed in contact up until the reception. She is personable and easy to talk to and all our guests commented on how great she was. We would highly recommend her for anything party! And we would for sure use her again.", rating: 5 },
+        { author: "Marisa", role: "Vail, CO", text: "Where do I begin?!?! You MUST book DJ Haze for your next event! She is absolutely top notch as a person and as a musician. She was kind and responsive from the very first time we communicated. She was open to our ideas for the atmosphere that we wanted to create through her music. The party ended up being beyond our wildest expectations and it was because of her and her music. Our guests didn't want the night to end!!!! Please book her for your next important event, you will be really glad you did. We will definitely use her again and she has even become our friend. She is a wonderful person and has an amazing ear for good music. If I could give her more than 5 stars I would!!!", rating: 5 },
+        { author: "Nikki", role: "Frisco, TX", text: "She is a phenomenal DJ! We have added Miss Haze to our preferred vendor list! She really knows how to get a party started and read the room! I can't thank her enough for the amazing jobs she does for our events!", rating: 5 },
       ],
     },
   },
@@ -282,7 +291,7 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
     },
     signature: {
       quote: "From red carpets to brand activations, DJ Miss Haze commands the room with style and precision.",
-      description: "Specializing in PR Shows, Brand Activations, and High-Profile Events across Chicago, Dallas\u2013Fort Worth, and Denver plus surrounding areas, DJ Miss Haze collaborates with publicists, brands, and creative agencies to deliver unforgettable experiences. Her ability to elevate any space with curated sound design makes her the go-to choice for launches, galas, and exclusive showcases. Available for nationwide and international travel.",
+      description: "Specializing in PR Shows, Brand Activations, and High-Profile Events across Chicago, Dallas–Fort Worth, and Denver plus surrounding areas, DJ Miss Haze collaborates with publicists, brands, and creative agencies to deliver unforgettable experiences. Her ability to elevate any space with curated sound design makes her the go-to choice for launches, galas, and exclusive showcases. Available for nationwide and international travel.",
     },
     mantra: { ...SHARED_MANTRA },
     about: { ...SHARED_ABOUT },
@@ -299,9 +308,9 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
       title: "EVENT REVIEWS",
       ratingText: "5.0 stars",
       items: [
-        { author: "Sarah M.", role: "Birthday Party Host", text: "DJ Miss Haze made our party unforgettable! She read the room perfectly and kept everyone dancing all night long.", rating: 5 },
-        { author: "Marcus T.", role: "Birthday Party Host", text: "Incredible energy and professionalism. She knows exactly how to get the party started and keep it going!", rating: 5 },
-        { author: "Elena R.", role: "Event Planner", text: "I've worked with many DJs over the years, and DJ Miss Haze is truly one of the best. Professional, talented, and always brings the perfect vibe.", rating: 5 },
+        { author: "Sarah M.", role: "Chicago, IL / Gala Host", text: "DJ Miss Haze made our Gala Event the talk of the town. She read the room perfectly and kept everyone dancing all night long.", rating: 5 },
+        { author: "Marcus T.", role: "Denver, CO / Sports Event Promoter", text: "Incredible energy and professionalism. She knows exactly how to get the party started and keep it going!", rating: 5 },
+        { author: "Elena R.", role: "Dallas, TX / Event Planner", text: "I've worked with many DJs over the years, and DJ Miss Haze is truly one of the best. Professional, talented, and always brings the perfect vibe.", rating: 5 },
       ],
     },
   },

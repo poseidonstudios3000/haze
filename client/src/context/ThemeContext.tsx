@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { getEventLayoutForPath, type EventLayout } from "@shared/seo";
 
-export type EventLayout = "wedding" | "pr_show" | "private_event" | "corporate_event";
+export type { EventLayout };
 
 interface ThemeContextType {
   layout: EventLayout;
@@ -10,6 +11,9 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 function getLayoutFromUrl(): EventLayout | null {
+  const pathLayout = getEventLayoutForPath(window.location.pathname);
+  if (pathLayout) return pathLayout;
+
   const params = new URLSearchParams(window.location.search);
   const event = params.get("event");
   if (event === "corporate") return "corporate_event";

@@ -28,10 +28,10 @@ import {
   EVENT_TYPES, DEFAULT_EVENT_CONTENT, SECTION_KEYS,
 } from "@/hooks/use-event-content";
 
-import defaultCorporateHero from "@assets/DJ_Miss_Haze_Wedding_DJ_Chicago_and_Denver-022_(1)_1768864251304.jpg";
-import defaultWeddingHero from "@assets/VERSACE_(3)_1769632123580.png";
-import defaultPrivateHero from "@assets/DJ_Miss_Haze_Wedding_DJ_Chicago_and_Denver-073_1766178470442.jpg";
-import defaultOtherHero from "@assets/DJ_Miss_Haze_Wedding_DJ_Chicago_and_Denver-022_1766178470443.jpg";
+const defaultCorporateHero = "/assets/corporate-events-wide-B-d8CPwl.webp";
+const defaultWeddingHero = "/assets/wedding-events-wide-BMvVK0wp.webp";
+const defaultPrivateHero = "/assets/private-events-wide-DpNMy9wX.webp";
+const defaultOtherHero = "/assets/other-events-wide-XFYqz8LH.webp";
 
 type TabKey = "inquiries" | "corporate" | "private" | "wedding" | "other";
 

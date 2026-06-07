@@ -10,6 +10,13 @@ execSync("npm run build:client", {
   env: { ...process.env, NODE_ENV: "production" },
 });
 
+console.log("Generating route-specific SEO HTML...");
+execSync("tsx script/generate-seo-pages.ts", {
+  cwd: rootDir,
+  stdio: "inherit",
+  env: { ...process.env, NODE_ENV: "production" },
+});
+
 console.log("Building server with esbuild...");
 execSync("npm run build:server", {
   cwd: rootDir,

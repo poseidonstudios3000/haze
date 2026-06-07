@@ -2,24 +2,15 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import infosheet1 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet_1769548310856.png";
-import infosheet2 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Chicago_1769548310854.png";
-import infosheet3 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Chicago-I_1769548310855.png";
-import infosheet4 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Denver_1769548310855.png";
-import infosheet5 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Events_1769548310856.png";
-import infosheet6 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-CTA_1769548310855.png";
-import infosheet7 from "@assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Testimoni_1769548310856.png";
-import infosheet8 from "@assets/DJ-Miss-Haze-Event-Activation-Testimonial-2_1769548310856.png";
-
 const infosheets = [
-  { src: infosheet1, alt: "How the right DJ can boost your brand" },
-  { src: infosheet2, alt: "Always On-Brand - Professionalism meets Alignment" },
-  { src: infosheet3, alt: "Collaboration Is Expected - Your Guests are Top-Priority" },
-  { src: infosheet4, alt: "Raising Your Event's Importance - Guiding Principle" },
-  { src: infosheet5, alt: "Rooms I lead - Available Event Types" },
-  { src: infosheet6, alt: "Contact Me Now To Secure Your Date" },
-  { src: infosheet7, alt: "Testimonial - Rilie B, Marketing & Events, JE Dunn" },
-  { src: infosheet8, alt: "Testimonial - Jasmine F, Director, Influencer & Showroom" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-DaIygdt4.webp", alt: "How the right DJ can boost your brand" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Chicago-DlGRooFR.webp", alt: "Always On-Brand - Professionalism meets Alignment" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Chicago-IL-CTW4YFD6.webp", alt: "Collaboration Is Expected - Your Guests are Top-Priority" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Denver-DKMm7tm8.webp", alt: "Raising Your Event's Importance - Guiding Principle" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Events-BBW34fEf.webp", alt: "Rooms I lead - Available Event Types" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-CTA-DbqfW2CW.webp", alt: "Contact Me Now To Secure Your Date" },
+  { src: "/assets/DJ-Miss-Haze-Corporate-DJ-Brand-Activation-Infosheet-Testimonial-DY8eWY5b.webp", alt: "Testimonial - Rilie B, Marketing & Events, JE Dunn" },
+  { src: "/assets/DJ-Miss-Haze-Event-Activation-Testimonial-2-C1VxlqrJ.webp", alt: "Testimonial - Jasmine F, Director, Influencer & Showroom" },
 ];
 
 export function CorporateEventPlanning() {

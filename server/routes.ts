@@ -1,7 +1,7 @@
 import type { Express, Request, Response, NextFunction } from "express";
 import type { Server } from "http";
-import { storage } from "./storage";
-import { api } from "@shared/routes";
+import { storage } from "./storage.js";
+import { api } from "../shared/routes.js";
 import { z } from "zod";
 import { Resend } from "resend";
 import multer from "multer";
@@ -9,7 +9,9 @@ import path from "path";
 import fs from "fs";
 import session from "express-session";
 
-const UPLOADS_DIR = path.join(process.cwd(), "public", "uploads");
+const UPLOADS_DIR = process.env.VERCEL
+  ? path.join("/tmp", "uploads")
+  : path.join(process.cwd(), "public", "uploads");
 
 if (!fs.existsSync(UPLOADS_DIR)) {
   fs.mkdirSync(UPLOADS_DIR, { recursive: true });
@@ -44,6 +46,41 @@ function requireAdmin(req: Request, res: Response, next: NextFunction) {
   res.status(401).json({ message: "Unauthorized" });
 }
 
+function getEmailRecipients(envValue: string | undefined, fallback: string[]) {
+  return envValue
+    ? envValue.split(",").map((email) => email.trim()).filter(Boolean)
+    : fallback;
+}
+
+function isCronAuthorized(req: Request) {
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret) return true;
+  return req.get("authorization") === `Bearer ${cronSecret}`;
+}
+
+async function sendMonitorAlert(subject: string, html: string) {
+  const apiKey = process.env.MONITOR_RESEND_API_KEY || process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error("No Resend API key configured for monitor alerts");
+  }
+
+  const resend = new Resend(apiKey);
+  const recipients = getEmailRecipients(process.env.MONITOR_ALERT_TO, [
+    "poseidonstudios3000@gmail.com",
+    "info@djmisshaze.com",
+  ]);
+
+  await resend.emails.send({
+    from:
+      process.env.MONITOR_ALERT_FROM ||
+      process.env.RESEND_FROM ||
+      "DJ Miss Haze Monitor <bookings@djmisshaze.com>",
+    to: recipients,
+    subject,
+    html,
+  });
+}
+
 async function seedDatabase() {
   const existingPosts = await storage.getPosts();
   if (existingPosts.length === 0) {
@@ -72,12 +109,30 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+  const redirects: Record<string, string> = {
+    "/weddings": "/wedding-dj",
+    "/weddings/": "/wedding-dj",
+    "/corporate-events": "/corporate-event-dj",
+    "/corporate-events/": "/corporate-event-dj",
+    "/private-events": "/private-event-dj",
+    "/private-events/": "/private-event-dj",
+  };
+
+  app.get(Object.keys(redirects), (req, res) => {
+    res.redirect(301, redirects[req.path]);
+  });
+
   const sessionSecret =
     process.env.SESSION_SECRET ||
-    (process.env.NODE_ENV === "production" ? undefined : "dev-session-secret");
+    (process.env.NODE_ENV === "production"
+      ? "missing-session-secret-public-api-fallback"
+      : "dev-session-secret");
 
-  if (!sessionSecret) {
-    throw new Error("SESSION_SECRET must be set in production");
+  if (
+    process.env.NODE_ENV === "production" &&
+    !process.env.SESSION_SECRET
+  ) {
+    console.warn("[SESSION] SESSION_SECRET is not configured; admin sessions may reset between serverless cold starts.");
   }
 
   app.use(
@@ -129,18 +184,122 @@ export async function registerRoutes(
     res.json(inquiries);
   });
 
+  app.get("/api/health/booking-form", async (req, res) => {
+    if (!isCronAuthorized(req)) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    const checkedAt = new Date();
+    const failures: string[] = [];
+    let syntheticInquiryId: number | undefined;
+
+    try {
+      if (req.query.testAlert === "true") {
+        await sendMonitorAlert(
+          "[TEST - no action needed] DJ Miss Haze booking form monitor alert",
+          `
+            <h2>TEST ALERT - no action needed</h2>
+            <p>This is a test of the DJ Miss Haze booking form monitor alert email.</p>
+            <p><strong>No booking inquiry failed.</strong> The form monitor is being verified intentionally.</p>
+            <p><strong>Checked at:</strong> ${checkedAt.toISOString()}</p>
+            <p>If this were a real alert, this email would include the failing check details and point to Vercel deployment logs and environment variables.</p>
+          `,
+        );
+
+        return res.json({
+          status: "test-alert-sent",
+          checkedAt: checkedAt.toISOString(),
+        });
+      }
+
+      if (!process.env.DATABASE_URL) {
+        failures.push("DATABASE_URL is not configured");
+      }
+
+      if (!process.env.RESEND_API_KEY) {
+        failures.push("RESEND_API_KEY is not configured");
+      }
+
+      const eventDate = new Date(checkedAt);
+      eventDate.setUTCDate(eventDate.getUTCDate() + 30);
+      const date = `${String(eventDate.getUTCMonth() + 1).padStart(2, "0")}/${String(eventDate.getUTCDate()).padStart(2, "0")}/${eventDate.getUTCFullYear()}`;
+
+      const syntheticInquiry = api.inquiries.create.input.parse({
+        eventType: "monitor",
+        location: "automated-health-check",
+        date,
+        name: `Backend Health Monitor ${checkedAt.toISOString()}`,
+        email: "poseidonstudios3000@gmail.com",
+        phone: "",
+      });
+
+      const created = await storage.createInquiry(syntheticInquiry);
+      syntheticInquiryId = created.id;
+      await storage.deleteInquiry(created.id);
+
+      if (failures.length > 0) {
+        throw new Error(failures.join("; "));
+      }
+
+      res.json({
+        status: "ok",
+        checkedAt: checkedAt.toISOString(),
+      });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Unknown booking form health check failure";
+      const html = `
+        <h2>DJ Miss Haze booking form health check failed</h2>
+        <p>The daily backend monitor found a problem with the booking form path.</p>
+        <p><strong>Checked at:</strong> ${checkedAt.toISOString()}</p>
+        <p><strong>Error:</strong> ${message}</p>
+        <p><strong>Synthetic inquiry id:</strong> ${syntheticInquiryId ?? "not created"}</p>
+        <p>Check Vercel deployment logs and production environment variables.</p>
+      `;
+
+      try {
+        await sendMonitorAlert(
+          "[URGENT] DJ Miss Haze booking form health check failed",
+          html,
+        );
+      } catch (alertError) {
+        console.error("[MONITOR ALERT ERROR]", alertError);
+      }
+
+      res.status(500).json({
+        status: "failed",
+        message,
+        checkedAt: checkedAt.toISOString(),
+      });
+    }
+  });
+
   app.post(api.inquiries.create.path, async (req, res) => {
     try {
       const input = api.inquiries.create.input.parse(req.body);
+
+      if (process.env.NODE_ENV === "production" && !process.env.RESEND_API_KEY) {
+        return res.status(503).json({
+          message: "Inquiry email delivery is not configured",
+        });
+      }
+
       const inquiry = await storage.createInquiry(input);
 
       if (process.env.RESEND_API_KEY) {
         const resend = new Resend(process.env.RESEND_API_KEY);
 
+        const emailRecipients = getEmailRecipients(process.env.BOOKING_ALERT_TO, [
+          "poseidonstudios3000@gmail.com",
+          "info@djmisshaze.com",
+        ]);
+        const emailFrom =
+          process.env.RESEND_FROM ||
+          "DJ Miss Haze Bookings <bookings@djmisshaze.com>";
+
         try {
           await resend.emails.send({
-            from: "DJ Miss Haze Bookings <bookings@djhazedev.replit.app>",
-            to: "info@djmisshaze.com",
+            from: emailFrom,
+            to: emailRecipients,
             subject: `New Booking Inquiry: ${input.eventType} in ${input.location}`,
             html: `
               <h2>New Booking Inquiry</h2>
@@ -154,9 +313,14 @@ export async function registerRoutes(
               <p style="color: #888; font-size: 12px;">Submitted on ${new Date().toLocaleString()}</p>
             `,
           });
-          console.log("[EMAIL] Booking inquiry sent to info@djmisshaze.com");
+          console.log(`[EMAIL] Booking inquiry sent to ${emailRecipients.join(", ")}`);
         } catch (emailError) {
           console.error("[EMAIL ERROR]", emailError);
+          if (process.env.NODE_ENV === "production") {
+            return res.status(502).json({
+              message: "Inquiry email delivery failed",
+            });
+          }
         }
       } else {
         console.log("[EMAIL] RESEND_API_KEY not configured, skipping email");

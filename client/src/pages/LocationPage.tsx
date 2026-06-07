@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
@@ -9,19 +9,16 @@ import { FAQ } from "@/components/FAQ";
 import { GoogleReviews } from "@/components/GoogleReviews";
 import { CompactBookingForm } from "@/components/CompactBookingForm";
 import { EventSignatureSection } from "@/components/EventSignatureSection";
-import chicagoImg from "@assets/generated_images/chicago_skyline_dj_backdrop.png";
-import dallasImg from "@assets/generated_images/dallas_skyline_dj_backdrop.png";
-import denverImg from "@assets/generated_images/denver_skyline_dj_backdrop.png";
-
-import res1 from "@assets/stock_images/modern_event_venue_a_01a0bdf0.jpg";
-import res2 from "@assets/stock_images/modern_event_venue_a_1d474530.jpg";
-import res3 from "@assets/stock_images/modern_event_venue_a_c5227e74.jpg";
 
 const cityImages: Record<string, string> = {
-  chicago: chicagoImg,
-  dallas: dallasImg,
-  denver: denverImg,
+  chicago: "/assets/corporate-events-wide-B-d8CPwl.webp",
+  dallas: "/assets/wedding-events-wide-BMvVK0wp.webp",
+  denver: "/assets/private-events-wide-DpNMy9wX.webp",
 };
+
+const res1 = "/assets/Brand-Event-DJ-Setup-Chicago-C4CUamlB.webp";
+const res2 = "/assets/Corporate-Event-DJ-Miss-Haze-D2xGj5cD.webp";
+const res3 = "/assets/DJ-Miss-Haze-Company-Event-DJ-CJUkMjfh.webp";
 
 type LocationData = {
   city: string;
@@ -67,6 +64,10 @@ export default function LocationPage({ location }: LocationPageProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const heroImage = cityImages[location];
   const locationData = locations[location];
+
+  useEffect(() => {
+    document.title = locationData.seoTitle;
+  }, [locationData.seoTitle]);
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden pt-14">

@@ -1,10 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
-import { serveStatic } from "./static";
+import { registerRoutes } from "./routes.js";
+import { serveStatic } from "./static.js";
 import { createServer } from "http";
 
 const app = express();
-const httpServer = createServer(app);
 
 declare module "http" {
   interface IncomingMessage {
@@ -59,7 +58,8 @@ app.use((req, res, next) => {
   next();
 });
 
-(async () => {
+async function setup() {
+  const httpServer = createServer(app);
   await registerRoutes(httpServer, app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
@@ -70,26 +70,32 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
-  if (process.env.NODE_ENV === "production") {
-    serveStatic(app);
-  } else {
-    const { setupVite } = await import("./vite");
-    await setupVite(httpServer, app);
+  if (!process.env.VERCEL) {
+    // importantly only setup vite in development and after
+    // setting up all the other routes so the catch-all route
+    // doesn't interfere with the other routes
+    if (process.env.NODE_ENV === "production") {
+      serveStatic(app);
+    } else {
+      const { setupVite } = await import("./vite.js");
+      await setupVite(httpServer, app);
+    }
+
+    // Local development binds to loopback for browser QA. Set HOST=0.0.0.0
+    // and REUSE_PORT=true only in environments that require those options.
+    const port = parseInt(process.env.PORT || "5000", 10);
+    const host = process.env.HOST || "127.0.0.1";
+    const listenOptions =
+      process.env.REUSE_PORT === "true"
+        ? { port, host, reusePort: true }
+        : { port, host };
+
+    httpServer.listen(listenOptions, () => {
+      log(`serving on http://${host}:${port}`);
+    });
   }
+}
 
-  // Local development binds to loopback for browser QA. Set HOST=0.0.0.0
-  // and REUSE_PORT=true only in environments that require those options.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  const host = process.env.HOST || "127.0.0.1";
-  const listenOptions =
-    process.env.REUSE_PORT === "true"
-      ? { port, host, reusePort: true }
-      : { port, host };
+const appReady = setup();
 
-  httpServer.listen(listenOptions, () => {
-    log(`serving on http://${host}:${port}`);
-  });
-})();
+export { app, appReady };

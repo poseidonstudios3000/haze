@@ -2,16 +2,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, PartyPopper, Users, Sparkles, Music, Heart, Clock } from "lucide-react";
 
-import img1 from "@assets/JEDunnChristmasParty2024PRINT-1207_1768515859617.jpg";
-import img2 from "@assets/JEDunnChristmasParty2024PRINT-1255_1768515859615.jpg";
-import img3 from "@assets/DSC02920_1768515859620.jpg";
-import img4 from "@assets/DSC02938_1768515859619.jpg";
-
 const slides = [
-  { src: img1, alt: "Holiday Party DJ Experience" },
-  { src: img2, alt: "Birthday Celebration Energy" },
-  { src: img3, alt: "Private Party Moments" },
-  { src: img4, alt: "Dance Floor Vibes" },
+  { src: "/assets/Private-Event-DJ-Miss-Haze-DIzMz1_Z.webp", alt: "Holiday Party DJ Experience" },
+  { src: "/assets/Private-Event-DJ-Chicago-BWcYfPYB.webp", alt: "Birthday Celebration Energy" },
+  { src: "/assets/Private-Events-DJ-energy-chicago-Bg5ibJvV.webp", alt: "Private Party Moments" },
+  { src: "/assets/DJ-Miss-Haze-Event-DJ-and-MC-BjFMJQkD.webp", alt: "Dance Floor Vibes" },
 ];
 
 const features = [

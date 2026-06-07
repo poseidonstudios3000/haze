@@ -2,29 +2,21 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { X, Play } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
-import corporateVideo1 from "@assets/DJ_Miss_Haze_Corporate_and_Influencer_Event_DJ_1768769503858.mp4";
-import corporateVideo2 from "@assets/DJ-Miss-Haze-influencer-event-in-chicago-gig_1768862015483.mp4";
-import corporateVideo3 from "@assets/DJ-Miss-Haze-Corporate-Branding-DJ-Converse_(1)_1768862015484.mp4";
-import weddingVideo1 from "@assets/DJ-Miss-Haze-Wedding-DJ-Reel_1769628311846.MP4";
-import weddingVideo2 from "@assets/DJ-Miss-Haze-Wedding-DJ-Colorado-Reel_1769628311847.MP4";
-import weddingVideo3 from "@assets/DJ-Miss-Haze-Top-10-Wedding-Songs-of-2025_1769628311847.MP4";
-import weddingVideo4 from "@assets/DJ-Miss-Haze-Black-Canyon-Inn-Colorado-Wedding-DJ_1769628311848.MP4";
-import weddingVideo5 from "@assets/360-Photo-Booth-Add-On-Video-Reel_(1)_1769628311849.MP4";
-import weddingVideo6 from "@assets/360-Photo-Booth-Add-On-Video-Reel_1769628311850.MP4";
 
 const corporateVideos = [
-  { id: 1, src: corporateVideo1, title: "Corporate & Influencer Events" },
-  { id: 2, src: corporateVideo2, title: "Influencer Event in Chicago" },
-  { id: 3, src: corporateVideo3, title: "Converse Brand Activation" },
+  { id: 1, src: "/assets/DJ-Miss-Haze-Corporate-and-Influencer-Event-DJ-D2HS7rlS.mp4", title: "Corporate & Influencer Events" },
+  { id: 2, src: "/assets/DJ-Miss-Haze-Corporate-Branding-DJ-Converse-fwtGuCHl.mp4", title: "Converse Brand Activation" },
+  { id: 3, src: "/assets/DJ-Miss-Haze-influencer-event-in-chicago-gig-B_3JayfX.mp4", title: "Influencer Event in Chicago" },
+  { id: 4, src: "/assets/Denver-Corporate-Event-DJ-DQrMsMHX.mp4", title: "Denver Corporate Event" },
 ];
 
 const weddingVideos = [
-  { id: 1, src: weddingVideo1, title: "Wedding DJ Reel" },
-  { id: 2, src: weddingVideo2, title: "Colorado Wedding DJ" },
-  { id: 3, src: weddingVideo3, title: "Top 10 Wedding Songs 2025" },
-  { id: 4, src: weddingVideo4, title: "Black Canyon Inn Wedding" },
-  { id: 5, src: weddingVideo5, title: "360 Photo Booth Add-On" },
-  { id: 6, src: weddingVideo6, title: "360 Photo Booth Experience" },
+  { id: 1, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Reel-xL-QkZ92.mp4", title: "Wedding DJ Reel" },
+  { id: 2, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Colorado-Reel-DbwMh-nV.mp4", title: "Colorado Wedding DJ" },
+  { id: 3, src: "/assets/DJ-Miss-Haze-Top-10-Wedding-Songs-of-2025-BJQbdgXj.mp4", title: "Top 10 Wedding Songs 2025" },
+  { id: 4, src: "/assets/DJ-Miss-Haze-Black-Canyon-Inn-Colorado-Wedding-DJ-Qi7EQQuP.mp4", title: "Black Canyon Inn Wedding" },
+  { id: 5, src: "/assets/360-Photo-Booth-Add-On-Video-Reel-hiXiLvqj.mp4", title: "360 Photo Booth Add-On" },
+  { id: 6, src: "/assets/DJ-Miss-Haze-2026-Wedding-DJ-Reel-4-Eleven-Fort-Worth-Bu_e-Gi3.mp4", title: "4 Eleven Fort Worth Wedding" },
 ];
 
 export function VibeReel() {
@@ -65,8 +57,8 @@ export function VibeReel() {
                   />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-primary/20 backdrop-blur-md flex items-center justify-center border border-primary/40 group-hover:bg-primary/30 group-hover:scale-110 transition-all duration-300">
-                      <Play className="w-8 h-8 text-primary fill-primary ml-1" />
+                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white/15 group-hover:scale-110 transition-all duration-300">
+                      <Play className="w-8 h-8 ml-1" style={{ fill: "url(#icon-gradient)", stroke: "url(#icon-gradient)" }} />
                     </div>
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-black/30" />

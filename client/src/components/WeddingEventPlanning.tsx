@@ -2,24 +2,15 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import slide1 from "@assets/Wedding-DJ-Chicago-DJ-Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-1.png";
-import slide2 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-2.png";
-import slide3 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-3.png";
-import slide4 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-4.png";
-import slide5 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-5.png";
-import slide6 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-6.png";
-import slide7 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-7.png";
-import slide8 from "@assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-8.png";
-
 const slides = [
-  { src: slide1, alt: "5 Things Couples Don't Realize When Booking a Wedding DJ" },
-  { src: slide2, alt: "Wedding DJ Tips - Slide 2" },
-  { src: slide3, alt: "Wedding DJ Tips - Slide 3" },
-  { src: slide4, alt: "Wedding DJ Tips - Slide 4" },
-  { src: slide5, alt: "Wedding DJ Tips - Slide 5" },
-  { src: slide6, alt: "Wedding DJ Tips - Slide 6" },
-  { src: slide7, alt: "Wedding DJ Tips - Slide 7" },
-  { src: slide8, alt: "Wedding DJ Tips - Slide 8" },
+  { src: "/assets/Wedding-DJ-Chicago-DJ-Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-1-KfKP21qW.webp", alt: "5 Things Couples Don't Realize When Booking a Wedding DJ" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-2-B7hIVf6J.webp", alt: "5 Things Couples Don't Realize - Tip 2" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-3-D2k_juXJ.webp", alt: "5 Things Couples Don't Realize - Tip 3" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-4-CaLHRKAg.webp", alt: "5 Things Couples Don't Realize - Tip 4" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-5-BaybGORc.webp", alt: "5 Things Couples Don't Realize - Tip 5" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-6-BiKUcSu2.webp", alt: "5 Things Couples Don't Realize - Tip 6" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-7-Dkx14Kn2.webp", alt: "5 Things Couples Don't Realize - Tip 7" },
+  { src: "/assets/Miss-Haze-5-things-couples-dont-realize-when-booking-a-DJ-8-CjsDgBHO.webp", alt: "5 Things Couples Don't Realize - Tip 8" },
 ];
 
 export function WeddingEventPlanning() {

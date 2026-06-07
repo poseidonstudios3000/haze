@@ -33,4 +33,22 @@ npm run verify:placeholder
 
 - Backend features require `DATABASE_URL`, `SESSION_SECRET`, and `ADMIN_PASSWORD`.
 - Inquiry email delivery requires `RESEND_API_KEY`.
-- `vercel.json` references `api/index.js`, but this repo does not currently include that serverless entrypoint.
+- Vercel production uses `api/index.ts` as the serverless Express entrypoint for `/api/*` routes.
+
+## Site Health Monitoring
+
+Vercel Cron runs `GET /api/health/booking-form` daily at 14:00 UTC. The check is silent when healthy and sends an alert email only when it fails.
+
+The backend monitor verifies:
+
+- The Express API function boots and routes requests.
+- `DATABASE_URL` and `RESEND_API_KEY` are configured.
+- A synthetic inquiry can be validated, written to storage, and deleted again.
+
+Alert recipients default to `poseidonstudios3000@gmail.com` and `info@djmisshaze.com`. Optional production environment variables:
+
+- `CRON_SECRET`, used by Vercel as a Bearer token for cron requests.
+- `MONITOR_ALERT_TO`, comma-separated override for failure alert recipients.
+- `MONITOR_RESEND_API_KEY`, separate Resend key for failure alerts. Falls back to `RESEND_API_KEY`.
+- `MONITOR_ALERT_FROM`, sender for failure alerts. Falls back to `RESEND_FROM`.
+- `BOOKING_ALERT_TO`, comma-separated override for real booking inquiry recipients.
