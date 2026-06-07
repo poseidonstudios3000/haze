@@ -47,8 +47,11 @@ export function ThemeSelector() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="absolute top-full right-0 mt-2 w-48 bg-black border border-white/20 rounded-xl overflow-hidden z-50 backdrop-blur-xl"
+              className="absolute top-full right-0 mt-2 w-56 max-w-[calc(100vw-2rem)] bg-black border border-white/20 rounded-xl overflow-hidden z-50 backdrop-blur-xl shadow-2xl"
             >
+              <p className="px-4 pt-3 pb-2 text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
+                Select your event experience
+              </p>
               {layoutOptions.map((option) => (
                 <a
                   key={option.key}
@@ -57,13 +60,14 @@ export function ThemeSelector() {
                     setLayout(option.key);
                     setIsOpen(false);
                   }}
-                  className={`w-full px-4 py-3 text-left transition-colors text-xs font-bold tracking-wider border-b border-white/10 last:border-b-0 ${
+                  className={`flex items-center justify-between w-full px-4 py-3.5 text-left transition-colors text-sm font-bold uppercase tracking-wider border-t border-white/10 ${
                     layout === option.key
-                      ? "bg-white/20 text-primary"
+                      ? "bg-white/15 text-primary"
                       : "hover:bg-white/10 text-white"
                   }`}
                 >
-                  {option.label}
+                  <span>{option.label}</span>
+                  {layout === option.key && <span aria-hidden="true">✓</span>}
                 </a>
               ))}
             </motion.div>
