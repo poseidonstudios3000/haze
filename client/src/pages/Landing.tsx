@@ -9,7 +9,7 @@ import { getSeoPage } from "@shared/seo";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HERO_IMAGE = "/assets/dj-miss-haze-wedding-events-hero-2026.webp";
+const HERO_IMAGE = "/assets/dj-miss-haze-premium-event-dj-hero-2026.webp";
 const LOCATIONS = ["Chicago", "Dallas", "Denver"];
 
 // Sorted alphabetically: Collaborative, Custom Curated, Dynamic, Fun, Inclusive
@@ -162,7 +162,7 @@ export default function Landing() {
         <img
           src={HERO_IMAGE}
           alt="DJ Miss Haze Premium Event DJ and MC in Chicago, Dallas, Denver"
-          className="absolute z-[2] inset-0 w-full h-full object-cover object-[center_10%] md:object-[center_15%] pointer-events-none select-none"
+          className="absolute z-[2] inset-0 w-full h-full object-cover object-top pointer-events-none select-none"
           loading="eager"
           decoding="sync"
         />

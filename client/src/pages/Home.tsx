@@ -20,7 +20,7 @@ import { getSeoPage } from "@shared/seo";
 
 const heroImages: Record<string, string> = {
   corporate_event: "/assets/corporate-events-wide-B-d8CPwl.webp",
-  wedding: "/assets/dj-miss-haze-wedding-events-hero-2026.webp",
+  wedding: "/assets/dj-miss-haze-premium-event-dj-hero-2026.webp",
   private_event: "/assets/private-events-wide-DpNMy9wX.webp",
   pr_show: "/assets/dj-miss-haze-other-events-hero-2026.webp",
 };
@@ -90,7 +90,11 @@ export default function Home() {
           src={heroImages[layout]}
           alt={heroAltText[layout] || "DJ Miss Haze Event DJ and MC"}
           className={`absolute z-[2] inset-0 w-full h-full object-cover pointer-events-none select-none ${
-            layout === "wedding" || layout === "pr_show" ? "object-[center_10%] md:object-[center_15%]" : "object-center"
+            layout === "wedding"
+              ? "object-top"
+              : layout === "pr_show"
+                ? "object-[center_10%] md:object-[center_15%]"
+                : "object-center"
           }`}
           loading="eager"
           decoding="sync"
