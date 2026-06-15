@@ -26,7 +26,7 @@ export function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-foreground/10">
       <div className="container mx-auto px-4 h-14 flex items-center justify-between gap-2 relative">
-        <div className="absolute left-1/2 -translate-x-1/2 text-xs md:text-sm font-mono text-primary/70 pointer-events-none select-none">
+        <div className="absolute left-1/2 -translate-x-1/2 text-xs md:text-sm font-mono text-red-500 pointer-events-none select-none">
           hermes test
         </div>
         <div className="flex items-center gap-4 shrink-0">

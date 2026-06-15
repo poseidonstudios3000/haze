@@ -13,3 +13,4 @@ pnpm-debug.log*
 /*.png
 prod-snapshots/
 .secrets/
+.hermes-bot/
