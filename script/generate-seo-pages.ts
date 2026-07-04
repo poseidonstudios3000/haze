@@ -5,7 +5,10 @@ import {
   SEO_PAGES,
   SITE_URL,
   injectSeoMeta,
+  applySeoOverride,
+  type SeoOverride,
 } from "../shared/seo";
+import { storage } from "../server/storage";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 const distPublicDir = path.join(rootDir, "dist", "public");
@@ -20,7 +23,16 @@ function writeRouteHtml(routePath: string, html: string) {
   fs.writeFileSync(path.join(outputDir, "index.html"), html);
 }
 
-for (const page of SEO_PAGES) {
+const siteContentRows = await storage.getSiteContent();
+const overridesByPath = new Map<string, SeoOverride>();
+for (const row of siteContentRows) {
+  if (row.sectionKey.startsWith("seo:")) {
+    overridesByPath.set(row.sectionKey.slice(4), row.content as SeoOverride);
+  }
+}
+
+for (const basePage of SEO_PAGES) {
+  const page = applySeoOverride(basePage, overridesByPath.get(basePage.path));
   const html = injectSeoMeta(baseHtml, page);
   if (page.path === "/") {
     fs.writeFileSync(indexPath, html);

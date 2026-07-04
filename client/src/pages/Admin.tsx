@@ -1,16 +1,13 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useState, useEffect, useRef } from "react";
-import { format } from "date-fns";
 import {
-  Mail, Phone, Calendar, MapPin, Users, Loader2, Save, Check, Upload, Trash2,
-  LogOut, Lock, Image, Search, Building2, Heart,
-  PartyPopper, Sparkles, Plus, Minus, ExternalLink
+  Loader2, Save, Check, Upload,
+  LogOut, Lock, Image, Building2, Heart,
+  PartyPopper, Sparkles, Plus, Minus, ExternalLink, Search
 } from "lucide-react";
 import { Link } from "wouter";
-import type { Inquiry, CorporateContent, SiteImage } from "@shared/schema";
-import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from "@/components/ui/table";
+import type { CorporateContent, SiteImage } from "@shared/schema";
+import { PUBLIC_SEO_PAGES } from "@shared/seo";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -33,14 +30,16 @@ const defaultWeddingHero = "/assets/wedding-events-wide-BMvVK0wp.webp";
 const defaultPrivateHero = "/assets/private-events-wide-DpNMy9wX.webp";
 const defaultOtherHero = "/assets/other-events-wide-XFYqz8LH.webp";
 
-type TabKey = "inquiries" | "corporate" | "private" | "wedding" | "other";
+type TabKey = "corporate" | "private" | "wedding" | "other" | "seo";
+
+const SEO_ONLY_TABS: TabKey[] = ["seo"];
 
 const TABS: { key: TabKey; label: string; icon: typeof Building2 }[] = [
-  { key: "inquiries", label: "Inquiries", icon: Users },
   { key: "corporate", label: "Corporate", icon: Building2 },
   { key: "private", label: "Private", icon: PartyPopper },
   { key: "wedding", label: "Wedding", icon: Heart },
   { key: "other", label: "Other", icon: Sparkles },
+  { key: "seo", label: "SEO Metadata", icon: Search },
 ];
 
 interface ImageSlot {
@@ -70,6 +69,7 @@ const SHARED_IMAGE_SLOT: ImageSlot = {
 };
 
 function LoginForm() {
+  const [role, setRole] = useState<"seo" | "content">("seo");
   const [password, setPassword] = useState("");
   const { login, loginPending } = useAdminAuth();
   const { toast } = useToast();
@@ -77,7 +77,7 @@ function LoginForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await login(password);
+      await login({ role, password });
     } catch {
       toast({ title: "Login Failed", description: "Incorrect password.", variant: "destructive" });
     }
@@ -91,6 +91,18 @@ function LoginForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label className="text-zinc-400">Role</Label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value as "seo" | "content")}
+                className="w-full bg-zinc-800 border border-zinc-700 text-sm text-white rounded-md px-3 py-2 h-10"
+                data-testid="select-admin-role"
+              >
+                <option value="seo">SEO</option>
+                <option value="content">Content</option>
+              </select>
+            </div>
             <div className="space-y-2">
               <Label className="text-zinc-400">Password</Label>
               <Input
@@ -145,16 +157,6 @@ function ImageUploader({ imageKey, label, description, currentUrl, defaultImage 
     }
   };
 
-  const handleDelete = async () => {
-    try {
-      await fetch(`/api/admin/site-images/${imageKey}`, { method: "DELETE", credentials: "include" });
-      queryClient.invalidateQueries({ queryKey: ["/api/site-images"] });
-      toast({ title: "Removed", description: `${label} reverted to default.` });
-    } catch {
-      toast({ title: "Error", description: "Failed to remove.", variant: "destructive" });
-    }
-  };
-
   return (
     <div className="bg-zinc-800/50 rounded-xl border border-zinc-700/50 overflow-hidden" data-testid={`image-slot-${imageKey}`}>
       <div className="relative w-full h-48 bg-zinc-900">
@@ -181,20 +183,11 @@ function ImageUploader({ imageKey, label, description, currentUrl, defaultImage 
           <p className="font-semibold text-sm text-white">{label}</p>
           <p className="text-xs text-zinc-400 mt-1 leading-relaxed">{description}</p>
         </div>
-        <div className="flex gap-2">
-          <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading}
-            className="border-zinc-600 flex-1" data-testid={`button-upload-${imageKey}`}>
-            {uploading ? <Loader2 className="w-3 h-3 animate-spin mr-1.5" /> : <Upload className="w-3 h-3 mr-1.5" />}
-            {currentUrl ? "Replace" : "Upload New"}
-          </Button>
-          {isCustom && (
-            <Button size="sm" variant="destructive" onClick={handleDelete}
-              data-testid={`button-delete-${imageKey}`}>
-              <Trash2 className="w-3 h-3 mr-1.5" />
-              Remove
-            </Button>
-          )}
-        </div>
+        <Button size="sm" variant="outline" onClick={() => fileInputRef.current?.click()} disabled={uploading}
+          className="border-zinc-600 w-full" data-testid={`button-upload-${imageKey}`}>
+          {uploading ? <Loader2 className="w-3 h-3 animate-spin mr-1.5" /> : <Upload className="w-3 h-3 mr-1.5" />}
+          {currentUrl ? "Replace" : "Upload New"}
+        </Button>
       </div>
       <input ref={fileInputRef} type="file" accept="image/*,video/mp4,video/quicktime" onChange={handleUpload} className="hidden" />
     </div>
@@ -225,7 +218,8 @@ function SectionEditor({ title, children, saving, saved, onSave, testId }: {
   );
 }
 
-function EventContentEditor({ eventType }: { eventType: EventType }) {
+function EventContentEditor({ eventType, role }: { eventType: EventType; role?: "seo" | "content" }) {
+  const canManageImages = role === "content";
   const { toast } = useToast();
   const defaults = DEFAULT_EVENT_CONTENT[eventType];
   const [content, setContent] = useState<EventSections>({ ...defaults });
@@ -499,135 +493,160 @@ function EventContentEditor({ eventType }: { eventType: EventType }) {
           </div>
         </SectionEditor>
 
-        <AccordionItem value={`${eventType}-images`} className="border border-zinc-700/50 rounded-xl px-5 bg-zinc-800/30">
-          <AccordionTrigger className="text-sm font-bold text-white hover:no-underline" data-testid={`accordion-${eventType}-images`}>
-            <span className="flex items-center gap-2"><Image className="w-4 h-4 text-primary" /> Site Images</span>
-          </AccordionTrigger>
-          <AccordionContent className="pt-4 pb-5 space-y-5">
-            <p className="text-xs text-zinc-400">These images appear on the live {eventLabel} page. Upload custom images or keep the defaults. Images tagged "Default" will be replaced when you upload.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {eventImageSlots.map((slot) => (
-                <ImageUploader key={`${eventType}-${slot.key}`} imageKey={slot.key} label={slot.label} description={slot.desc} currentUrl={imageMap.get(slot.key)} defaultImage={slot.defaultImage} />
-              ))}
-            </div>
-            <div className="pt-4 border-t border-zinc-700/30">
-              <p className="text-xs text-zinc-500 font-medium mb-3 uppercase tracking-wider">Shared Across All Events</p>
+        {canManageImages && (
+          <AccordionItem value={`${eventType}-images`} className="border border-zinc-700/50 rounded-xl px-5 bg-zinc-800/30">
+            <AccordionTrigger className="text-sm font-bold text-white hover:no-underline" data-testid={`accordion-${eventType}-images`}>
+              <span className="flex items-center gap-2"><Image className="w-4 h-4 text-primary" /> Site Images</span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-4 pb-5 space-y-5">
+              <p className="text-xs text-zinc-400">These images appear on the live {eventLabel} page. Upload custom images or keep the defaults. Images tagged "Default" will be replaced when you upload.</p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <ImageUploader imageKey={SHARED_IMAGE_SLOT.key} label={SHARED_IMAGE_SLOT.label} description={SHARED_IMAGE_SLOT.desc} currentUrl={imageMap.get(SHARED_IMAGE_SLOT.key)} defaultImage={SHARED_IMAGE_SLOT.defaultImage} />
+                {eventImageSlots.map((slot) => (
+                  <ImageUploader key={`${eventType}-${slot.key}`} imageKey={slot.key} label={slot.label} description={slot.desc} currentUrl={imageMap.get(slot.key)} defaultImage={slot.defaultImage} />
+                ))}
               </div>
-            </div>
-          </AccordionContent>
-        </AccordionItem>
+              <div className="pt-4 border-t border-zinc-700/30">
+                <p className="text-xs text-zinc-500 font-medium mb-3 uppercase tracking-wider">Shared Across All Events</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <ImageUploader imageKey={SHARED_IMAGE_SLOT.key} label={SHARED_IMAGE_SLOT.label} description={SHARED_IMAGE_SLOT.desc} currentUrl={imageMap.get(SHARED_IMAGE_SLOT.key)} defaultImage={SHARED_IMAGE_SLOT.defaultImage} />
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        )}
       </Accordion>
     </div>
   );
 }
 
-function InquiriesView() {
-  const { data: inquiries, isLoading, error } = useQuery<Inquiry[]>({ queryKey: ["/api/inquiries"] });
-  const [filterType, setFilterType] = useState<string>("all");
-  const [searchQuery, setSearchQuery] = useState("");
+interface SeoOverrideRow {
+  path: string;
+  title?: string;
+  description?: string;
+}
 
-  if (isLoading) return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
-  if (error) return <p className="text-center text-red-400 py-8">Failed to load inquiries</p>;
+function SeoMetadataEditor() {
+  const { toast } = useToast();
+  const { data: overrides, isLoading } = useQuery<SeoOverrideRow[]>({ queryKey: ["/api/admin/seo-content"] });
+  const [drafts, setDrafts] = useState<Record<string, { title: string; description: string }>>({});
+  const [savedPaths, setSavedPaths] = useState<Set<string>>(new Set());
 
-  const sorted = [...(inquiries || [])].reverse();
-  const filtered = sorted.filter((inq) => {
-    if (filterType !== "all" && inq.eventType.toLowerCase() !== filterType) return false;
-    if (searchQuery) {
-      const q = searchQuery.toLowerCase();
-      return (
-        inq.name.toLowerCase().includes(q) ||
-        (inq.email?.toLowerCase().includes(q) ?? false) ||
-        inq.location.toLowerCase().includes(q)
-      );
-    }
-    return true;
+  const overrideMap = new Map((overrides || []).map((o) => [o.path, o]));
+
+  const getDraft = (pagePath: string, defaultTitle: string, defaultDescription: string) => {
+    if (drafts[pagePath]) return drafts[pagePath];
+    const override = overrideMap.get(pagePath);
+    return {
+      title: override?.title || defaultTitle,
+      description: override?.description || defaultDescription,
+    };
+  };
+
+  const setDraft = (pagePath: string, field: "title" | "description", value: string, defaultTitle: string, defaultDescription: string) => {
+    setDrafts((prev) => ({
+      ...prev,
+      [pagePath]: { ...getDraft(pagePath, defaultTitle, defaultDescription), [field]: value },
+    }));
+  };
+
+  const saveMutation = useMutation({
+    mutationFn: async ({ path: pagePath, title, description }: { path: string; title: string; description: string }) =>
+      apiRequest("POST", "/api/admin/seo-content", { path: pagePath, title, description }),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/seo-content"] });
+      setSavedPaths((prev) => new Set(prev).add(variables.path));
+      setTimeout(() => setSavedPaths((prev) => { const n = new Set(prev); n.delete(variables.path); return n; }), 2000);
+      toast({ title: "Saved!", description: "Live on the site's next deployment." });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "Failed to save.", variant: "destructive" });
+    },
   });
 
-  const uniqueTypes = Array.from(new Set(sorted.map(i => i.eventType.toLowerCase())));
+  if (isLoading) {
+    return <div className="flex justify-center py-12"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
+  }
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between flex-wrap gap-3">
-        <div>
-          <h2 className="text-xl font-black font-display uppercase text-white">Booking Inquiries</h2>
-          <p className="text-sm text-zinc-400 mt-1">{inquiries?.length || 0} total inquiries</p>
-        </div>
-        <Badge variant="secondary" className="text-sm px-3 py-1">{filtered.length} shown</Badge>
+      <div>
+        <h2 className="text-xl font-black font-display uppercase text-white">SEO Metadata</h2>
+        <p className="text-sm text-zinc-400 mt-1">Search-result titles and descriptions for each page.</p>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-          <Input placeholder="Search by name, email, or location..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-9 bg-zinc-800 border-zinc-700" data-testid="input-inquiry-search" />
-        </div>
-        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}
-          className="bg-zinc-800 border border-zinc-700 rounded-md px-3 py-2 text-sm text-white" data-testid="select-inquiry-filter">
-          <option value="all">All Types</option>
-          {uniqueTypes.map(t => <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>)}
-        </select>
+      <div className="bg-primary/10 border border-primary/30 rounded-xl px-4 py-3">
+        <p className="text-xs text-zinc-300">
+          Changes save immediately but only go <strong>live after the site's next deployment</strong> — ask for a redeploy once you're happy with your edits.
+        </p>
       </div>
 
-      {filtered.length === 0 ? (
-        <p className="text-center text-zinc-500 py-8">No inquiries match your filters</p>
-      ) : (
-        <div className="overflow-x-auto rounded-xl border border-zinc-700/50">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-zinc-700/50 hover:bg-transparent">
-                <TableHead className="text-zinc-400">Date</TableHead>
-                <TableHead className="text-zinc-400">Type</TableHead>
-                <TableHead className="text-zinc-400">Location</TableHead>
-                <TableHead className="text-zinc-400">Event Date</TableHead>
-                <TableHead className="text-zinc-400">Name</TableHead>
-                <TableHead className="text-zinc-400">Email</TableHead>
-                <TableHead className="text-zinc-400">Phone</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.map((inq) => (
-                <TableRow key={inq.id} className="border-zinc-800 hover:bg-zinc-800/50" data-testid={`row-inquiry-${inq.id}`}>
-                  <TableCell className="text-zinc-400 text-sm">
-                    {inq.createdAt ? format(new Date(inq.createdAt), "MMM d, yyyy") : "N/A"}
-                  </TableCell>
-                  <TableCell><Badge variant="outline" className="capitalize border-zinc-600">{inq.eventType}</Badge></TableCell>
-                  <TableCell className="text-zinc-300"><MapPin className="w-3 h-3 text-primary inline mr-1" />{inq.location}</TableCell>
-                  <TableCell className="text-zinc-300"><Calendar className="w-3 h-3 text-zinc-500 inline mr-1" />{inq.date}</TableCell>
-                  <TableCell className="font-medium text-white">{inq.name}</TableCell>
-                  <TableCell>
-                    {inq.email ? <span className="text-zinc-300 text-sm"><Mail className="w-3 h-3 text-zinc-500 inline mr-1" />{inq.email}</span> : <span className="text-zinc-600">-</span>}
-                  </TableCell>
-                  <TableCell>
-                    {inq.phone ? <span className="text-zinc-300 text-sm"><Phone className="w-3 h-3 text-zinc-500 inline mr-1" />{inq.phone}</span> : <span className="text-zinc-600">-</span>}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      )}
+      <Accordion type="multiple" className="space-y-3">
+        {PUBLIC_SEO_PAGES.map((page) => {
+          const draft = getDraft(page.path, page.title, page.description);
+          return (
+            <AccordionItem key={page.path} value={page.path} className="border border-zinc-700/50 rounded-xl px-5 bg-zinc-800/30">
+              <AccordionTrigger className="text-sm font-bold text-white hover:no-underline text-left" data-testid={`accordion-seo-${page.path}`}>
+                <div className="flex flex-col items-start">
+                  <span>{draft.title}</span>
+                  <span className="text-xs text-zinc-500 font-normal">{page.path}</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-4 pt-3 pb-5">
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-zinc-400">Title</Label>
+                  <Input
+                    value={draft.title}
+                    onChange={(e) => setDraft(page.path, "title", e.target.value, page.title, page.description)}
+                    className="bg-zinc-800 border-zinc-700"
+                    data-testid={`input-seo-title-${page.path}`}
+                  />
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-zinc-400">Description</Label>
+                  <Textarea
+                    value={draft.description}
+                    onChange={(e) => setDraft(page.path, "description", e.target.value, page.title, page.description)}
+                    rows={3}
+                    className="bg-zinc-800 border-zinc-700"
+                    data-testid={`input-seo-description-${page.path}`}
+                  />
+                </div>
+                <Button
+                  onClick={() => saveMutation.mutate({ path: page.path, title: draft.title, description: draft.description })}
+                  disabled={saveMutation.isPending}
+                  size="sm"
+                  data-testid={`button-save-seo-${page.path}`}
+                >
+                  {savedPaths.has(page.path) ? <Check className="w-4 h-4 mr-1.5" /> : <Save className="w-4 h-4 mr-1.5" />}
+                  {savedPaths.has(page.path) ? "Saved!" : "Save"}
+                </Button>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
     </div>
   );
 }
 
 export default function Admin() {
-  const { isAdmin, isLoading, logout, logoutPending } = useAdminAuth();
-  const [activeTab, setActiveTab] = useState<TabKey>("inquiries");
+  const { isAuthenticated, role, isLoading, logout, logoutPending } = useAdminAuth();
+  const [activeTab, setActiveTab] = useState<TabKey>("corporate");
 
   if (isLoading) {
     return <div className="min-h-screen bg-zinc-950 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>;
   }
 
-  if (!isAdmin) return <LoginForm />;
+  if (!isAuthenticated) return <LoginForm />;
+
+  const visibleTabs = role === "seo" ? TABS : TABS.filter((tab) => !SEO_ONLY_TABS.includes(tab.key));
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
       <header className="sticky top-0 z-40 bg-zinc-950/90 backdrop-blur-sm border-b border-zinc-800">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex items-center justify-between h-14">
-            <h1 className="text-lg font-black font-display uppercase">Site Admin</h1>
+            <h1 className="text-lg font-black font-display uppercase">{role === "seo" ? "SEO User" : "Content User"}</h1>
             <div className="flex items-center gap-3">
               <Link href="/">
                 <button className="flex items-center gap-1.5 text-sm text-zinc-400 hover:text-white transition-colors" data-testid="button-view-site">
@@ -648,7 +667,7 @@ export default function Admin() {
           </div>
 
           <div className="flex gap-1 -mb-px overflow-x-auto scrollbar-hide">
-            {TABS.map((tab) => {
+            {visibleTabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.key;
               return (
@@ -672,8 +691,8 @@ export default function Admin() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 py-8">
-        {activeTab === "inquiries" && <InquiriesView />}
-        {activeTab !== "inquiries" && <EventContentEditor key={activeTab} eventType={activeTab as EventType} />}
+        {activeTab === "seo" && role === "seo" && <SeoMetadataEditor />}
+        {activeTab !== "seo" && <EventContentEditor key={activeTab} eventType={activeTab as EventType} role={role} />}
       </main>
     </div>
   );

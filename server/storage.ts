@@ -5,6 +5,7 @@ import {
   corporateContent,
   siteContent,
   siteImages,
+  auditLog,
   type InsertInquiry,
   type Inquiry,
   type Post,
@@ -15,8 +16,10 @@ import {
   type InsertSiteContent,
   type SiteImage,
   type InsertSiteImage,
+  type AuditLogEntry,
+  type InsertAuditLogEntry,
 } from "../shared/schema.js";
-import { eq } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 
 export interface IStorage {
   createInquiry(inquiry: InsertInquiry): Promise<Inquiry>;
@@ -34,6 +37,8 @@ export interface IStorage {
   getSiteImageByKey(imageKey: string): Promise<SiteImage | undefined>;
   upsertSiteImage(data: InsertSiteImage): Promise<SiteImage>;
   deleteSiteImage(imageKey: string): Promise<void>;
+  createAuditLogEntry(entry: InsertAuditLogEntry): Promise<void>;
+  getAuditLog(limit: number): Promise<AuditLogEntry[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -134,6 +139,14 @@ export class DatabaseStorage implements IStorage {
   async deleteSiteImage(imageKey: string): Promise<void> {
     await db.delete(siteImages).where(eq(siteImages.imageKey, imageKey));
   }
+
+  async createAuditLogEntry(entry: InsertAuditLogEntry): Promise<void> {
+    await db.insert(auditLog).values(entry);
+  }
+
+  async getAuditLog(limit: number): Promise<AuditLogEntry[]> {
+    return await db.select().from(auditLog).orderBy(desc(auditLog.createdAt)).limit(limit);
+  }
 }
 
 export class MemoryStorage implements IStorage {
@@ -143,11 +156,14 @@ export class MemoryStorage implements IStorage {
   private siteContentId = 1;
   private siteImageId = 1;
 
+  private auditLogId = 1;
+
   private inquiries: Inquiry[] = [];
   private posts: Post[] = [];
   private corporateContent: CorporateContent[] = [];
   private siteContent: SiteContent[] = [];
   private siteImages: SiteImage[] = [];
+  private auditLog: AuditLogEntry[] = [];
 
   async createInquiry(insertInquiry: InsertInquiry): Promise<Inquiry> {
     const inquiry: Inquiry = {
@@ -274,6 +290,20 @@ export class MemoryStorage implements IStorage {
 
   async deleteSiteImage(imageKey: string): Promise<void> {
     this.siteImages = this.siteImages.filter((image) => image.imageKey !== imageKey);
+  }
+
+  async createAuditLogEntry(entry: InsertAuditLogEntry): Promise<void> {
+    this.auditLog.push({
+      id: this.auditLogId++,
+      actor: entry.actor,
+      action: entry.action,
+      target: entry.target ?? null,
+      createdAt: new Date(),
+    });
+  }
+
+  async getAuditLog(limit: number): Promise<AuditLogEntry[]> {
+    return [...this.auditLog].reverse().slice(0, limit);
   }
 }
 

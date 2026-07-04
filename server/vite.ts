@@ -5,7 +5,8 @@ import viteConfig from "../vite.config.js";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
-import { getSeoPage, injectSeoMeta } from "../shared/seo.js";
+import { getSeoPage, injectSeoMeta, applySeoOverride, type SeoOverride } from "../shared/seo.js";
+import { storage } from "./storage.js";
 
 const viteLogger = createLogger();
 
@@ -45,7 +46,10 @@ export async function setupVite(server: Server, app: Express) {
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
-      template = injectSeoMeta(template, getSeoPage(req.path));
+      const basePage = getSeoPage(req.path);
+      const override = await storage.getSiteContentByKey(`seo:${basePage.path}`);
+      const seoPage = applySeoOverride(basePage, override?.content as SeoOverride | undefined);
+      template = injectSeoMeta(template, seoPage);
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,

@@ -184,6 +184,25 @@ export const SEO_PAGES: SeoPage[] = [
 
 export const PUBLIC_SEO_PAGES = SEO_PAGES.filter((page) => !page.noindex);
 
+// Owner-editable title/description overrides, stored in the database as
+// site_content rows keyed "seo:<path>". Baked into pages at build time
+// (and applied live in local dev) — see script/generate-seo-pages.ts.
+export interface SeoOverride {
+  title?: string;
+  description?: string;
+}
+
+export function applySeoOverride(page: SeoPage, override?: SeoOverride | null): SeoPage {
+  if (!override) return page;
+  const title = override.title?.trim();
+  const description = override.description?.trim();
+  return {
+    ...page,
+    title: title || page.title,
+    description: description || page.description,
+  };
+}
+
 export function normalizePath(pathname: string) {
   const path = pathname.split("?")[0].replace(/\/+$/, "");
   return path || "/";

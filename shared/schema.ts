@@ -1,6 +1,24 @@
-import { pgTable, text, serial, timestamp, varchar, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, varchar, jsonb, boolean } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+
+// === ROLES ===
+// "owner" has no login path in this app (owner manages the site via GitHub + Vercel directly).
+// It's kept as a permission tier so requireRole() gating stays meaningful if that ever changes.
+export const ROLES = ["owner", "seo", "content"] as const;
+export type Role = (typeof ROLES)[number];
+
+// SEO and Content log in with a shared per-role password set via Vercel env vars
+// (SEO_PASSWORD / CONTENT_PASSWORD) — no accounts table, matches how ADMIN_PASSWORD already works.
+
+// === AUDIT LOG SCHEMA ===
+export const auditLog = pgTable("audit_log", {
+  id: serial("id").primaryKey(),
+  actor: text("actor").notNull(),
+  action: text("action").notNull(),
+  target: text("target"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
 
 // === CORPORATE CONTENT SCHEMA ===
 export const corporateContent = pgTable("corporate_content", {
@@ -81,3 +99,6 @@ export type UpdateSiteContent = z.infer<typeof updateSiteContentSchema>;
 
 export type SiteImage = typeof siteImages.$inferSelect;
 export type InsertSiteImage = z.infer<typeof insertSiteImageSchema>;
+
+export type AuditLogEntry = typeof auditLog.$inferSelect;
+export type InsertAuditLogEntry = typeof auditLog.$inferInsert;

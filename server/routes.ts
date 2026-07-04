@@ -7,7 +7,9 @@ import { Resend } from "resend";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import session from "express-session";
+import cookieSession from "cookie-session";
+import type { Role } from "../shared/schema.js";
+import { PUBLIC_SEO_PAGES, type SeoOverride } from "../shared/seo.js";
 
 const UPLOADS_DIR = process.env.VERCEL
   ? path.join("/tmp", "uploads")
@@ -39,11 +41,19 @@ const upload = multer({
   },
 });
 
-function requireAdmin(req: Request, res: Response, next: NextFunction) {
-  if ((req.session as any)?.isAdmin) {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
+function requireRole(...roles: Role[]) {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const sessionRole = (req.session as any)?.role as Role | undefined;
+    if (sessionRole && (sessionRole === "owner" || roles.includes(sessionRole))) {
+      return next();
+    }
+    res.status(401).json({ message: "Unauthorized" });
+  };
+}
+
+function sessionActor(req: Request): Role | undefined {
+  const session = req.session as any;
+  return session?.role as Role | undefined;
 }
 
 function getEmailRecipients(envValue: string | undefined, fallback: string[]) {
@@ -122,29 +132,24 @@ export async function registerRoutes(
     res.redirect(301, redirects[req.path]);
   });
 
-  const sessionSecret =
-    process.env.SESSION_SECRET ||
-    (process.env.NODE_ENV === "production"
-      ? "missing-session-secret-public-api-fallback"
-      : "dev-session-secret");
+  // Sessions are stored entirely in a signed cookie (not server memory), since Vercel's
+  // serverless functions don't share memory across instances/cold starts — a memory-backed
+  // session store would randomly "forget" logins depending on which instance handles a request.
+  // This requires SESSION_SECRET to be a stable value shared by every instance.
+  const sessionSecret = process.env.SESSION_SECRET || "dev-session-secret";
 
-  if (
-    process.env.NODE_ENV === "production" &&
-    !process.env.SESSION_SECRET
-  ) {
-    console.warn("[SESSION] SESSION_SECRET is not configured; admin sessions may reset between serverless cold starts.");
+  if (process.env.NODE_ENV === "production" && !process.env.SESSION_SECRET) {
+    console.warn("[SESSION] SESSION_SECRET is not configured; admin logins will not work reliably in production.");
   }
 
   app.use(
-    session({
-      secret: sessionSecret,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        secure: false,
-        httpOnly: true,
-        maxAge: 24 * 60 * 60 * 1000,
-      },
+    cookieSession({
+      name: "session",
+      keys: [sessionSecret],
+      secure: process.env.NODE_ENV === "production",
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 24 * 60 * 60 * 1000,
     })
   );
 
@@ -159,27 +164,44 @@ export async function registerRoutes(
 
   seedDatabase();
 
-  app.post("/api/admin/login", (req, res) => {
-    const { password } = req.body;
-    if (process.env.ADMIN_PASSWORD && password === process.env.ADMIN_PASSWORD) {
-      (req.session as any).isAdmin = true;
-      res.json({ success: true });
-    } else {
-      res.status(401).json({ message: "Invalid password" });
+  app.post("/api/admin/login", async (req, res) => {
+    const parsed = z
+      .object({ role: z.enum(["seo", "content"]), password: z.string().min(1) })
+      .safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ message: "Role and password are required" });
     }
+
+    const expected = parsed.data.role === "seo" ? process.env.SEO_PASSWORD : process.env.CONTENT_PASSWORD;
+    if (!expected || parsed.data.password !== expected) {
+      return res.status(401).json({ message: "Invalid role or password" });
+    }
+
+    (req.session as any).role = parsed.data.role;
+    await storage.createAuditLogEntry({ actor: parsed.data.role, action: "login" });
+
+    res.json({ success: true, role: parsed.data.role });
   });
 
   app.post("/api/admin/logout", (req, res) => {
-    req.session.destroy(() => {
-      res.json({ success: true });
-    });
+    req.session = null;
+    res.json({ success: true });
   });
 
   app.get("/api/admin/session", (req, res) => {
-    res.json({ isAdmin: !!(req.session as any)?.isAdmin });
+    const session = req.session as any;
+    if (!session?.role) {
+      return res.json({ isAuthenticated: false });
+    }
+    res.json({ isAuthenticated: true, role: session.role });
   });
 
-  app.get(api.inquiries.list.path, requireAdmin, async (_req, res) => {
+  app.get("/api/admin/audit-log", requireRole("owner"), async (_req, res) => {
+    const entries = await storage.getAuditLog(200);
+    res.json(entries);
+  });
+
+  app.get(api.inquiries.list.path, requireRole("owner"), async (_req, res) => {
     const inquiries = await storage.getInquiries();
     res.json(inquiries);
   });
@@ -349,10 +371,18 @@ export async function registerRoutes(
     res.json(content);
   });
 
-  app.post(api.corporateContent.update.path, requireAdmin, async (req, res) => {
+  app.post(api.corporateContent.update.path, requireRole("seo", "content"), async (req, res) => {
     try {
       const input = api.corporateContent.update.input.parse(req.body);
       const content = await storage.upsertCorporateContent(input);
+      const actor = sessionActor(req);
+      if (actor) {
+        await storage.createAuditLogEntry({
+          actor,
+          action: "update-corporate-content",
+          target: input.sectionKey,
+        });
+      }
       res.json(content);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -371,13 +401,21 @@ export async function registerRoutes(
     res.json(content);
   });
 
-  app.post("/api/admin/site-content", requireAdmin, async (req, res) => {
+  app.post("/api/admin/site-content", requireRole("seo", "content"), async (req, res) => {
     try {
       const input = z.object({
         sectionKey: z.string(),
         content: z.record(z.any()),
       }).parse(req.body);
       const content = await storage.upsertSiteContent(input);
+      const actor = sessionActor(req);
+      if (actor) {
+        await storage.createAuditLogEntry({
+          actor,
+          action: "update-site-content",
+          target: input.sectionKey,
+        });
+      }
       res.json(content);
     } catch (err) {
       if (err instanceof z.ZodError) {
@@ -388,12 +426,53 @@ export async function registerRoutes(
     }
   });
 
+  app.get("/api/admin/seo-content", requireRole("seo"), async (_req, res) => {
+    const rows = await storage.getSiteContent();
+    const overrides = rows
+      .filter((row) => row.sectionKey.startsWith("seo:"))
+      .map((row) => ({ path: row.sectionKey.slice(4), ...(row.content as SeoOverride) }));
+    res.json(overrides);
+  });
+
+  app.post("/api/admin/seo-content", requireRole("seo"), async (req, res) => {
+    const parsed = z
+      .object({
+        path: z.string().min(1),
+        title: z.string().optional(),
+        description: z.string().optional(),
+      })
+      .safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ message: parsed.error.errors[0].message });
+    }
+
+    if (!PUBLIC_SEO_PAGES.some((page) => page.path === parsed.data.path)) {
+      return res.status(400).json({ message: "Unknown page" });
+    }
+
+    const content = await storage.upsertSiteContent({
+      sectionKey: `seo:${parsed.data.path}`,
+      content: { title: parsed.data.title, description: parsed.data.description },
+    });
+
+    const actor = sessionActor(req);
+    if (actor) {
+      await storage.createAuditLogEntry({
+        actor,
+        action: "update-seo-content",
+        target: parsed.data.path,
+      });
+    }
+
+    res.json(content);
+  });
+
   app.get("/api/site-images", async (_req, res) => {
     const images = await storage.getSiteImages();
     res.json(images);
   });
 
-  app.post("/api/admin/upload", requireAdmin, upload.single("image"), async (req, res) => {
+  app.post("/api/admin/upload", requireRole("content"), upload.single("image"), async (req, res) => {
     try {
       if (!req.file) {
         return res.status(400).json({ message: "No file uploaded" });
@@ -408,13 +487,21 @@ export async function registerRoutes(
         url,
         originalName: req.file.originalname,
       });
+      const actor = sessionActor(req);
+      if (actor) {
+        await storage.createAuditLogEntry({
+          actor,
+          action: "upload-image",
+          target: imageKey,
+        });
+      }
       res.json(image);
     } catch (err) {
       res.status(500).json({ message: "Upload failed" });
     }
   });
 
-  app.delete("/api/admin/site-images/:imageKey", requireAdmin, async (req, res) => {
+  app.delete("/api/admin/site-images/:imageKey", requireRole("owner"), async (req, res) => {
     try {
       const existing = await storage.getSiteImageByKey(req.params.imageKey);
       if (existing) {
@@ -423,6 +510,14 @@ export async function registerRoutes(
           fs.unlinkSync(filePath);
         }
         await storage.deleteSiteImage(req.params.imageKey);
+      }
+      const actor = sessionActor(req);
+      if (actor) {
+        await storage.createAuditLogEntry({
+          actor,
+          action: "delete-image",
+          target: req.params.imageKey,
+        });
       }
       res.json({ success: true });
     } catch (err) {

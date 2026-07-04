@@ -5,6 +5,11 @@ import { createServer } from "http";
 
 const app = express();
 
+// Vercel terminates TLS at its edge and proxies to this function over plain HTTP.
+// Without this, Express never sees the request as secure, and the session cookie
+// (which requires `secure` in production) silently fails to be set.
+app.set("trust proxy", 1);
+
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;

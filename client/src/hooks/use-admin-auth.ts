@@ -1,15 +1,20 @@
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 
+interface SessionData {
+  isAuthenticated: boolean;
+  role?: "seo" | "content";
+}
+
 export function useAdminAuth() {
-  const { data, isLoading } = useQuery<{ isAdmin: boolean }>({
+  const { data, isLoading } = useQuery<SessionData>({
     queryKey: ["/api/admin/session"],
     refetchOnWindowFocus: true,
   });
 
   const loginMutation = useMutation({
-    mutationFn: async (password: string) => {
-      const res = await apiRequest("POST", "/api/admin/login", { password });
+    mutationFn: async ({ role, password }: { role: "seo" | "content"; password: string }) => {
+      const res = await apiRequest("POST", "/api/admin/login", { role, password });
       return res.json();
     },
     onSuccess: () => {
@@ -28,7 +33,8 @@ export function useAdminAuth() {
   });
 
   return {
-    isAdmin: data?.isAdmin ?? false,
+    isAuthenticated: data?.isAuthenticated ?? false,
+    role: data?.role,
     isLoading,
     login: loginMutation.mutateAsync,
     loginError: loginMutation.error,
