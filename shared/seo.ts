@@ -203,6 +203,48 @@ export function applySeoOverride(page: SeoPage, override?: SeoOverride | null): 
   };
 }
 
+// === INTERNAL LINKING ===
+// Every internal nav list (footer, hero city badges, "also serving" blocks) is
+// derived from SEO_PAGES so there is no fourth hand-maintained route list.
+
+// City hub pages: /chicago-dj, /dallas-dj, /denver-dj — a city, no single service.
+export const CITY_HUB_PAGES = PUBLIC_SEO_PAGES.filter(
+  (page) => page.city && !page.eventLayout,
+);
+
+// Service pages: /wedding-dj, /corporate-event-dj, … — a service, no single city.
+export const SERVICE_PAGES = PUBLIC_SEO_PAGES.filter(
+  (page) => page.eventLayout && !page.city,
+);
+
+// City+service pages for one service, e.g. all three wedding cities.
+export function getCityPagesForLayout(layout: EventLayout): SeoPage[] {
+  return PUBLIC_SEO_PAGES.filter((page) => page.eventLayout === layout && page.city);
+}
+
+// City+service pages for one city, e.g. Chicago's wedding and corporate pages.
+export function getServicePagesForCity(city: string): SeoPage[] {
+  const target = city.trim().toLowerCase();
+  return PUBLIC_SEO_PAGES.filter(
+    (page) => page.eventLayout && page.city?.toLowerCase() === target,
+  );
+}
+
+// Hub path for a city name, or null when the name isn't one we have a page for.
+// Hero city badges are admin-editable content, so unknown names must be tolerated.
+export function getCityHubPath(city: string): string | null {
+  const target = city.trim().toLowerCase();
+  return (
+    CITY_HUB_PAGES.find((page) => page.city?.toLowerCase() === target)?.path || null
+  );
+}
+
+// Short anchor text from a page title: "Chicago DJ & MC | Weddings, …" -> "Chicago DJ & MC".
+// Keeps link text keyword-rich without a parallel list of labels to maintain.
+export function getSeoPageLabel(page: SeoPage): string {
+  return page.title.split("|")[0].trim();
+}
+
 export function normalizePath(pathname: string) {
   const path = pathname.split("?")[0].replace(/\/+$/, "");
   return path || "/";

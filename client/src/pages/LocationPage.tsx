@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import { getServicePagesForCity, getSeoPageLabel } from "@shared/seo";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { VibeReel } from "@/components/VibeReel";
@@ -139,6 +141,40 @@ export default function LocationPage({ location }: LocationPageProps) {
           ))}
         </div>
       </div>
+
+      {/* 2.5 Services in this city */}
+      {(() => {
+        const servicePages = getServicePagesForCity(locationData.city);
+        if (servicePages.length === 0) return null;
+
+        return (
+          <section className="container mx-auto px-4 py-12 md:py-16">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="text-center space-y-3">
+                <h2 className="text-2xl md:text-4xl font-black font-display uppercase tracking-tighter">
+                  DJ Services in {locationData.city}
+                </h2>
+                <div className="h-1 w-24 bg-primary rounded-full mx-auto" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {servicePages.map((page) => (
+                  <Link
+                    key={page.path}
+                    href={page.path}
+                    className="group flex items-center justify-between gap-4 p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-primary/30 transition-colors"
+                    data-testid={`link-city-service-${page.path.slice(1)}`}
+                  >
+                    <span className="text-base md:text-lg font-bold font-display uppercase text-white group-hover:text-primary transition-colors">
+                      {getSeoPageLabel(page)}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* 3. Event Signature Section */}
       <EventSignatureSection />

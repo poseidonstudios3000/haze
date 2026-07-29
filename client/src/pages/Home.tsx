@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link, useLocation } from "wouter";
 import { MapPin } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
@@ -16,7 +17,13 @@ import { PrivateEventPlanning } from "@/components/PrivateEventPlanning";
 import { useTheme } from "@/context/ThemeContext";
 import { useEventContent, layoutToEventType as getEventType } from "@/hooks/use-event-content";
 import { useSiteImages } from "@/hooks/use-site-images";
-import { getSeoPage } from "@shared/seo";
+import {
+  getSeoPage,
+  getCityHubPath,
+  getCityPagesForLayout,
+  getSeoPageLabel,
+  normalizePath,
+} from "@shared/seo";
 
 const heroImages: Record<string, string> = {
   corporate_event: "/assets/corporate-events-wide-B-d8CPwl.webp",
@@ -55,6 +62,7 @@ const layoutToFormEventType: Record<string, string> = {
 
 export default function Home() {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [currentPath] = useLocation();
   const { layout } = useTheme();
   const { getImage } = useSiteImages();
   const aboutImage = getImage("about_photo");
@@ -113,12 +121,26 @@ export default function Home() {
             </p>
 
             <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 text-[8px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white/80 uppercase tracking-wider md:tracking-widest mb-2 sm:mb-3">
-              {eventContent.hero.locations.map((location: string, index: number) => (
-                <span key={index} className="flex items-center gap-1 sm:gap-1.5">
-                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  <span>{location}</span>
-                </span>
-              ))}
+              {eventContent.hero.locations.map((location: string, index: number) => {
+                // Locations are admin-editable, so only link the ones we have a hub page for.
+                const hubPath = getCityHubPath(location);
+                return (
+                  <span key={index} className="flex items-center gap-1 sm:gap-1.5">
+                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-primary" />
+                    {hubPath ? (
+                      <Link
+                        href={hubPath}
+                        className="hover:text-primary transition-colors underline-offset-4 hover:underline"
+                        data-testid={`link-hero-city-${location.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
+                        {location}
+                      </Link>
+                    ) : (
+                      <span>{location}</span>
+                    )}
+                  </span>
+                );
+              })}
             </div>
 
             <CompactBookingForm defaultEventType={eventType} />
@@ -469,6 +491,36 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 10.5 Also Serving - city variants of this service page */}
+      {(() => {
+        const cityPages = getCityPagesForLayout(layout).filter(
+          (page) => page.path !== normalizePath(currentPath),
+        );
+        if (cityPages.length === 0) return null;
+
+        return (
+          <section className="container mx-auto px-4 py-8 md:py-12">
+            <div className="max-w-3xl mx-auto text-center space-y-5">
+              <h2 className="text-xs font-black font-display uppercase tracking-widest text-primary">
+                Also Serving
+              </h2>
+              <div className="flex flex-wrap justify-center gap-3">
+                {cityPages.map((page) => (
+                  <Link
+                    key={page.path}
+                    href={page.path}
+                    className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                    data-testid={`link-also-serving-${page.path.slice(1)}`}
+                  >
+                    {getSeoPageLabel(page)}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* 11. Final CTA Section */}
       <section className="container mx-auto px-4 py-16 md:py-24 text-center">
