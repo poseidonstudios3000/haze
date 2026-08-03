@@ -429,6 +429,39 @@ const CHICAGO_CORPORATE_REVIEWS: ReviewItem[] = [
 // Badge-row chips for the city hero: her real Chicagoland service areas.
 const CHICAGO_HERO_LOCATIONS = ["Chicago", "Naperville", "Oak Brook", "Glenview", "Hinsdale"];
 
+// --- Denver / Colorado testimonials (genuine, from the event reviews above) ---
+// Confirmed Denver venues from these reviews: Estes Park Resort (Alexa) and
+// Deer Creek Mountain Camp / Bailey (Austin). Vail is a location, not a venue.
+const DENVER_WEDDING_REVIEWS: ReviewItem[] = [
+  { author: "JM", role: "Denver, CO", text: "We used DJ Miss Haze for our elopement reception and she was amazing! We decided within a month of our reception to get a DJ and she was so accommodating and easy to work with. She answered all our questions and stayed in contact up until the reception. She is personable and easy to talk to and all our guests commented on how great she was. We would highly recommend her for anything party! And we would for sure use her again.", rating: 5 },
+  { author: "Marisa", role: "Vail, CO", text: "Where do I begin?!?! You MUST book DJ Haze for your next event! She is absolutely top notch as a person and as a musician. She was kind and responsive from the very first time we communicated. She was open to our ideas for the atmosphere that we wanted to create through her music. The party ended up being beyond our wildest expectations and it was because of her and her music. Our guests didn't want the night to end!!!! Please book her for your next important event, you will be really glad you did. We will definitely use her again and she has even become our friend. She is a wonderful person and has an amazing ear for good music. If I could give her more than 5 stars I would!!!", rating: 5 },
+  { author: "Alexa", role: "Denver, Colorado @ Estes Park Resort", text: "DJ Miss Haze DJ'd our wedding and was incredible to work with from our initial call all the way through after our wedding, sharing photos and videos and checking in with us! She's the best hype woman and truly understood the assignment for our wedding. We had a wide variety of music we wanted to play and she integrated it all flawlessly. During the planning process, she was so helpful since (like a lot of people) we had never done this before! She is professional, fun and easy to collaborate with. I would highly recommend hiring her for any event you are planning!", rating: 5 },
+  { author: "Austin", role: "Denver, Colorado @ Deer Creek Mountain Camp, Bailey CO", text: "We had so much fun working with DJ Miss Haze. She made personalized mixes and was always down to get creative. She also brought up the idea of an anniversary dance where couples were weeded off the dance floor until it was only my grandparents (together 65 years), at which point she surprised them by transitioning to their first dance song. She was amazing at reading the room and had the dance floor popping literally the entire evening – we never had less than 30 people on the dance floor!!! Highly, highly recommend DJ Miss Haze. Wow!", rating: 5 },
+];
+
+const DENVER_CORPORATE_REVIEWS: ReviewItem[] = [
+  { author: "Wendy", role: "Denver, CO / Denver Art Museum", text: "DJ Miss Haze recently played for a fundraising gala at the Denver Art Museum, and she was incredible at creating an energetic vibe. She was so great to work with and had all our guests up and dancing and enjoying the night. I highly recommend DJ Miss Haze for any event!", rating: 5 },
+  { author: "Anna", role: "Denver, Colorado / Karter School", text: "We had DJ Haze at our school holiday party, and she was absolutely amazing! She kept the energy alive from start to finish, and the music was perfectly on point for the crowd. Everyone had such a great time dancing and celebrating - she really made the party unforgettable. Highly recommend her for any event where you want the vibe to stay fun and upbeat!", rating: 5 },
+  { author: "Chris", role: "Denver, CO / Magnolia", text: "We had a wonderful time with DJ Miss Haze and the services she provided for our holiday party at The Magnolia Denver. She was very responsive, allowed us to provide a playlist in advance, and had everyone dancing! Thank you for making it special!", rating: 5 },
+];
+
+// Badge-row chips: her real Colorado service areas.
+const DENVER_HERO_LOCATIONS = ["Denver", "Vail", "Estes Park", "Breckenridge"];
+
+// --- Dallas–Fort Worth / Texas testimonials (genuine, from the reviews above) ---
+// Confirmed DFW venue from these reviews: NYLO Plano (Amanda). Only two genuine
+// Texas testimonials exist in the repo, so the DFW pages reuse both.
+const DALLAS_WEDDING_REVIEWS: ReviewItem[] = [
+  { author: "Amanda", role: "Dallas Fort Worth, Texas @ NYLO, Plano", text: "From the very first planning call to the final song of the night, DJ Miss Haze exceeded every expectation we had. She brought so much knowledge and creativity to the pre-wedding process — helping us pick the perfect songs, offering thoughtful suggestions, and even helping us design moments we didn't even know we needed. She's professional, vibrant, and truly committed to making your wedding unforgettable. If you're lucky enough to book her — DO IT.", rating: 5 },
+  { author: "Nikki", role: "Frisco, TX", text: "She is a phenomenal DJ! We have added Miss Haze to our preferred vendor list! She really knows how to get a party started and read the room! I can't thank her enough for the amazing jobs she does for our events!", rating: 5 },
+];
+
+// Nikki (event/preferred-vendor) leads the corporate order; Amanda follows.
+const DALLAS_CORPORATE_REVIEWS: ReviewItem[] = [DALLAS_WEDDING_REVIEWS[1], DALLAS_WEDDING_REVIEWS[0]];
+
+// Badge-row chips: her real DFW service areas.
+const DALLAS_HERO_LOCATIONS = ["Dallas", "Fort Worth", "Plano", "Frisco", "McKinney"];
+
 export const DEFAULT_CITY_CONTENT: Record<
   string,
   Partial<Record<CityContentKey, CitySections>>
@@ -606,6 +639,379 @@ export const DEFAULT_CITY_CONTENT: Record<
             title: "Ultimate Wedding DJ Checklist",
             description: "Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.",
             image: "/assets/Brand-Event-DJ-Setup-Chicago-C4CUamlB.webp",
+          },
+        ],
+      },
+    },
+  },
+  // === DENVER — angle: altitude, mountain weather and travel logistics ===
+  // Confirmed venues (from testimonials): Estes Park Resort, Deer Creek Mountain
+  // Camp. TODO(client): the doc also lists Black Canyon Inn as a worked venue,
+  // but no genuine testimonial in the repo confirms it — add to the FAQ venue
+  // list once she confirms.
+  denver: {
+    wedding: {
+      hero: {
+        subtitle: "Denver Wedding DJ & MC",
+        subline: "Denver, Vail, Estes Park and the Mountains",
+        badge: "DENVER, CO",
+        locations: DENVER_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you planning a Colorado wedding that feels effortless, joyful and deeply personal?",
+        body: [
+          "Colorado weddings are rarely just one evening. Guests fly in on Thursday, there's a welcome party, the ceremony is at eight thousand feet with a view people will talk about for years, and by Sunday brunch nobody wants to leave. As both your DJ and MC, I plan for the whole arc — not just the reception — with the presence, intention and leadership a weekend like that deserves.",
+        ],
+      },
+      localMarket: {
+        title: "From RiNo Warehouses to Mountain Venues",
+        lead: "Colorado gives you two completely different weddings, and they need different things from a DJ.",
+        blocks: [
+          { label: "Denver proper", text: "— RiNo, LoDo, the Union Station district — brings converted warehouses, brick-and-steel event spaces and rooftops with the Front Range behind them. City logistics, city timelines, and rooms that photograph beautifully but need careful sound placement. These weddings usually run a single evening with local guests and a familiar rhythm." },
+          { label: "The mountains", text: "are another world. Estes Park, Vail, Breckenridge, the canyons out toward Bailey — venues where the view is the whole point and the infrastructure is an afterthought. Power can be limited. Cell signal disappears. The drive from Denver runs one to two hours, and in winter it runs longer. I arrive with time built in rather than hoping the pass is clear, and I plan the setup around what the venue can actually supply." },
+          { label: "Altitude changes the night, and most couples don't expect it.", text: "Denver sits at 5,280 feet; mountain venues sit at eight or nine thousand. Guests arriving from sea level feel alcohol faster and tire earlier. That isn't a warning, it's a pacing decision — the energy curve for a wedding at altitude peaks differently than one at sea level, and reading that correctly is the difference between a full floor at ten and an empty one." },
+          { label: "Weather is a live variable, not a footnote.", text: "Summer afternoons bring thunderstorms that arrive fast and leave fast. Snow is possible well into June and from September onwards. Every outdoor ceremony needs a plan B that's genuinely ready — equipment covered, a defined move-indoors trigger, and a decision made early rather than at the last minute." },
+          { label: "And Colorado is destination country.", text: "Many of these weddings run across three days: welcome party, wedding, farewell brunch. Each has its own music, its own energy and its own crowd — the welcome party is louder than people expect, and the brunch needs almost nothing. Planning all three together is better than treating them as separate bookings." },
+        ],
+      },
+      logistics: {
+        title: "What Mountain Weddings Actually Require",
+        items: [
+          { label: "Power and setup", text: "Rustic and outdoor venues often have limited electrical capacity. I confirm what's available in advance and plan the system around it, rather than discovering the problem on the day." },
+          { label: "Travel and timing", text: "Mountain venues mean real drive time from Denver — an hour to Estes Park, closer to two toward Vail or Breckenridge, and longer when weather is in play. I build buffers into the schedule as standard." },
+          { label: "Connectivity", text: "Plenty of Colorado venues have no reliable cell signal. Everything I need is downloaded and ready offline before I leave — nothing streams on the day." },
+          { label: "Season", text: "June through September is peak for mountain weddings, and the best Saturdays go early. Denver proper has a longer usable season. Winter mountain weddings are genuinely beautiful and worth considering — availability is much better and the setting does half the work." },
+          { label: "Insurance", text: "A Certificate of Insurance is available on request, which most Colorado venues require from vendors." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Do you travel to mountain venues?", answer: "Yes — Estes Park, Vail, Breckenridge and the surrounding areas are standard territory. I've worked venues including Estes Park Resort and Deer Creek Mountain Camp. Travel outside the usual range is quoted transparently upfront." },
+          { category: "Logistics & Reliability", question: "Our venue has limited power. Is that a problem?", answer: "It's common at mountain and outdoor venues and it's a planning question rather than a problem. I confirm the available electrical supply with your venue in advance and configure the system accordingly." },
+          { category: "DJ & MC Services", question: "We're planning a three-day destination wedding. Can you cover all of it?", answer: "Yes, and I'd encourage planning it as one event rather than three. The welcome party, the wedding and the farewell brunch each need a different energy, and planning them together makes the whole weekend feel intentional instead of assembled." },
+          { category: "DJ & MC Services", question: "Most of our guests are flying in from sea level. Does that change anything?", answer: "More than people expect. Alcohol hits harder at altitude and guests tire earlier, so the night's energy curve needs to peak sooner than it would at sea level. It's the kind of thing you only account for if you've worked here." },
+          { category: "Logistics & Reliability", question: "What happens if the weather turns during an outdoor ceremony?", answer: "We agree a plan B in advance — where the ceremony moves, who calls it, and how much lead time I need to relocate equipment safely. Colorado weather moves fast; the decision shouldn't be made under pressure." },
+          { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, as one service. Grand entrance, toasts, parent dances, cake, closing — announcements and room management included, so your planner isn't holding a microphone." },
+          { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Booking", question: "How far ahead should we book a summer mountain wedding?", answer: "Peak Saturdays from June to September go twelve to eighteen months out, and the most sought-after venues go further. Winter and shoulder-season dates have real availability." },
+        ],
+      },
+      reviews: {
+        title: "DENVER WEDDING REVIEWS",
+        ratingText: "5.0 stars",
+        items: DENVER_WEDDING_REVIEWS,
+      },
+    },
+
+    corporate: {
+      hero: {
+        subtitle: "Denver Corporate Event DJ & MC",
+        subline: "Galas, Conferences and Mountain Retreats",
+        badge: "DENVER, CO",
+        locations: DENVER_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you planning a company event that doesn't feel like a company event?",
+        body: [
+          "Denver's corporate culture runs less formal than most — and the events reflect it. A gala downtown still needs a clean run of show, but a leadership retreat in Breckenridge needs something else entirely. As both DJ and MC I hold the timeline where it matters and read the room where it doesn't, so your team ends up somewhere between well-run and genuinely enjoyable.",
+        ],
+      },
+      localMarket: {
+        title: "Corporate Events Across Colorado",
+        lead: "The Denver corporate calendar has a shape you won't find in other markets.",
+        blocks: [
+          { label: "Downtown and the convention district", text: "carry the formal end — industry galas, association dinners, awards nights, conference receptions. These run to a written schedule with an AV team and a planner who has thought about every minute. My job is to fit into that precisely: hit the cue, hand over the microphone cleanly, bring the energy back the moment the programme ends." },
+          { label: "RiNo and the warehouse districts", text: "hold the launches, client events and anything meant to feel less corporate than it is. Breweries, converted industrial spaces, rooftops. Beautiful rooms with difficult acoustics — worth the extra setup time." },
+          { label: "The Denver Tech Center and the southern suburbs", text: "bring the campus events: sales kickoffs, summer outings, holiday parties for teams that don't want to drive downtown in December." },
+          { label: "And then there's the mountain retreat,", text: "which is genuinely a Colorado speciality. Companies book Vail, Breckenridge or Estes Park for multi-day leadership offsites, and the evening programme runs differently to a city event — smaller groups, longer evenings, a mix of formal dinner and something much looser afterwards. These also come with the same infrastructure questions as mountain weddings: power, connectivity, drive time." },
+        ],
+        closing: [
+          "Two things shape the Colorado corporate year. Holiday parties peak across the first two weeks of December and book far ahead. And the outdoor season — roughly June to September — carries company outings, retreats and everything that takes advantage of being here rather than somewhere else.",
+          "Reading a corporate crowd is a different skill to reading a wedding. At a wedding, everyone knows the couple. At a company event, half the room reports to the other half, and the floor doesn't open the same way. Knowing when to push and when to hold back is the part experience buys you.",
+        ],
+      },
+      logistics: {
+        title: "Working With Your Team",
+        items: [
+          { label: "Run of show", text: "I ask for the schedule in advance, confirm the cue list and coordinate with your AV vendor on the day so audio handovers are clean and nothing overlaps." },
+          { label: "Two volumes, one evening", text: "Networking and dancing need completely different levels. I plan the night in stages — background during arrivals and dinner, controlled build after the programme, full room once the floor opens." },
+          { label: "MC duties", text: "Awards, introductions, raffles, thank-yous, closing remarks — with clean microphone handovers to your speakers. If a senior leader is presenting, they get a working mic and a proper introduction." },
+          { label: "Mountain and offsite venues", text: "Retreat locations need the same planning as mountain weddings: confirmed power supply, offline-ready material where there's no signal, and travel buffers built into the schedule." },
+          { label: "Documentation", text: "Most venues require a Certificate of Insurance from vendors before load-in. Available on request." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "DJ & MC Services", question: "Do you work with our AV company or event planner?", answer: "Yes, routinely. I ask for the run of show ahead of time, confirm the cue list and coordinate on site. If you have a production team, I fit into their plan rather than the other way around." },
+          { category: "DJ & MC Services", question: "Can you MC the awards or presentation segment?", answer: "Yes — introductions, award announcements, raffle draws, thank-yous and closing remarks, with clean handovers to your speakers. One person covering both music and microphone removes a whole layer of coordination." },
+          { category: "Locations", question: "Do you cover mountain retreats and offsites?", answer: "Yes. Vail, Breckenridge, Estes Park and the surrounding areas. Retreat venues come with their own requirements — power supply, connectivity, travel time — and I plan for all three in advance rather than on arrival." },
+          { category: "DJ & MC Services", question: "Our event is networking rather than dancing. Does that work?", answer: "Absolutely. Plenty of corporate evenings never open a dance floor. The skill there is restraint — the right music at a level where people can actually talk, with the energy shifting as the evening moves." },
+          { category: "Logistics & Reliability", question: "Do you have liability insurance and a COI?", answer: "Yes, available on request — which most Colorado venues require from vendors." },
+          { category: "Booking", question: "How far ahead should we book a December holiday party?", answer: "The first two weeks of December are the most contested dates of the year and often book twelve months out. Other dates are far more flexible — ask and I'll tell you honestly what's open." },
+          { category: "Equipment", question: "What's included?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons and glow sticks — popular for launches and brand events." },
+        ],
+      },
+      reviews: {
+        title: "DENVER CORPORATE REVIEWS",
+        ratingText: "5.0 stars",
+        items: DENVER_CORPORATE_REVIEWS,
+      },
+    },
+
+    hub: {
+      hero: {
+        subtitle: "Event DJ & MC",
+        subline: "The Mile High City's Go-To Event DJ",
+        badge: "DENVER, CO",
+        locations: DENVER_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you looking for a Denver DJ who knows the difference between a city venue and a mountain one?",
+        body: [
+          "Weddings in RiNo warehouses and ceremonies at nine thousand feet. Corporate galas downtown and leadership retreats in Breckenridge. Birthdays, anniversaries and destination weekends that run from Thursday to Sunday. Colorado asks more of a DJ than most markets — the logistics are real and the settings are extraordinary. As both DJ and MC, I bring the same thing to all of it: presence, intention and a floor that fills and stays full.",
+        ],
+      },
+      localMarket: {
+        title: "Serving Denver and the Colorado Mountains",
+        lead: "Colorado is really two markets, and knowing which one you're in changes everything.",
+        blocks: [
+          { label: "Denver proper", text: "— RiNo, LoDo, Union Station, the downtown core — brings converted warehouses, brick-and-steel event spaces and rooftops with the Front Range behind them. City timelines, city logistics, rooms that look superb and need thoughtful sound placement." },
+          { label: "The mountains", text: "— Estes Park, Vail, Breckenridge, the canyons toward Bailey — are where Colorado earns its reputation. Venues where the view is the entire point and the infrastructure is secondary. Limited power, unreliable signal, and drive times of one to two hours from Denver that stretch further in winter. Every one of those is manageable with planning and a problem without it." },
+          { label: "Altitude is a real factor.", text: "Denver sits at 5,280 feet and mountain venues sit at eight or nine thousand. Guests arriving from sea level feel alcohol faster and tire earlier — which changes when a night should peak. Most visiting DJs don't account for it." },
+          { label: "Weather moves fast here.", text: "Summer afternoon storms arrive and clear within an hour. Snow is possible into June and from September. Outdoor events need a genuine plan B, agreed in advance." },
+          { label: "And Colorado draws destination events.", text: "Multi-day weddings, corporate retreats, milestone celebrations that bring people in from across the country. These run across several days with different energy each time, and planning them as one piece works far better than treating them separately." },
+        ],
+      },
+      logistics: {
+        title: "Practical Notes for Colorado Events",
+        items: [
+          { label: "Power", text: "Rustic and outdoor venues frequently have limited electrical supply. I confirm capacity in advance and plan the setup around it." },
+          { label: "Travel", text: "Mountain venues mean genuine drive time, and winter conditions extend it. Buffers are built in as standard, not added when something goes wrong." },
+          { label: "Connectivity", text: "Many Colorado venues have no reliable cell signal. Everything is downloaded and ready offline before I leave." },
+          { label: "Season", text: "Mountain events peak June through September, and the best Saturdays go early. Denver proper runs a longer season. Winter dates offer real availability and settings that need no decoration." },
+          { label: "Insurance", text: "A Certificate of Insurance is available on request." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Which areas of Colorado do you cover?", answer: "Denver and the metro area, plus Estes Park, Vail, Breckenridge and the surrounding mountain communities. Anything further afield is quoted transparently upfront." },
+          { category: "DJ & MC Services", question: "Do you DJ and MC, or just DJ?", answer: "Both, as a single service. Announcements, introductions, timeline management and the microphone are included — no separate MC needed." },
+          { category: "Booking", question: "Do mountain venues cost more?", answer: "Travel beyond the standard service area is quoted upfront, and I'd rather be clear about it from the start than surprise anyone later." },
+          { category: "Logistics & Reliability", question: "What if our venue has no power or signal?", answer: "Both are common in the mountains and both are solvable with planning. I confirm the electrical supply in advance and everything I need is stored offline before I leave." },
+          { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Booking", question: "How far in advance should I book?", answer: "Peak summer mountain Saturdays and early-December corporate dates go twelve to eighteen months out. Winter and shoulder-season dates have far more availability. Ask about your specific date — it changes constantly." },
+          { category: "DJ & MC Services", question: "Do you cover multi-day destination events?", answer: "Yes, and they work better planned as one piece. A welcome party, a main event and a farewell brunch each need a different energy, and planning them together makes the weekend feel intentional." },
+        ],
+      },
+      reviews: {
+        title: "DENVER REVIEWS",
+        ratingText: "5.0 stars",
+        items: DENVER_WEDDING_REVIEWS,
+      },
+      resources: {
+        title: "RESOURCES",
+        cards: [
+          {
+            category: "Venues",
+            city: "Denver, CO",
+            title: "Top 5 Industrial Venues in Denver",
+            description: "Explore the most unique raw spaces and industrial warehouses perfect for modern, high-energy events.",
+            image: "/assets/Corporate-Event-DJ-Miss-Haze-D2xGj5cD.webp",
+          },
+        ],
+      },
+    },
+  },
+
+  // === DALLAS–FORT WORTH — angle: heat, distance and large bilingual events ===
+  // Confirmed venue (from testimonials): NYLO Plano. TODO(client): the doc also
+  // lists 4 Eleven Fort Worth as a worked venue, but no genuine testimonial in
+  // the repo confirms it — add to the FAQ venue list once she confirms.
+  // TODO(client): bilingual (English/Spanish) receptions are treated as routine
+  // here per the market brief, but her doc flags this as unconfirmed — confirm
+  // she offers bilingual MC/receptions before this goes live.
+  // NOTE: no South Asian wedding content anywhere in DFW, per the client — the
+  // DFW angle is heat, distances, large guest counts and bilingual receptions.
+  dallas: {
+    wedding: {
+      hero: {
+        subtitle: "Dallas Wedding DJ & MC",
+        subline: "Dallas, Fort Worth, Plano, Frisco and McKinney",
+        badge: "DALLAS–FORT WORTH, TX",
+        locations: DALLAS_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you planning a Texas wedding that feels effortless, joyful and deeply personal?",
+        body: [
+          "Dallas–Fort Worth is not one city, it's a dozen. A ceremony in the Fort Worth Stockyards and a reception in a Frisco ballroom are forty miles and two different worlds apart, and a wedding in July asks completely different questions than one in October. As both your DJ and MC, I plan for the metroplex as it actually is — with the presence, intention and leadership your day deserves.",
+        ],
+      },
+      localMarket: {
+        title: "Weddings Across the Metroplex",
+        lead: "DFW spreads across nearly ten thousand square miles, and that shapes everything.",
+        blocks: [
+          { label: "Dallas proper", text: "brings the modern end — Deep Ellum's converted warehouses, Design District galleries, downtown hotel ballrooms and rooftops. City venues, city timelines, and rooms that reward careful sound placement." },
+          { label: "Fort Worth", text: "has an entirely different character. The Stockyards carry real western heritage, the cultural district runs more formal, and couples choosing Fort Worth usually want something that feels distinctly Texan rather than generically upscale. That changes the music, not just the setting." },
+          { label: "The northern suburbs", text: "— Plano, Frisco, McKinney, Allen — hold the metroplex's newest and largest venues. Purpose-built event spaces, country clubs, hotel ballrooms with capacity for three hundred and up. These are often the biggest guest counts in the region, and big rooms need a different approach than intimate ones." },
+          { label: "Ranch and barn venues", text: "ring the metroplex in every direction. Beautiful, popular, and frequently limited on electrical supply. I confirm what a venue can actually provide before the day rather than discovering it during setup." },
+          { label: "Heat is the defining factor here, and it shapes the whole calendar.", text: "Peak season runs March through May and September through November. Summer weddings happen, but outdoor ceremonies move late into the evening and guests spend most of the night indoors. That changes the pacing — the floor fills later and stays fuller once it does. Spring brings its own variable: Texas storms arrive fast, and any outdoor ceremony between March and May needs a plan B that's ready rather than theoretical." },
+        ],
+        closing: [
+          "And DFW weddings are rarely one-note. The metroplex has a large Hispanic community, and bilingual receptions are routine here — a night that moves between English and Spanish, between a father-daughter dance and a full cumbia set. Texas weddings also tend to run bigger and later than most markets, with guest lists that stretch across several generations. That means a floor that has to hold grandparents at nine and college friends at midnight. I welcome and respect all cultures, religions, identities and orientations, and I learn a family's music before the day rather than during it.",
+        ],
+      },
+      logistics: {
+        title: "The Practical Side of a DFW Wedding",
+        items: [
+          { label: "Distance", text: "Fort Worth to McKinney is fifty miles, and metroplex traffic is real. I build travel time into the schedule properly instead of optimistically." },
+          { label: "Heat and equipment", text: "Outdoor setups in Texas summer need shade and airflow — electronics fail in direct sun at 100°F. Where a ceremony is outdoors, I plan the setup around protection as well as sound." },
+          { label: "Power at ranch venues", text: "Rustic venues frequently have limited electrical capacity. I confirm availability with the venue in advance and configure accordingly." },
+          { label: "Guest counts", text: "The northern suburbs hold the region's largest venues, and DFW weddings frequently run three hundred guests and up. Bigger rooms need different speaker placement and coverage planning, confirmed with the venue in advance rather than adjusted on the night." },
+          { label: "Insurance", text: "A Certificate of Insurance is available on request, which most DFW venues require from vendors." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Which parts of the metroplex do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding areas. I've worked venues including NYLO Plano. Anything beyond the standard service area is quoted transparently upfront." },
+          { category: "Logistics & Reliability", question: "Our wedding is a large one — three hundred guests or more. Is that a problem?", answer: "Not at all, and it's common in DFW. Larger rooms need different speaker placement so the sound carries to the back without punishing the front tables. That's planned with the venue in advance." },
+          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "Yes. Bilingual receptions are routine in DFW, and we plan the announcements together in advance so nothing gets improvised on the microphone." },
+          { category: "Logistics & Reliability", question: "Our ceremony is outdoors in summer. What should we know?", answer: "Texas heat is a real planning factor. Outdoor ceremonies work best later in the evening, and equipment needs shade and airflow — electronics fail in direct sun. I plan the setup around that rather than hoping for a mild day." },
+          { category: "Logistics & Reliability", question: "Our venue is a ranch with limited power. Is that a problem?", answer: "Common in DFW and entirely manageable. I confirm the electrical supply with your venue in advance and plan the system around what's actually available." },
+          { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, as one service. Grand entrance, toasts, parent dances, cake, closing — announcements and room management included, so your coordinator isn't holding a microphone." },
+          { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Booking", question: "How far ahead should we book?", answer: "Peak Saturdays in spring and autumn go twelve to eighteen months out. Summer and winter dates have considerably more availability. Ask about your date directly — it changes constantly." },
+        ],
+      },
+      reviews: {
+        title: "DALLAS–FORT WORTH WEDDING REVIEWS",
+        ratingText: "5.0 stars",
+        items: DALLAS_WEDDING_REVIEWS,
+      },
+    },
+
+    corporate: {
+      hero: {
+        subtitle: "Dallas Corporate Event DJ & MC",
+        subline: "Galas, Conferences and Company Celebrations",
+        badge: "DALLAS–FORT WORTH, TX",
+        locations: DALLAS_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you planning a company event that people actually want to attend?",
+        body: [
+          "DFW has one of the country's densest concentrations of corporate headquarters, and the event calendar reflects it — sales kickoffs, industry galas, holiday parties for teams of five hundred. Every one runs to a schedule someone has agonised over. As both DJ and MC, I hold that timeline precisely and still leave the room somewhere it wants to be at eleven.",
+        ],
+      },
+      localMarket: {
+        title: "Corporate Events Across Dallas–Fort Worth",
+        lead: "The metroplex corporate calendar is larger and more spread out than most markets.",
+        blocks: [
+          { label: "The Plano and Frisco corridor", text: "holds a remarkable density of corporate campuses — the northern suburbs have absorbed a wave of headquarters relocations over the past decade. That means sales kickoffs, annual meetings, holiday parties and summer outings, mostly at venues close to the campuses rather than downtown." },
+          { label: "Downtown Dallas", text: "carries the formal end: industry galas, association dinners, awards nights, conference receptions in hotel ballrooms and convention spaces. These run with an AV team and a written run of show, and the job is to fit into it exactly — hit the cue, hand the microphone over cleanly, bring the energy back the second the programme ends." },
+          { label: "Deep Ellum and the Design District", text: "hold the launches, client events and anything meant to feel less corporate than it is. Converted warehouses, galleries, rooftops. Great atmosphere, difficult acoustics, worth the setup time." },
+          { label: "Fort Worth", text: "runs its own calendar with a distinctly different character — the Stockyards and cultural district venues suit companies wanting something with local identity rather than another ballroom." },
+        ],
+        closing: [
+          "The Texas corporate year has a particular shape. Holiday parties peak across the first two weeks of December and book far ahead. Sales kickoffs cluster in January. Spring and autumn carry the conference and gala calendar. And summer outdoor company events run early or late in the day — nobody schedules an outdoor function for a Texas afternoon in July.",
+          "Reading a corporate crowd is a different skill to reading a wedding. At a wedding, everyone knows the couple. At a company party, half the room reports to the other half, and the floor doesn't open the same way. Knowing when to push and when to hold back is the part experience buys.",
+        ],
+      },
+      logistics: {
+        title: "Working With Your Team",
+        items: [
+          { label: "Run of show", text: "I ask for the schedule in advance, confirm the cue list and coordinate with your AV vendor on the day so audio handovers are clean." },
+          { label: "Two volumes, one evening", text: "Networking and dancing need completely different levels. I plan the night in stages — background during arrivals and dinner, controlled build after the programme, full room once the floor opens." },
+          { label: "MC duties", text: "Awards, introductions, raffles, thank-yous, closing remarks, with clean handovers to your speakers. If a senior leader is presenting, they get a working microphone and a proper introduction." },
+          { label: "Scale and distance", text: "Large suburban venues and metroplex travel both need planning. I build realistic travel time into the schedule and confirm load-in windows with the venue ahead of time." },
+          { label: "Documentation", text: "Most venues require a Certificate of Insurance from vendors before load-in. Available on request." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "DJ & MC Services", question: "Do you work with our AV company or event planner?", answer: "Yes, routinely. I ask for the run of show ahead of time, confirm the cue list and coordinate on site. If you have a production team, I fit into their plan rather than the other way around." },
+          { category: "DJ & MC Services", question: "Can you MC the awards or presentation segment?", answer: "Yes — introductions, award announcements, raffle draws, thank-yous and closing remarks, with clean microphone handovers. One person covering both music and microphone removes a layer of coordination on the night." },
+          { category: "Locations", question: "Do you cover events in Plano, Frisco and McKinney?", answer: "Yes, along with Dallas, Fort Worth and the wider metroplex. The northern suburbs are a significant part of the corporate calendar here." },
+          { category: "DJ & MC Services", question: "Our event is networking rather than dancing. Does that work?", answer: "Absolutely. Plenty of corporate evenings never open a dance floor, and the skill there is restraint — the right music at a level where people can actually talk, with the energy shifting as the evening moves." },
+          { category: "Logistics & Reliability", question: "Do you have liability insurance and a COI?", answer: "Yes, available on request, which most DFW venues require from vendors." },
+          { category: "Booking", question: "How far ahead should we book a December holiday party?", answer: "The first two weeks of December are the most contested dates of the corporate year and often book twelve months out. January sales kickoffs also fill early. Other dates are more flexible — ask and I'll tell you honestly what's open." },
+          { category: "Equipment", question: "What's included?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons and glow sticks — popular for launches and brand events." },
+        ],
+      },
+      reviews: {
+        title: "DALLAS–FORT WORTH CORPORATE REVIEWS",
+        ratingText: "5.0 stars",
+        items: DALLAS_CORPORATE_REVIEWS,
+      },
+    },
+
+    hub: {
+      hero: {
+        subtitle: "Event DJ & MC",
+        subline: "Dallas–Fort Worth's Elite Event DJ",
+        badge: "DALLAS, TX",
+        locations: DALLAS_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you looking for a DJ who knows the metroplex is not one city?",
+        body: [
+          "Weddings in the Fort Worth Stockyards and receptions in Frisco ballrooms. Corporate galas downtown and campus events out in Plano. Milestone birthdays, anniversaries and company parties for five hundred. Dallas–Fort Worth is the biggest and most varied market I work in, and it rewards preparation. As both DJ and MC, I bring the same thing to all of it: presence, intention and a floor that fills and stays full.",
+        ],
+      },
+      localMarket: {
+        title: "Serving Dallas, Fort Worth and the Metroplex",
+        lead: "DFW spreads across nearly ten thousand square miles, and each part of it runs differently.",
+        blocks: [
+          { label: "Dallas proper", text: "brings Deep Ellum's warehouses, Design District galleries, downtown ballrooms and rooftops — the modern, urban end of the calendar." },
+          { label: "Fort Worth", text: "has its own identity entirely. The Stockyards carry genuine western heritage and the cultural district runs more formal. Events here often want something distinctly Texan rather than generically upscale." },
+          { label: "Plano, Frisco and McKinney", text: "hold the metroplex's newest venues and its densest concentration of corporate campuses. The largest guest counts in the region are usually up here — purpose-built event spaces, country clubs and ballrooms built for three hundred and more." },
+          { label: "Ranch and barn venues", text: "ring the metroplex in all directions. Popular, beautiful, and frequently limited on power — worth confirming in advance rather than discovering on the day." },
+          { label: "Heat shapes the year.", text: "Peak season runs March to May and September to November. Summer events move indoors or late into the evening, and outdoor functions simply don't get scheduled for a Texas afternoon in July. Spring storms are the other variable — anything outdoors between March and May needs a real plan B." },
+        ],
+        closing: [
+          "And DFW celebrations run big. The metroplex has a substantial Hispanic community and bilingual receptions are routine, and Texas events generally carry larger guest lists and later nights than most markets. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those events in advance rather than improvising on the night.",
+        ],
+      },
+      logistics: {
+        title: "Practical Notes for DFW Events",
+        items: [
+          { label: "Distance", text: "Fort Worth to McKinney is fifty miles and metroplex traffic is real. Travel time goes into the schedule realistically." },
+          { label: "Heat", text: "Outdoor equipment needs shade and airflow in Texas summer — electronics fail in direct sun. Outdoor setups are planned around that." },
+          { label: "Power", text: "Ranch and rustic venues often have limited electrical capacity. Confirmed with the venue in advance." },
+          { label: "Season and booking", text: "Spring and autumn Saturdays go earliest. Early-December corporate dates and January sales kickoffs also fill fast. Summer and winter have genuine availability." },
+          { label: "Insurance", text: "A Certificate of Insurance is available on request." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Which areas do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding metroplex. Anything further out is quoted transparently upfront." },
+          { category: "DJ & MC Services", question: "Do you DJ and MC, or just DJ?", answer: "Both, as a single service. Announcements, introductions, timeline management and the microphone are included — no separate MC needed." },
+          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "Yes. Bilingual receptions are routine in DFW, and we plan the announcements together in advance so nothing gets improvised on the microphone." },
+          { category: "DJ & MC Services", question: "What kind of events do you take here?", answer: "Weddings, corporate events, private parties, milestone celebrations and brand activations." },
+          { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Logistics & Reliability", question: "Do you carry liability insurance?", answer: "Yes, with a Certificate of Insurance available on request." },
+          { category: "Booking", question: "How far in advance should I book?", answer: "Peak spring and autumn Saturdays go twelve to eighteen months out. Early-December corporate dates fill similarly. Summer and winter are far more open — ask about your date directly." },
+        ],
+      },
+      reviews: {
+        title: "DALLAS–FORT WORTH REVIEWS",
+        ratingText: "5.0 stars",
+        items: DALLAS_WEDDING_REVIEWS,
+      },
+      resources: {
+        title: "RESOURCES",
+        cards: [
+          {
+            category: "Corporate",
+            city: "Dallas, TX",
+            title: "Corporate Event Vibe Guide",
+            description: "How to balance professional networking with a high-energy party atmosphere for your next gala.",
+            image: "/assets/DJ-Miss-Haze-Company-Event-DJ-CJUkMjfh.webp",
           },
         ],
       },
