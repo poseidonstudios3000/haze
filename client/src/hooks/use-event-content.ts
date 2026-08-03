@@ -490,7 +490,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "The suburbs", text: "— Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove — bring country clubs and private estates, often with longer receptions and a wider guest age range. That's a different read of the room: a floor that has to hold grandparents at nine and college friends at midnight." },
         ],
         closing: [
-          "And Chicago weddings are rarely monocultural. Polish, Mexican, Greek, Indian, Filipino, Irish — this city's families blend traditions constantly, and a reception might need a hora, a first dance, a cumbia set and a horah-to-hip-hop transition in the same evening. I welcome and respect all cultures, religions, identities and orientations, and I prepare for a multi-tradition night the way I'd prepare for any other: by learning your family's music before I ever touch a fader.",
+          "And Chicago weddings are rarely monocultural — this city's families blend traditions constantly, and a single reception might need several musical worlds to sit comfortably side by side. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those evenings the way I'd prepare for any other: by learning your family's music and the running order before I ever touch a fader.",
         ],
       },
       logistics: {
@@ -599,7 +599,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "The suburbs", text: "— Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove, Burr Ridge, Lombard, Oak Park — bring country clubs, private estates and corporate campuses, usually with longer events and a wider age range in the room." },
         ],
         closing: [
-          "And across all of it, Chicago's families blend traditions. Polish, Mexican, Greek, Indian, Filipino, Irish — a single evening might need several musical worlds to sit comfortably side by side. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those nights by learning the music before the event, not during it.",
+          "And Chicago weddings are rarely monocultural — this city's families blend traditions constantly, and a single reception might need several musical worlds to sit comfortably side by side. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those evenings the way I'd prepare for any other: by learning your family's music and the running order before I ever touch a fader.",
         ],
       },
       logistics: {
@@ -645,10 +645,8 @@ export const DEFAULT_CITY_CONTENT: Record<
     },
   },
   // === DENVER — angle: altitude, mountain weather and travel logistics ===
-  // Confirmed venues (from testimonials): Estes Park Resort, Deer Creek Mountain
-  // Camp. TODO(client): the doc also lists Black Canyon Inn as a worked venue,
-  // but no genuine testimonial in the repo confirms it — add to the FAQ venue
-  // list once she confirms.
+  // Named Denver venues: Estes Park Resort and Deer Creek Mountain Camp (from
+  // testimonials), plus Black Canyon Inn (her own event video in the VibeReel).
   denver: {
     wedding: {
       hero: {
@@ -687,7 +685,7 @@ export const DEFAULT_CITY_CONTENT: Record<
       faq: {
         title: "FREQUENTLY ASKED",
         items: [
-          { category: "Locations", question: "Do you travel to mountain venues?", answer: "Yes — Estes Park, Vail, Breckenridge and the surrounding areas are standard territory. I've worked venues including Estes Park Resort and Deer Creek Mountain Camp. Travel outside the usual range is quoted transparently upfront." },
+          { category: "Locations", question: "Do you travel to mountain venues?", answer: "Yes — Estes Park, Vail, Breckenridge and the surrounding areas are standard territory. I've worked venues including Estes Park Resort, Black Canyon Inn and Deer Creek Mountain Camp. Travel outside the usual range is quoted transparently upfront." },
           { category: "Logistics & Reliability", question: "Our venue has limited power. Is that a problem?", answer: "It's common at mountain and outdoor venues and it's a planning question rather than a problem. I confirm the available electrical supply with your venue in advance and configure the system accordingly." },
           { category: "DJ & MC Services", question: "We're planning a three-day destination wedding. Can you cover all of it?", answer: "Yes, and I'd encourage planning it as one event rather than three. The welcome party, the wedding and the farewell brunch each need a different energy, and planning them together makes the whole weekend feel intentional instead of assembled." },
           { category: "DJ & MC Services", question: "Most of our guests are flying in from sea level. Does that change anything?", answer: "More than people expect. Alcohol hits harder at altitude and guests tire earlier, so the night's energy curve needs to peak sooner than it would at sea level. It's the kind of thing you only account for if you've worked here." },
@@ -827,9 +825,8 @@ export const DEFAULT_CITY_CONTENT: Record<
   },
 
   // === DALLAS–FORT WORTH — angle: heat, distance and large bilingual events ===
-  // Confirmed venue (from testimonials): NYLO Plano. TODO(client): the doc also
-  // lists 4 Eleven Fort Worth as a worked venue, but no genuine testimonial in
-  // the repo confirms it — add to the FAQ venue list once she confirms.
+  // Named DFW venues: NYLO Plano (from a testimonial) and 4 Eleven Fort Worth
+  // (her own event video in the VibeReel).
   // TODO(client): bilingual (English/Spanish) receptions are treated as routine
   // here per the market brief, but her doc flags this as unconfirmed — confirm
   // she offers bilingual MC/receptions before this goes live.
@@ -876,7 +873,7 @@ export const DEFAULT_CITY_CONTENT: Record<
       faq: {
         title: "FREQUENTLY ASKED",
         items: [
-          { category: "Locations", question: "Which parts of the metroplex do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding areas. I've worked venues including NYLO Plano. Anything beyond the standard service area is quoted transparently upfront." },
+          { category: "Locations", question: "Which parts of the metroplex do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding areas. I've worked venues including NYLO Plano and 4 Eleven Fort Worth. Anything beyond the standard service area is quoted transparently upfront." },
           { category: "Logistics & Reliability", question: "Our wedding is a large one — three hundred guests or more. Is that a problem?", answer: "Not at all, and it's common in DFW. Larger rooms need different speaker placement so the sound carries to the back without punishing the front tables. That's planned with the venue in advance." },
           { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "Yes. Bilingual receptions are routine in DFW, and we plan the announcements together in advance so nothing gets improvised on the microphone." },
           { category: "Logistics & Reliability", question: "Our ceremony is outdoors in summer. What should we know?", answer: "Texas heat is a real planning factor. Outdoor ceremonies work best later in the evening, and equipment needs shade and airflow — electronics fail in direct sun. I plan the setup around that rather than hoping for a mild day." },
