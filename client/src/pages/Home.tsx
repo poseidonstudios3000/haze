@@ -15,7 +15,14 @@ import { CorporateEventPlanning } from "@/components/CorporateEventPlanning";
 import { WeddingEventPlanning } from "@/components/WeddingEventPlanning";
 import { PrivateEventPlanning } from "@/components/PrivateEventPlanning";
 import { useTheme } from "@/context/ThemeContext";
-import { useEventContent, layoutToEventType as getEventType } from "@/hooks/use-event-content";
+import {
+  useEventContent,
+  useCityContent,
+  mergeCityIntoEvent,
+  layoutToEventType as getEventType,
+  type CityContentKey,
+} from "@/hooks/use-event-content";
+import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
 import { useSiteImages } from "@/hooks/use-site-images";
 import {
   getSeoPage,
@@ -60,14 +67,25 @@ const layoutToFormEventType: Record<string, string> = {
   pr_show: "other",
 };
 
-export default function Home() {
+export default function Home({ city }: { city?: string }) {
   const targetRef = useRef<HTMLDivElement>(null);
   const [currentPath] = useLocation();
   const { layout } = useTheme();
   const { getImage } = useSiteImages();
   const aboutImage = getImage("about_photo");
   const evtType = getEventType(layout);
-  const { content: eventContent } = useEventContent(evtType);
+  const { content: baseContent } = useEventContent(evtType);
+
+  // On a city+service route (e.g. /chicago-wedding-dj) `city` is set and the
+  // layout is wedding or corporate. Resolve that city's content for the surface
+  // and merge it over the event default section by section; on non-city routes
+  // citySections is empty and `eventContent` is just the event default.
+  const citySlug = city?.toLowerCase();
+  const cityContentKey: CityContentKey | null =
+    citySlug && (evtType === "wedding" || evtType === "corporate") ? evtType : null;
+  const citySections = useCityContent(citySlug, cityContentKey);
+  const eventContent = mergeCityIntoEvent(baseContent, citySections);
+
   const heroSubtitle = eventContent.hero.subtitle;
   const eventType = layoutToFormEventType[layout] || "other";
   const isCorporate = layout === "corporate_event";
@@ -119,6 +137,12 @@ export default function Home() {
             <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-primary uppercase tracking-[0.12em] sm:tracking-[0.15em] md:tracking-[0.2em] whitespace-pre-line mb-1">
               {heroSubtitle}
             </p>
+
+            {eventContent.hero.subline && (
+              <p className="text-xs sm:text-sm md:text-base text-white/80 italic mb-2">
+                {eventContent.hero.subline}
+              </p>
+            )}
 
             <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 text-[8px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white/80 uppercase tracking-wider md:tracking-widest mb-2 sm:mb-3">
               {eventContent.hero.locations.map((location: string, index: number) => {
@@ -179,15 +203,16 @@ export default function Home() {
         );
       })()}
 
-      {/* 3. Event Signature Section */}
-      <EventSignatureSection />
+      {/* 3. Event Signature Section — suppressed on city pages, where the more
+           specific city intro replaces this generic question. */}
+      {!eventContent.intro && <EventSignatureSection />}
 
       {/* Client Logos Banner */}
       {!isPrivate && !isOther && <ClientLogos />}
 
-      {/* 4. Brand Reviews */}
+      {/* 4. Brand Reviews (city-filtered on city pages) */}
       <section id="reviews" className="container mx-auto px-4 py-8 md:py-16">
-        <GoogleReviews />
+        <GoogleReviews content={eventContent.reviews} />
       </section>
 
       {/* Production Included */}
@@ -451,9 +476,14 @@ export default function Home() {
       {/* 8.7 Private Event Planning Section (Private Only) */}
       {isPrivate && <PrivateEventPlanning />}
 
-      {/* 9. FAQ Section */}
+      {/* 8.9 City narrative — renders only on city pages that have content */}
+      <CityIntro intro={eventContent.intro} />
+      <CityLocalMarket localMarket={eventContent.localMarket} />
+      <CityLogistics logistics={eventContent.logistics} />
+
+      {/* 9. FAQ Section (city FAQ on city pages) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ />
+        <FAQ content={eventContent.faq} />
       </section>
 
       {/* 10. About Section */}

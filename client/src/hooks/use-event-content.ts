@@ -4,6 +4,10 @@ import type { CorporateContent } from "@shared/schema";
 export interface HeroContent {
   subtitle: string;
   locations: string[];
+  /** City pages only: tagline under the service line, e.g. "From West Loop Lofts to Lakefront Ballrooms". */
+  subline?: string;
+  /** City pages only: location badge text, e.g. "CHICAGO, IL". */
+  badge?: string;
 }
 
 export interface TickerContent {
@@ -70,6 +74,81 @@ export interface EventSections {
   cta: CTAContent;
   faq: FAQContent;
   reviews: ReviewsContent;
+}
+
+// === CITY CONTENT ========================================================
+// City pages layer their own copy on top of the event-type defaults. Some
+// sections override an event section (hero, faq, reviews); the rest are
+// city-only (intro, localMarket, logistics, resources) and simply don't
+// render on pages that have no city content.
+
+export interface IntroContent {
+  /** Italic lead-in question. */
+  question?: string;
+  /** One or more intro paragraphs. */
+  body: string[];
+}
+
+export interface LocalMarketBlock {
+  /** Bolded lead phrase the sentence continues from, e.g. "West Loop and Fulton Market". */
+  label?: string;
+  text: string;
+}
+
+export interface LocalMarketContent {
+  title: string;
+  lead?: string;
+  blocks: LocalMarketBlock[];
+  closing?: string[];
+}
+
+export interface LogisticsItem {
+  label: string;
+  text: string;
+}
+
+export interface LogisticsContent {
+  title: string;
+  items: LogisticsItem[];
+}
+
+export interface ResourceCard {
+  category: string;
+  city: string;
+  title: string;
+  description: string;
+  image?: string;
+}
+
+export interface ResourcesContent {
+  title: string;
+  cards: ResourceCard[];
+}
+
+// A city's content for one surface (a service page or its hub). Every section
+// is optional. A present section overrides the matching event-type section
+// (hero/faq/reviews) or adds a city-only section; missing sections fall back
+// to the event-type default.
+export interface CitySections {
+  hero?: HeroContent;
+  intro?: IntroContent;
+  localMarket?: LocalMarketContent;
+  logistics?: LogisticsContent;
+  faq?: FAQContent;
+  reviews?: ReviewsContent;
+  resources?: ResourcesContent;
+}
+
+// The surfaces a city can hold content for: its two service pages and its hub.
+export type CityContentKey = "wedding" | "corporate" | "hub";
+
+// What a city+service page renders: the event-type sections with city
+// overrides applied, plus the city-only sections attached.
+export interface ResolvedCityContent extends EventSections {
+  intro?: IntroContent;
+  localMarket?: LocalMarketContent;
+  logistics?: LogisticsContent;
+  resources?: ResourcesContent;
 }
 
 export type EventType = "corporate" | "wedding" | "private" | "other";
@@ -316,6 +395,224 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
   },
 };
 
+// === CHICAGO CITY CONTENT ================================================
+// Only Chicago is populated — the first city, for structural review. Denver,
+// Dallas and the standalone FAQ page are intentionally NOT done yet.
+//
+// VENUE NOTE: the only Chicago venue confirmed by her own testimonials is
+// LuxBar (Christine's review below). The body copy (intro, localMarket)
+// describes the Chicago *market* — venue types and neighbourhoods — and never
+// asserts she has performed at a specific venue. Other named venues appear
+// only inside genuine client testimonials (e.g. University of Chicago, River
+// North in Nisha's review), which are her clients' own words. TODO(client):
+// if real "I've worked at X" venue claims are added later, gate each behind a
+// TODO until she confirms it.
+//
+// TODO(client): "Chicago-based" / residency. No copy here claims she is based
+// in Chicago — her Google profile lists Elmhurst, IL (Chicagoland). Confirm
+// with the client before adding any "Chicago-based" phrasing to the intro.
+
+// Genuine Chicago / Chicagoland testimonials, reused from the event reviews
+// above filtered to the city. Never place a Denver or Texas location on a
+// Chicago page.
+const CHICAGO_WEDDING_REVIEWS: ReviewItem[] = [
+  { author: "Christine", role: "Chicago, IL @ Luxbar, Chicago", text: "DJ Miss Haze was absolutely phenomenal at our wedding! From start to finish, she made the entire experience so special for us. She took the time to meet with us multiple times before our big day to ensure everything was just right and so she really got to know us as a couple. The music was perfectly curated to match the vibe we envisioned, and she kept the energy up throughout the night. DJ Miss Haze played at both our main event and our official afterparty and was able to create two completely different vibes!", rating: 5 },
+  { author: "Rosy", role: "Naperville, IL", text: "DJ Miss Haze was wonderful to work with. Very punctual, professional, friendly with our guests and most important, she played amazing music. I HIGHLY recommend her to be your next DJ.", rating: 5 },
+];
+
+const CHICAGO_CORPORATE_REVIEWS: ReviewItem[] = [
+  { author: "Jasmine", role: "Chicago, IL / Famous Streetwear x Converse Influencer Event", text: "DJ Miss Haze was such a pleasure to work with for an event we hosted last month. She was very responsive, helped execute our vision for the event and brought amazing positive energy and fun vibes! Everyone was raving about her incredibly curated playlist and I would absolutely recommend her for any future events.", rating: 5 },
+  { author: "Jessi", role: "Chicago, IL / Event Manager", text: "DJ Miss Haze has been the DJ for multiple work events and she is AMAZING! She brings such a positive vibe and knows how to keep the party going.", rating: 5 },
+  { author: "Nisha", role: "Chicago, Illinois / University of Chicago", text: "DJ Miss Haze was the perfect choice for playing at our graduate schools 125-person event in Chicagos River North. Yasmin listened carefully to what we had in mind, asked thoughtful questions, and was a pleasure to meet and talk to in-person! All communications and setup went totally smoothly. We also absolutely loved the music she was playing and she gauged the audience perfectly. 10/10 would hire again!", rating: 5 },
+];
+
+// Badge-row chips for the city hero: her real Chicagoland service areas.
+const CHICAGO_HERO_LOCATIONS = ["Chicago", "Naperville", "Oak Brook", "Glenview", "Hinsdale"];
+
+export const DEFAULT_CITY_CONTENT: Record<
+  string,
+  Partial<Record<CityContentKey, CitySections>>
+> = {
+  chicago: {
+    wedding: {
+      hero: {
+        subtitle: "Chicago Wedding DJ & MC",
+        subline: "From West Loop Lofts to Lakefront Ballrooms",
+        badge: "CHICAGO, IL",
+        locations: CHICAGO_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you seeking a Chicago wedding that feels effortless, joyful and deeply personal?",
+        body: [
+          "Chicago weddings ask a lot of a DJ. One night might move from a ceremony in a Gold Coast hotel, through cocktails on a rooftop with the skyline behind you, into a reception in a converted Fulton Market warehouse — three rooms, three completely different acoustics, one seamless evening. As both your DJ and MC, I hold that arc together with the presence, intention and leadership your day deserves.",
+        ],
+      },
+      localMarket: {
+        title: "Weddings Across Chicagoland",
+        lead: "Chicago doesn't have one wedding aesthetic — it has a dozen, and each one changes how a night should sound.",
+        blocks: [
+          { label: "West Loop and Fulton Market", text: "have become the city's industrial heart: exposed brick, timber beams, twenty-foot ceilings. These rooms photograph beautifully and behave badly. Hard surfaces mean reverb, and a system that isn't tuned for the space turns a first dance into an echo. I bring line-of-sight speaker placement and a BOSE setup that fills the room without punishing the front tables." },
+          { label: "Downtown and River North", text: "bring the classic hotel ballroom — grand, formal, and typically running on a tight timeline with a hard end time. These rooms reward precision: cues that land on the beat, announcements that move three hundred guests without ever feeling rushed." },
+          { label: "Lakefront and museum venues", text: "give you skyline and water, and a wind that has opinions about outdoor ceremonies. Backup planning isn't pessimism here, it's professionalism." },
+          { label: "The suburbs", text: "— Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove — bring country clubs and private estates, often with longer receptions and a wider guest age range. That's a different read of the room: a floor that has to hold grandparents at nine and college friends at midnight." },
+        ],
+        closing: [
+          "And Chicago weddings are rarely monocultural. Polish, Mexican, Greek, Indian, Filipino, Irish — this city's families blend traditions constantly, and a reception might need a hora, a first dance, a cumbia set and a horah-to-hip-hop transition in the same evening. I welcome and respect all cultures, religions, identities and orientations, and I prepare for a multi-tradition night the way I'd prepare for any other: by learning your family's music before I ever touch a fader.",
+        ],
+      },
+      logistics: {
+        title: "The Practical Side of a Chicago Wedding",
+        items: [
+          { label: "Timing and end times", text: "Many downtown venues run firm curfews, and some residential-adjacent spaces have volume restrictions after a set hour. I confirm these directly with your venue during planning, then build the night's energy curve so the peak lands where it should — not cut off mid-climb." },
+          { label: "Load-in", text: "High-rise and downtown venues often mean freight elevators, scheduled dock access and a coordinator who needs paperwork in advance. I arrive early, coordinate load-in with your venue ahead of time, and carry a Certificate of Insurance available on request — which most Chicago venues will ask for." },
+          { label: "Season", text: "Peak runs May through October, with September and October the most competitive dates in the city. If you're planning a fall Saturday, book vendors early. Winter weddings are increasingly popular here and I love them — but travel buffers matter when lake-effect snow is a possibility." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Do you travel to the Chicago suburbs?", answer: "Yes. Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove, Burr Ridge, Lombard, Oak Park and the wider Chicagoland area are all standard territory. For venues further out, travel is quoted transparently upfront." },
+          { category: "DJ & MC Services", question: "Can you handle a multicultural or multilingual reception?", answer: "Absolutely, and I genuinely enjoy them. Chicago families often blend traditions, and I plan those nights carefully — learning the key songs, the order of traditions, and the pronunciation of every name I'll announce. If part of your evening runs in another language, we plan those announcements together in advance." },
+          { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, and they're not separate services here. Grand entrance, toasts, parent dances, cake, bouquet — I handle the announcements and the room's attention, so your coordinator isn't holding a microphone and your uncle isn't either." },
+          { category: "Logistics & Reliability", question: "My venue has an end time and a volume limit. Is that a problem?", answer: "No. It's normal in Chicago, and it's a planning question rather than a problem. I confirm the restrictions with your venue directly and shape the evening so the peak arrives before the cutoff." },
+          { category: "Logistics & Reliability", question: "Do you have liability insurance?", answer: "Yes — a Certificate of Insurance is available on request, which most Chicago venues require from vendors." },
+          { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Booking", question: "How far in advance should I book a Chicago wedding date?", answer: "For a Saturday in September or October, twelve to eighteen months isn't unusual. Off-peak and weekday dates have more availability. If your date is close, ask anyway — cancellations happen." },
+        ],
+      },
+      reviews: {
+        title: "CHICAGO WEDDING REVIEWS",
+        ratingText: "5.0 stars",
+        items: CHICAGO_WEDDING_REVIEWS,
+      },
+    },
+
+    corporate: {
+      hero: {
+        subtitle: "Chicago Corporate Event DJ & MC",
+        subline: "Galas, Conferences and Holiday Parties",
+        badge: "CHICAGO, IL",
+        locations: CHICAGO_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you planning a company event that people actually talk about afterwards?",
+        body: [
+          "Corporate events in Chicago live or die on the run of show. A gala has an awards segment that can't drift, a conference reception has ninety minutes before people leave for dinner, a holiday party needs to carry three hundred colleagues from polite conversation to a full dance floor. As both DJ and MC, I hold the timeline and the room at once — so your team can be guests at their own event.",
+        ],
+      },
+      localMarket: {
+        title: "Corporate Events Across Chicago",
+        lead: "A corporate crowd is not a wedding crowd, and Chicago's corporate calendar has its own shape.",
+        blocks: [
+          { label: "Downtown hotel ballrooms", text: "handle the formal end — awards nights, annual meetings, industry galas. These rooms come with a production schedule, an AV team and a timeline that someone has already agonised over. My job is to fit into it precisely: hit the cue, hand the microphone over cleanly, bring the energy back up the second the presentation ends." },
+          { label: "West Loop and Fulton Market", text: "have become the city's corporate playground as much as its restaurant district. Converted warehouses, exposed brick, long communal tables — companies book these for launches, client events and anything meant to feel less like a conference and more like a night out. Beautiful rooms, difficult acoustics, and worth setting up carefully." },
+          { label: "Museums and cultural venues", text: "carry the prestige end of the calendar. Fundraisers, board dinners, milestone anniversaries. These evenings usually need restraint first and volume later: guests need to hear each other during the reception, and the room only opens up after the programme ends." },
+          { label: "The suburbs", text: "— Oak Brook, Naperville, Downers Grove, Lombard — hold the corporate campuses and the country clubs that serve them. Summer outings, sales kickoffs, holiday parties for teams that don't want to travel downtown in December." },
+        ],
+        closing: [
+          "The Chicago corporate year has two peaks. November and December are holiday party season, and the good dates go early — companies often book a year ahead for the first two weekends of December. Spring and autumn carry the conference and gala calendar. Summer belongs to outdoor company events, which bring their own questions about power, weather and sound outdoors.",
+          "What corporate work really demands is reading a room that didn't choose to be together. At a wedding, everyone knows the couple. At a company party, half the room reports to the other half. That changes what opens the floor, when to push and when to hold back — and it's the part that experience buys you.",
+        ],
+      },
+      logistics: {
+        title: "Working With Your Production Team",
+        items: [
+          { label: "Timelines and cues", text: "Corporate events usually run to a written schedule with a client, a planner and often an AV vendor. I ask for the run of show in advance, confirm the cue list, and coordinate directly with your AV team on the day so nothing overlaps or drops out." },
+          { label: "Sound for two rooms at once", text: "Networking and dancing need completely different volumes. I plan the evening in stages — background level during arrivals and dinner, controlled build after the programme, full room once the floor opens." },
+          { label: "MC duties", text: "Awards, raffles, introductions, thank-yous, closing announcements. If a senior leader is speaking, they get a clean handover and a working microphone. That sounds basic; it's the thing that most often goes wrong." },
+          { label: "Documentation", text: "Larger venues require a Certificate of Insurance from every vendor, and some downtown properties have specific load-in windows and dock scheduling. I handle both directly with the venue before the event." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "DJ & MC Services", question: "Do you work with our AV company or event planner?", answer: "Yes, routinely. I ask for the run of show ahead of time, confirm the cue list, and coordinate on site so the audio handovers are clean. If you have a production team, I fit into their plan rather than the other way around." },
+          { category: "DJ & MC Services", question: "Can you MC the awards or presentation segment?", answer: "Yes. Introductions, award announcements, raffle draws, thank-yous, closing remarks — and clean microphone handovers to your speakers. Having the same person handle both the music and the microphone keeps the evening moving without a second point of coordination." },
+          { category: "DJ & MC Services", question: "Our event is more networking than dancing. Is that a problem?", answer: "Not at all. Plenty of corporate evenings never open a dance floor, and the skill there is restraint — the right music at the right level so people can hear each other, with the energy shifting as the night progresses. I plan for the event you're actually having." },
+          { category: "Logistics & Reliability", question: "Do you have liability insurance and a COI?", answer: "Yes. A Certificate of Insurance is available on request, which most corporate venues require from vendors before load-in." },
+          { category: "Locations", question: "Do you travel to the suburbs for company events?", answer: "Yes — Oak Brook, Naperville, Downers Grove, Lombard, Glenview, Hinsdale, Burr Ridge and the wider Chicagoland area. Travel beyond that is quoted upfront." },
+          { category: "Booking", question: "How far ahead should we book a December holiday party?", answer: "Earlier than most people expect. The first two weekends of December are the most contested dates of the Chicago corporate year, and companies frequently book them a year out. For other dates there's usually more flexibility — ask and I'll tell you honestly what's open." },
+          { category: "Equipment", question: "What's included?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting. Optional additions include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons and glow sticks — popular for launches and brand events." },
+        ],
+      },
+      reviews: {
+        title: "CHICAGO CORPORATE REVIEWS",
+        ratingText: "5.0 stars",
+        items: CHICAGO_CORPORATE_REVIEWS,
+      },
+    },
+
+    hub: {
+      hero: {
+        subtitle: "Event DJ & MC",
+        subline: "The Windy City's Premier Event DJ",
+        badge: "CHICAGO, IL",
+        locations: CHICAGO_HERO_LOCATIONS,
+      },
+      intro: {
+        question: "Are you looking for a Chicago DJ who reads the room before the room knows what it wants?",
+        body: [
+          "Weddings in Fulton Market lofts. Corporate galas downtown. Birthday parties in Lincoln Park and anniversaries out in Naperville. Chicago keeps a DJ honest — every neighbourhood has its own rooms, its own crowd and its own idea of a good night. As both DJ and MC, I bring the same thing to all of them: presence, intention and a dance floor that fills and stays full.",
+        ],
+      },
+      localMarket: {
+        title: "Serving Chicago and Chicagoland",
+        lead: "Chicago is a city of distinct rooms, and the difference matters more than people expect.",
+        blocks: [
+          { label: "Downtown and River North", text: "hold the hotel ballrooms and the formal end of the calendar — weddings with three hundred guests, corporate galas, milestone celebrations. Tight timelines, firm end times, and rooms that reward precision." },
+          { label: "West Loop and Fulton Market", text: "brought the industrial aesthetic that now defines Chicago events. Exposed brick, high ceilings, hard surfaces. Stunning to look at, genuinely challenging for sound, and worth the extra setup time." },
+          { label: "Lincoln Park, Wicker Park and the North Side", text: "hold the smaller, more personal end — private parties, birthdays, anniversaries, intimate receptions. Different scale, different energy, same preparation." },
+          { label: "The lakefront and museum campus", text: "deliver the views, and the weather that comes with them. Outdoor ceremonies and rooftop receptions need a plan B that's ready rather than theoretical." },
+          { label: "The suburbs", text: "— Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove, Burr Ridge, Lombard, Oak Park — bring country clubs, private estates and corporate campuses, usually with longer events and a wider age range in the room." },
+        ],
+        closing: [
+          "And across all of it, Chicago's families blend traditions. Polish, Mexican, Greek, Indian, Filipino, Irish — a single evening might need several musical worlds to sit comfortably side by side. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those nights by learning the music before the event, not during it.",
+        ],
+      },
+      logistics: {
+        title: "Practical Notes for Chicago Events",
+        items: [
+          { label: "Venue requirements", text: "Most Chicago venues ask vendors for a Certificate of Insurance before load-in, and downtown properties often schedule dock access and freight elevator windows in advance. I handle both directly with your venue." },
+          { label: "End times and volume", text: "Downtown venues frequently run firm curfews, and some spaces have volume restrictions after a set hour. I confirm these during planning and shape the evening so the peak lands before the cutoff." },
+          { label: "Season and booking", text: "Weddings peak May through October, with September and October the busiest. Corporate holiday parties peak in the first two weeks of December. Both book well ahead. Off-peak dates have real availability — it's always worth asking." },
+          { label: "Winter", text: "Lake-effect weather is a scheduling factor from December through March. I build travel buffers into winter events rather than hoping." },
+        ],
+      },
+      faq: {
+        title: "FREQUENTLY ASKED",
+        items: [
+          { category: "Locations", question: "Which areas of Chicagoland do you cover?", answer: "Chicago proper plus Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove, Burr Ridge, Lombard, Oak Park and the surrounding suburbs. Anything further out is quoted transparently." },
+          { category: "DJ & MC Services", question: "Do you DJ and MC, or just DJ?", answer: "Both, as one service. Announcements, introductions, timeline management and the microphone are all part of it — you don't need a separate MC." },
+          { category: "DJ & MC Services", question: "What kind of events do you take in Chicago?", answer: "Weddings, corporate events, private parties, milestone celebrations and brand activations. Different rooms, same preparation." },
+          { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
+          { category: "Logistics & Reliability", question: "Do you carry liability insurance?", answer: "Yes, with a Certificate of Insurance available on request." },
+          { category: "Booking", question: "How far in advance should I book?", answer: "Peak wedding Saturdays and early-December corporate dates go twelve to eighteen months out. Everything else is more flexible. Ask about your date directly — availability changes." },
+          { category: "DJ & MC Services", question: "Can you handle multiple languages or cultural traditions?", answer: "Yes. Chicago weddings and celebrations often blend traditions, and I plan those evenings in advance — the music, the order of events, and the correct pronunciation of every name I announce." },
+        ],
+      },
+      reviews: {
+        title: "CHICAGO REVIEWS",
+        ratingText: "5.0 stars",
+        items: CHICAGO_WEDDING_REVIEWS,
+      },
+      // Was three tiles (Chicago/Denver/Dallas) on every city page; Chicago
+      // keeps only its own Chicago-tagged resource.
+      resources: {
+        title: "RESOURCES",
+        cards: [
+          {
+            category: "Planning",
+            city: "Chicago, IL",
+            title: "Ultimate Wedding DJ Checklist",
+            description: "Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.",
+            image: "/assets/Brand-Event-DJ-Setup-Chicago-C4CUamlB.webp",
+          },
+        ],
+      },
+    },
+  },
+};
+
 export const SECTION_KEYS = [
   "hero", "ticker", "signature", "mantra", "about", "cta", "faq", "reviews",
 ] as const;
@@ -324,6 +621,19 @@ export type SectionKey = typeof SECTION_KEYS[number];
 
 function buildDbKey(eventType: EventType, section: SectionKey): string {
   return `event.${eventType}.${section}`;
+}
+
+export const CITY_SECTION_KEYS = [
+  "hero", "intro", "localMarket", "logistics", "faq", "reviews", "resources",
+] as const;
+
+export type CitySectionKey = typeof CITY_SECTION_KEYS[number];
+
+// Mirrors buildDbKey for city content: "city.<slug>.<surface>.<section>",
+// e.g. "city.chicago.wedding.hero". No admin UI writes these yet, but the DB
+// override path resolves them exactly like event content does.
+function buildCityDbKey(citySlug: string, key: CityContentKey, section: CitySectionKey): string {
+  return `city.${citySlug}.${key}.${section}`;
 }
 
 export function layoutToEventType(layout: string): EventType {
@@ -391,4 +701,56 @@ export function useAllEventContent() {
   }
 
   return { content: result, isLoading, rawContent: allContent };
+}
+
+// Resolve a city's content for one surface: the in-code defaults, with any
+// matching DB rows ("city.<slug>.<surface>.<section>") layered on top. Returns
+// an empty object when there is no city (e.g. a non-city service page) or no
+// content for that city yet, so callers safely fall back to event defaults.
+export function useCityContent(
+  citySlug: string | undefined,
+  key: CityContentKey | null,
+): CitySections {
+  const { data: allContent } = useQuery<CorporateContent[]>({
+    queryKey: ["/api/corporate-content"],
+  });
+
+  if (!citySlug || !key) return {};
+
+  const defaults = DEFAULT_CITY_CONTENT[citySlug]?.[key] ?? {};
+  const content: CitySections = { ...defaults };
+
+  if (allContent) {
+    for (const section of CITY_SECTION_KEYS) {
+      const dbKey = buildCityDbKey(citySlug, key, section);
+      const match = allContent.find((c) => c.sectionKey === dbKey);
+      if (match) {
+        (content as any)[section] = match.content;
+      }
+    }
+  }
+
+  return content;
+}
+
+// Merge rule: city content overrides event content SECTION BY SECTION. Where
+// the city defines a section it wins (hero, faq, reviews); where it doesn't,
+// the event-type default stands. The city-only sections (intro, localMarket,
+// logistics, resources) are attached as-is. This is what makes the six
+// city+service routes correct — they are both a city AND an event type, and
+// each section resolves to the most specific copy available.
+export function mergeCityIntoEvent(
+  event: EventSections,
+  city: CitySections,
+): ResolvedCityContent {
+  return {
+    ...event,
+    hero: city.hero ?? event.hero,
+    faq: city.faq ?? event.faq,
+    reviews: city.reviews ?? event.reviews,
+    intro: city.intro,
+    localMarket: city.localMarket,
+    logistics: city.logistics,
+    resources: city.resources,
+  };
 }

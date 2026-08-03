@@ -3,18 +3,22 @@ import { Star, Quote } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import { useTheme } from "@/context/ThemeContext";
 import { useEventContent, layoutToEventType } from "@/hooks/use-event-content";
+import type { ReviewsContent } from "@/hooks/use-event-content";
 
-export function GoogleReviews() {
+// `content` lets a city page pass its own (city-filtered) reviews; without it
+// the component reads the current event-type reviews as before.
+export function GoogleReviews({ content }: { content?: ReviewsContent } = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const { layout } = useTheme();
   const evtType = layoutToEventType(layout);
   const { content: eventContent } = useEventContent(evtType);
+  const reviewsContent = content ?? eventContent.reviews;
 
-  const reviews = eventContent.reviews.items.map((item, i) => ({ id: i + 1, rating: item.rating || 5, date: "", ...item }));
+  const reviews = reviewsContent.items.map((item, i) => ({ id: i + 1, rating: item.rating || 5, date: "", ...item }));
 
-  const title = eventContent.reviews.title;
-  const ratingText = eventContent.reviews.ratingText;
+  const title = reviewsContent.title;
+  const ratingText = reviewsContent.ratingText;
 
   const paginate = useCallback((newDirection: number) => {
     setCurrentIndex((prev) => {

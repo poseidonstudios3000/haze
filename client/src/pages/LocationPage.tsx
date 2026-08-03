@@ -3,6 +3,8 @@ import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
 import { getServicePagesForCity, getSeoPageLabel } from "@shared/seo";
+import { useCityContent } from "@/hooks/use-event-content";
+import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { VibeReel } from "@/components/VibeReel";
@@ -66,6 +68,9 @@ export default function LocationPage({ location }: LocationPageProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const heroImage = cityImages[location];
   const locationData = locations[location];
+  // Hub content for this city (defaults + any DB overrides). Empty for cities
+  // not populated yet (Dallas, Denver), which keeps their current behaviour.
+  const cityHub = useCityContent(location, "hub");
 
   useEffect(() => {
     document.title = locationData.seoTitle;
@@ -108,13 +113,13 @@ export default function LocationPage({ location }: LocationPageProps) {
             <div className="flex justify-center">
               <div className="flex items-center gap-3 px-6 py-3 bg-black/50 backdrop-blur-md rounded-full border border-primary/30">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span className="text-lg md:text-xl font-bold text-white uppercase tracking-widest">{locationData.city}, {locationData.state}</span>
+                <span className="text-lg md:text-xl font-bold text-white uppercase tracking-widest">{cityHub.hero?.badge ?? `${locationData.city}, ${locationData.state}`}</span>
               </div>
             </div>
 
             {/* Location Tagline */}
             <p className="text-lg md:text-xl text-white/80 max-w-xl mx-auto">
-              {locationData.tagline}
+              {cityHub.hero?.subline ?? locationData.tagline}
             </p>
 
             {/* Compact Booking Form */}
@@ -176,12 +181,18 @@ export default function LocationPage({ location }: LocationPageProps) {
         );
       })()}
 
-      {/* 3. Event Signature Section */}
-      <EventSignatureSection />
+      {/* 2.6 City narrative — renders only for cities that have hub content */}
+      <CityIntro intro={cityHub.intro} />
+      <CityLocalMarket localMarket={cityHub.localMarket} />
+      <CityLogistics logistics={cityHub.logistics} />
 
-      {/* 4. Brand Reviews */}
+      {/* 3. Event Signature Section — suppressed on city hubs with their own
+           intro, where the city intro replaces this generic question. */}
+      {!cityHub.intro && <EventSignatureSection />}
+
+      {/* 4. Brand Reviews (city-filtered where the city has its own reviews) */}
       <section id="reviews" className="container mx-auto px-4 py-8 md:py-16">
-        <GoogleReviews />
+        <GoogleReviews content={cityHub.reviews} />
       </section>
 
       {/* 4. Vibe Reel */}
@@ -189,9 +200,9 @@ export default function LocationPage({ location }: LocationPageProps) {
         <VibeReel />
       </section>
 
-      {/* 5. FAQ Section */}
+      {/* 5. FAQ Section (city FAQ where the city has its own) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ />
+        <FAQ content={cityHub.faq} />
       </section>
 
       {/* 6. Mantra Section */}
@@ -224,42 +235,61 @@ export default function LocationPage({ location }: LocationPageProps) {
         </div>
       </section>
 
-      {/* 7. Resources Slider */}
+      {/* 7. Resources Slider — city-specific tiles where the city has them,
+           otherwise the original shared tiles (Dallas/Denver not populated yet). */}
       <section id="resources" className="container mx-auto px-4 py-8 md:py-16 space-y-8">
         <div>
-          <h2 className="text-4xl md:text-6xl font-black font-display mb-2 uppercase">RESOURCES</h2>
+          <h2 className="text-4xl md:text-6xl font-black font-display mb-2 uppercase">{cityHub.resources?.title ?? "RESOURCES"}</h2>
           <div className="h-1 w-24 bg-primary rounded-full" />
         </div>
-        
+
         <div className="overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide">
           <div className="flex gap-6 w-max">
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res1} alt="Checklist" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Planning</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Chicago, IL</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Ultimate Wedding DJ Checklist</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.</p>
-            </div>
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res2} alt="Lights" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Venues</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Denver, CO</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Top 5 Industrial Venues in Denver</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">Explore the most unique raw spaces and industrial warehouses perfect for modern, high-energy events.</p>
-            </div>
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res3} alt="Party" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Corporate</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Dallas, TX</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Corporate Event Vibe Guide</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">How to balance professional networking with a high-energy party atmosphere for your next gala.</p>
-            </div>
+            {cityHub.resources ? (
+              cityHub.resources.cards.map((card, i) => (
+                <div key={i} className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    {card.image && (
+                      <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    )}
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">{card.category}</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> {card.city}</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">{card.title}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{card.description}</p>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res1} alt="Checklist" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Planning</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Chicago, IL</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Ultimate Wedding DJ Checklist</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.</p>
+                </div>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res2} alt="Lights" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Venues</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Denver, CO</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Top 5 Industrial Venues in Denver</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">Explore the most unique raw spaces and industrial warehouses perfect for modern, high-energy events.</p>
+                </div>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res3} alt="Party" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Corporate</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Dallas, TX</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Corporate Event Vibe Guide</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">How to balance professional networking with a high-energy party atmosphere for your next gala.</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>

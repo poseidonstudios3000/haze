@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { ChevronDown, Mic2, Calendar, Speaker, MapPin, Shield, Plus } from "lucide-react";
 import { useTheme } from "@/context/ThemeContext";
 import { useEventContent, layoutToEventType } from "@/hooks/use-event-content";
-import type { FAQItem } from "@/hooks/use-event-content";
+import type { FAQItem, FAQContent } from "@/hooks/use-event-content";
 
 interface FAQCategory {
   category: string;
@@ -19,16 +19,19 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   "Logistics & Reliability": <Shield className="w-5 h-5" />,
 };
 
-export function FAQ() {
+// `content` lets a city page pass its own FAQ; without it the component reads
+// the current event-type FAQ as before.
+export function FAQ({ content }: { content?: FAQContent } = {}) {
   const [expanded, setExpanded] = useState<number | null>(null);
   const [activeCategory, setActiveCategory] = useState(0);
   const { layout } = useTheme();
   const evtType = layoutToEventType(layout);
   const { content: eventContent } = useEventContent(evtType);
+  const faq = content ?? eventContent.faq;
 
   const categories: FAQCategory[] = useMemo(() => {
     const categoryMap = new Map<string, (FAQItem & { id: number })[]>();
-    eventContent.faq.items.forEach((item, index) => {
+    faq.items.forEach((item, index) => {
       const cat = item.category || "General";
       if (!categoryMap.has(cat)) categoryMap.set(cat, []);
       categoryMap.get(cat)!.push({ ...item, id: index + 1 });
@@ -38,7 +41,7 @@ export function FAQ() {
       icon: CATEGORY_ICONS[category] || <Mic2 className="w-5 h-5" />,
       items,
     }));
-  }, [eventContent.faq.items]);
+  }, [faq.items]);
 
   const currentCategory = categories[activeCategory] || categories[0];
 
@@ -107,7 +110,7 @@ export function FAQ() {
   return (
     <div className="space-y-8 md:space-y-12">
       <div>
-        <h2 className="text-2xl md:text-4xl font-black font-display mb-2 uppercase">{eventContent.faq.title}</h2>
+        <h2 className="text-2xl md:text-4xl font-black font-display mb-2 uppercase">{faq.title}</h2>
         <div className="h-1 w-24 bg-primary rounded-full" />
       </div>
 

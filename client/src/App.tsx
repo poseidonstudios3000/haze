@@ -30,7 +30,9 @@ function Router() {
     <Switch>
       <Route path="/" component={Landing} />
       {homeRoutes.map((path) => (
-        <Route key={path} path={path} component={Home} />
+        <Route key={path} path={path}>
+          {() => <Home city={getSeoPage(path).city} />}
+        </Route>
       ))}
       <Route path="/chicago-dj">{() => <LocationPage location="chicago" />}</Route>
       <Route path="/dallas-dj">{() => <LocationPage location="dallas" />}</Route>
