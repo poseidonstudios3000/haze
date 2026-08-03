@@ -200,9 +200,9 @@ export default function LocationPage({ location }: LocationPageProps) {
         <VibeReel />
       </section>
 
-      {/* 5. FAQ Section (city FAQ where the city has its own) */}
+      {/* 5. FAQ Section (city FAQ + FAQPage schema where the city has its own) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ content={cityHub.faq} />
+        <FAQ content={cityHub.faq} emitSchema={Boolean(cityHub.faq)} />
       </section>
 
       {/* 6. Mantra Section */}

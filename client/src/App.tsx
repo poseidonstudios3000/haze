@@ -9,6 +9,7 @@ import { getSeoPage } from "@shared/seo";
 import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
 import LocationPage from "@/pages/LocationPage";
+import Faq from "@/pages/Faq";
 import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
@@ -37,6 +38,7 @@ function Router() {
       <Route path="/chicago-dj">{() => <LocationPage location="chicago" />}</Route>
       <Route path="/dallas-dj">{() => <LocationPage location="dallas" />}</Route>
       <Route path="/denver-dj">{() => <LocationPage location="denver" />}</Route>
+      <Route path="/faq" component={Faq} />
       <Route path="/admin" component={Admin} />
       <Route path="/corporate-admin" component={Admin} />
       <Route component={NotFound} />

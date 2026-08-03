@@ -169,6 +169,14 @@ export const SEO_PAGES: SeoPage[] = [
     changefreq: "monthly",
   },
   {
+    path: "/faq",
+    title: "Wedding & Event DJ FAQ | DJ Miss Haze",
+    description:
+      "Answers on booking, pricing, equipment, travel and planning for weddings and events in Chicago, Dallas-Fort Worth and Denver. From DJ Miss Haze.",
+    priority: "0.7",
+    changefreq: "monthly",
+  },
+  {
     path: "/admin",
     title: "Admin | DJ Miss Haze",
     description: "DJ Miss Haze admin area.",

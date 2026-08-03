@@ -113,13 +113,22 @@ export function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-3">
-          <Link
-            href="/"
-            className="text-sm font-black font-display uppercase tracking-tighter text-foreground hover:text-primary transition-colors"
-            data-testid="link-footer-home"
-          >
-            DJ Miss Haze
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link
+              href="/"
+              className="text-sm font-black font-display uppercase tracking-tighter text-foreground hover:text-primary transition-colors"
+              data-testid="link-footer-home"
+            >
+              DJ Miss Haze
+            </Link>
+            <Link
+              href="/faq"
+              className="text-sm font-bold text-muted-foreground hover:text-primary transition-colors"
+              data-testid="link-footer-faq"
+            >
+              FAQ
+            </Link>
+          </div>
           <p className="text-[10px] text-white/30 tracking-widest uppercase text-center">
             Event DJ &amp; MC — Chicago, IL | Dallas, TX | Denver, CO
           </p>

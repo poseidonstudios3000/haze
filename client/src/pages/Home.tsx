@@ -481,9 +481,9 @@ export default function Home({ city }: { city?: string }) {
       <CityLocalMarket localMarket={eventContent.localMarket} />
       <CityLogistics logistics={eventContent.logistics} />
 
-      {/* 9. FAQ Section (city FAQ on city pages) */}
+      {/* 9. FAQ Section (city FAQ + FAQPage schema on city pages) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ content={eventContent.faq} />
+        <FAQ content={eventContent.faq} emitSchema={Boolean(eventContent.intro)} />
       </section>
 
       {/* 10. About Section */}
