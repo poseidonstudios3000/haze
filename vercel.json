@@ -9,7 +9,41 @@
     { "source": "/corporate-events", "destination": "/corporate-event-dj", "permanent": true },
     { "source": "/corporate-events/", "destination": "/corporate-event-dj", "permanent": true },
     { "source": "/private-events", "destination": "/private-event-dj", "permanent": true },
-    { "source": "/private-events/", "destination": "/private-event-dj", "permanent": true }
+    { "source": "/private-events/", "destination": "/private-event-dj", "permanent": true },
+
+    { "source": "/chicago-wedding-dj/", "destination": "/chicago-wedding-dj", "permanent": true },
+    { "source": "/denver-wedding-dj/", "destination": "/denver-wedding-dj", "permanent": true },
+    { "source": "/denver", "destination": "/denver-dj", "permanent": true },
+    { "source": "/denver/", "destination": "/denver-dj", "permanent": true },
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/home/", "destination": "/", "permanent": true },
+
+    { "source": "/blog/categories/wedding-tips", "destination": "/wedding-dj", "permanent": true },
+    { "source": "/blog/categories/local-chicago-dj-insights", "destination": "/chicago-dj", "permanent": true },
+    { "source": "/post/female-djs-in-chicago", "destination": "/chicago-dj", "permanent": true },
+    { "source": "/get-in-touch-with-djmisshaze-chicago-dj", "destination": "/chicago-dj", "permanent": true },
+    { "source": "/get-in-touch-with-djmisshaze-denver-dj", "destination": "/denver-dj", "permanent": true },
+    { "source": "/dj-services-and-mc-services-denver-metro-area", "destination": "/denver-dj", "permanent": true },
+    { "source": "/event-details/dallas", "destination": "/dallas-dj", "permanent": true },
+
+    { "source": "/about", "destination": "/", "permanent": true },
+    { "source": "/about/", "destination": "/", "permanent": true },
+    { "source": "/contact", "destination": "/", "permanent": true },
+    { "source": "/contact/", "destination": "/", "permanent": true },
+    { "source": "/contact-2-2/", "destination": "/", "permanent": true },
+    { "source": "/booking", "destination": "/", "permanent": true },
+    { "source": "/booking/", "destination": "/", "permanent": true },
+    { "source": "/locations", "destination": "/", "permanent": true },
+    { "source": "/locations/", "destination": "/", "permanent": true },
+    { "source": "/blog", "destination": "/", "permanent": true },
+    { "source": "/dj-booking", "destination": "/", "permanent": true },
+    { "source": "/djservices", "destination": "/", "permanent": true },
+    { "source": "/dj-services-and-mc-services", "destination": "/", "permanent": true },
+    { "source": "/presskit", "destination": "/", "permanent": true },
+    { "source": "/press-kit", "destination": "/", "permanent": true },
+    { "source": "/author/yasmin", "destination": "/", "permanent": true },
+
+    { "source": "/:path+/", "destination": "/:path+", "permanent": true }
   ],
   "functions": {
     "api/index.ts": {
