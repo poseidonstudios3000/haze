@@ -56,9 +56,9 @@ const heroAltText: Record<string, string> = {
 };
 
 const pageTitles: Record<string, string> = {
-  corporate_event: "Corporate Event DJ & MC | DJ Miss Haze | Dallas, Chicago, Denver",
-  wedding: "Wedding DJ & MC | DJ Miss Haze | Dallas, Chicago, Denver",
-  private_event: "Private Event DJ & MC | DJ Miss Haze | Dallas, Chicago, Denver",
+  corporate_event: "Corporate Event DJ & MC | DJ Miss Haze | Chicago, Dallas, Denver",
+  wedding: "Wedding DJ & MC | DJ Miss Haze | Chicago, Dallas, Denver",
+  private_event: "Private Event DJ & MC | DJ Miss Haze | Chicago, Dallas, Denver",
   pr_show: "Event DJ & MC | DJ Miss Haze | Brand Activations & PR Events",
 };
 
