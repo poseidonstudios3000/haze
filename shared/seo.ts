@@ -20,9 +20,9 @@ export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 export const SEO_PAGES: SeoPage[] = [
   {
     path: "/",
-    title: "DJ Miss Haze | Premium Event DJ & MC | Dallas, Chicago, Denver",
+    title: "DJ Miss Haze | Premium Event DJ & MC | Chicago, Dallas, Denver",
     description:
-      "Premium DJ and MC for weddings, corporate events, private parties, and brand activations in Dallas-Fort Worth, Chicago, and Denver. Book DJ Miss Haze for high-energy live mixing and polished event hosting.",
+      "Premium DJ and MC for weddings, corporate events, private parties, and brand activations in Chicago, Dallas-Fort Worth, and Denver. Book DJ Miss Haze for high-energy live mixing and polished event hosting.",
     priority: "1.0",
     changefreq: "weekly",
   },
@@ -222,16 +222,6 @@ export const BUSINESS_LOCATIONS: BusinessLocation[] = [
     phoneHref: "tel:+13122701114",
   },
   {
-    slug: "denver",
-    areaLabel: "Denver area",
-    streetAddress: "2584 Meadows Blvd",
-    addressLocality: "Castle Rock",
-    addressRegion: "CO",
-    postalCode: "80109",
-    phoneDisplay: "(970) 316-2778",
-    phoneHref: "tel:+19703162778",
-  },
-  {
     slug: "dallas",
     areaLabel: "Dallas area",
     streetAddress: "Adelaide St",
@@ -241,6 +231,16 @@ export const BUSINESS_LOCATIONS: BusinessLocation[] = [
     phoneDisplay: "(708) 745-6708",
     phoneHref: "tel:+17087456708",
     addressIncomplete: true,
+  },
+  {
+    slug: "denver",
+    areaLabel: "Denver area",
+    streetAddress: "2584 Meadows Blvd",
+    addressLocality: "Castle Rock",
+    addressRegion: "CO",
+    postalCode: "80109",
+    phoneDisplay: "(970) 316-2778",
+    phoneHref: "tel:+19703162778",
   },
 ];
 

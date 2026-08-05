@@ -17,7 +17,7 @@ const copy = {
       "DJ Miss Haze brings more than music. Every wedding booking includes the core production gear needed for ceremony, announcements, dinner, dancing, and a confident reception flow.",
     note:
       "Wedding clients also receive complimentary yard games and glow sticks, with optional effects available for high-impact moments.",
-    addOns: "Photo booth, dancing on the clouds, smoke/fog, CO2 cannons, glow sticks, and yard games.",
+    addOns: "Stationary photo booth, 360 photo booth, mobile photo booth trailer, audio guestbook, CO2 cannons, fog machine, glow sticks, and more on request.",
   },
   corporate_event: {
     eyebrow: "Professional Event Production",
@@ -26,7 +26,7 @@ const copy = {
       "Corporate events need a DJ who can support speeches, awards, presentations, networking, and dancing without making production feel chaotic. DJ Miss Haze brings polished gear and room-aware sound.",
     note:
       "The setup is designed for professional presentation, reliable announcements, and brand-appropriate energy.",
-    addOns: "Photo booth, audio guestbook, CO2 cannons, lighting, smoke/fog, and event effects.",
+    addOns: "Stationary photo booth, 360 photo booth, mobile photo booth trailer, audio guestbook, CO2 cannons, fog machine, glow sticks, and more on request.",
   },
   private_event: {
     eyebrow: "Party-Ready Setup",
@@ -35,7 +35,7 @@ const copy = {
       "Private events still need professional sound, clear hosting, and a setup that fits the room. DJ Miss Haze brings the essentials so your party feels intentional from the first song.",
     note:
       "Packages can scale for intimate gatherings, milestone birthdays, holiday parties, and high-energy celebrations.",
-    addOns: "Photo booth, dancing on the clouds, smoke/fog, CO2 cannons, glow sticks, and yard games.",
+    addOns: "Stationary photo booth, 360 photo booth, mobile photo booth trailer, audio guestbook, CO2 cannons, fog machine, glow sticks, and more on request.",
   },
   pr_show: {
     eyebrow: "Activation-Ready Production",
@@ -44,7 +44,7 @@ const copy = {
       "Brand activations and PR events need sound that supports the room, the run of show, and the message. DJ Miss Haze brings a clean, flexible setup built for polished guest experiences.",
     note:
       "The production approach supports announcements, transitions, arrivals, product moments, and high-energy crowd shifts.",
-    addOns: "Photo booth, lighting, audio guestbook, monogram, smoke/fog, CO2 cannons, and event effects.",
+    addOns: "Stationary photo booth, 360 photo booth, mobile photo booth trailer, audio guestbook, CO2 cannons, fog machine, glow sticks, and more on request.",
   },
 };
 
