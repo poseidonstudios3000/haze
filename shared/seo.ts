@@ -249,10 +249,17 @@ export function getLocationForCity(slug?: string): BusinessLocation | undefined 
   return BUSINESS_LOCATIONS.find((loc) => loc.slug === slug);
 }
 
-// LocalBusiness structured data, one node per location. Rendered in-body by the
-// footer so it prerenders onto every page.
-export function getLocalBusinessSchema() {
-  return BUSINESS_LOCATIONS.map((loc) => ({
+// LocalBusiness structured data, rendered in-body by the footer so it prerenders
+// onto every page. Pass a city slug on a city page to carry ONLY that location's
+// node — a Chicago page shouldn't declare a Colorado and a Texas address, which
+// is a mixed local-search signal. With no slug (homepage, generic service pages,
+// /faq) all three are emitted, since those pages genuinely serve every market.
+export function getLocalBusinessSchema(citySlug?: string) {
+  const matched = citySlug
+    ? BUSINESS_LOCATIONS.filter((loc) => loc.slug === citySlug)
+    : [];
+  const locations = matched.length > 0 ? matched : BUSINESS_LOCATIONS;
+  return locations.map((loc) => ({
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/#business-${loc.slug}`,

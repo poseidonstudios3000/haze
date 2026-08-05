@@ -1,4 +1,4 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { MapPin, Phone } from "lucide-react";
 import { SOCIAL_LINKS } from "./Navbar";
 import {
@@ -8,6 +8,7 @@ import {
   getCityPagesForLayout,
   getSeoPageLabel,
   getLocalBusinessSchema,
+  getSeoPage,
   type SeoPage,
 } from "@shared/seo";
 
@@ -29,9 +30,12 @@ function FooterHeading({ children }: { children: React.ReactNode }) {
 }
 
 export function Footer() {
-  // Site-wide LocalBusiness structured data, one node per location. Rendered
-  // in-body so it prerenders onto every page.
-  const localBusinessSchema = getLocalBusinessSchema();
+  const [location] = useLocation();
+  // City pages carry only their own location's LocalBusiness node; the homepage,
+  // generic service pages and /faq carry all three. The visible NAP below always
+  // shows all three regardless — this only scopes the structured data.
+  const citySlug = getSeoPage(location).city?.toLowerCase();
+  const localBusinessSchema = getLocalBusinessSchema(citySlug);
 
   return (
     <footer className="border-t border-white/10 bg-black/40">
