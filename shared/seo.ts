@@ -169,6 +169,14 @@ export const SEO_PAGES: SeoPage[] = [
     changefreq: "monthly",
   },
   {
+    path: "/faq",
+    title: "Wedding & Event DJ FAQ | DJ Miss Haze",
+    description:
+      "Answers on booking, pricing, equipment, travel and planning for weddings and events in Chicago, Dallas-Fort Worth and Denver. From DJ Miss Haze.",
+    priority: "0.7",
+    changefreq: "monthly",
+  },
+  {
     path: "/admin",
     title: "Admin | DJ Miss Haze",
     description: "DJ Miss Haze admin area.",
@@ -183,6 +191,93 @@ export const SEO_PAGES: SeoPage[] = [
 ];
 
 export const PUBLIC_SEO_PAGES = SEO_PAGES.filter((page) => !page.noindex);
+
+// === BUSINESS LOCATIONS (NAP) ===
+// One record per metro, keyed to the city slug used by the city pages. Feeds
+// the footer (all three, visible + LocalBusiness schema) and the per-city NAP
+// block. Phone numbers are exactly as the client provided them.
+export interface BusinessLocation {
+  slug: string;
+  areaLabel: string;
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion: string;
+  postalCode: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  // TODO(client): Dallas street address has no house number — confirm the
+  // full address before relying on it for local ranking.
+  addressIncomplete?: boolean;
+}
+
+export const BUSINESS_LOCATIONS: BusinessLocation[] = [
+  {
+    slug: "chicago",
+    areaLabel: "Chicago area",
+    streetAddress: "627 N York St",
+    addressLocality: "Elmhurst",
+    addressRegion: "IL",
+    postalCode: "60126",
+    phoneDisplay: "(312) 270-1114",
+    phoneHref: "tel:+13122701114",
+  },
+  {
+    slug: "denver",
+    areaLabel: "Denver area",
+    streetAddress: "2584 Meadows Blvd",
+    addressLocality: "Castle Rock",
+    addressRegion: "CO",
+    postalCode: "80109",
+    phoneDisplay: "(970) 316-2778",
+    phoneHref: "tel:+19703162778",
+  },
+  {
+    slug: "dallas",
+    areaLabel: "Dallas area",
+    streetAddress: "Adelaide St",
+    addressLocality: "Frisco",
+    addressRegion: "TX",
+    postalCode: "75034",
+    phoneDisplay: "(708) 745-6708",
+    phoneHref: "tel:+17087456708",
+    addressIncomplete: true,
+  },
+];
+
+export function getLocationForCity(slug?: string): BusinessLocation | undefined {
+  if (!slug) return undefined;
+  return BUSINESS_LOCATIONS.find((loc) => loc.slug === slug);
+}
+
+// LocalBusiness structured data, rendered in-body by the footer so it prerenders
+// onto every page. Pass a city slug on a city page to carry ONLY that location's
+// node — a Chicago page shouldn't declare a Colorado and a Texas address, which
+// is a mixed local-search signal. With no slug (homepage, generic service pages,
+// /faq) all three are emitted, since those pages genuinely serve every market.
+export function getLocalBusinessSchema(citySlug?: string) {
+  const matched = citySlug
+    ? BUSINESS_LOCATIONS.filter((loc) => loc.slug === citySlug)
+    : [];
+  const locations = matched.length > 0 ? matched : BUSINESS_LOCATIONS;
+  return locations.map((loc) => ({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${SITE_URL}/#business-${loc.slug}`,
+    name: "DJ Miss Haze",
+    image: OG_IMAGE,
+    url: SITE_URL,
+    telephone: loc.phoneHref.replace(/^tel:/, ""),
+    priceRange: "$$$",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: loc.streetAddress,
+      addressLocality: loc.addressLocality,
+      addressRegion: loc.addressRegion,
+      postalCode: loc.postalCode,
+      addressCountry: "US",
+    },
+  }));
+}
 
 // Owner-editable title/description overrides, stored in the database as
 // site_content rows keyed "seo:<path>". Baked into pages at build time
@@ -201,6 +296,48 @@ export function applySeoOverride(page: SeoPage, override?: SeoOverride | null): 
     title: title || page.title,
     description: description || page.description,
   };
+}
+
+// === INTERNAL LINKING ===
+// Every internal nav list (footer, hero city badges, "also serving" blocks) is
+// derived from SEO_PAGES so there is no fourth hand-maintained route list.
+
+// City hub pages: /chicago-dj, /dallas-dj, /denver-dj — a city, no single service.
+export const CITY_HUB_PAGES = PUBLIC_SEO_PAGES.filter(
+  (page) => page.city && !page.eventLayout,
+);
+
+// Service pages: /wedding-dj, /corporate-event-dj, … — a service, no single city.
+export const SERVICE_PAGES = PUBLIC_SEO_PAGES.filter(
+  (page) => page.eventLayout && !page.city,
+);
+
+// City+service pages for one service, e.g. all three wedding cities.
+export function getCityPagesForLayout(layout: EventLayout): SeoPage[] {
+  return PUBLIC_SEO_PAGES.filter((page) => page.eventLayout === layout && page.city);
+}
+
+// City+service pages for one city, e.g. Chicago's wedding and corporate pages.
+export function getServicePagesForCity(city: string): SeoPage[] {
+  const target = city.trim().toLowerCase();
+  return PUBLIC_SEO_PAGES.filter(
+    (page) => page.eventLayout && page.city?.toLowerCase() === target,
+  );
+}
+
+// Hub path for a city name, or null when the name isn't one we have a page for.
+// Hero city badges are admin-editable content, so unknown names must be tolerated.
+export function getCityHubPath(city: string): string | null {
+  const target = city.trim().toLowerCase();
+  return (
+    CITY_HUB_PAGES.find((page) => page.city?.toLowerCase() === target)?.path || null
+  );
+}
+
+// Short anchor text from a page title: "Chicago DJ & MC | Weddings, …" -> "Chicago DJ & MC".
+// Keeps link text keyword-rich without a parallel list of labels to maintain.
+export function getSeoPageLabel(page: SeoPage): string {
+  return page.title.split("|")[0].trim();
 }
 
 export function normalizePath(pathname: string) {

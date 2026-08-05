@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { MapPin } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
+import { getServicePagesForCity, getSeoPageLabel, getLocationForCity } from "@shared/seo";
+import { useCityContent } from "@/hooks/use-event-content";
+import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
+import { LocationContact } from "@/components/LocationContact";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { VibeReel } from "@/components/VibeReel";
@@ -64,6 +69,9 @@ export default function LocationPage({ location }: LocationPageProps) {
   const targetRef = useRef<HTMLDivElement>(null);
   const heroImage = cityImages[location];
   const locationData = locations[location];
+  // Hub content for this city (defaults + any DB overrides). Empty for cities
+  // not populated yet (Dallas, Denver), which keeps their current behaviour.
+  const cityHub = useCityContent(location, "hub");
 
   useEffect(() => {
     document.title = locationData.seoTitle;
@@ -106,13 +114,13 @@ export default function LocationPage({ location }: LocationPageProps) {
             <div className="flex justify-center">
               <div className="flex items-center gap-3 px-6 py-3 bg-black/50 backdrop-blur-md rounded-full border border-primary/30">
                 <MapPin className="w-5 h-5 text-primary" />
-                <span className="text-lg md:text-xl font-bold text-white uppercase tracking-widest">{locationData.city}, {locationData.state}</span>
+                <span className="text-lg md:text-xl font-bold text-white uppercase tracking-widest">{cityHub.hero?.badge ?? `${locationData.city}, ${locationData.state}`}</span>
               </div>
             </div>
 
             {/* Location Tagline */}
             <p className="text-lg md:text-xl text-white/80 max-w-xl mx-auto">
-              {locationData.tagline}
+              {cityHub.hero?.subline ?? locationData.tagline}
             </p>
 
             {/* Compact Booking Form */}
@@ -140,12 +148,53 @@ export default function LocationPage({ location }: LocationPageProps) {
         </div>
       </div>
 
-      {/* 3. Event Signature Section */}
-      <EventSignatureSection />
+      {/* 2.5 Services in this city */}
+      {(() => {
+        const servicePages = getServicePagesForCity(locationData.city);
+        if (servicePages.length === 0) return null;
 
-      {/* 4. Brand Reviews */}
+        return (
+          <section className="container mx-auto px-4 py-12 md:py-16">
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="text-center space-y-3">
+                <h2 className="text-2xl md:text-4xl font-black font-display uppercase tracking-tighter">
+                  DJ Services in {locationData.city}
+                </h2>
+                <div className="h-1 w-24 bg-primary rounded-full mx-auto" />
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {servicePages.map((page) => (
+                  <Link
+                    key={page.path}
+                    href={page.path}
+                    className="group flex items-center justify-between gap-4 p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-primary/30 transition-colors"
+                    data-testid={`link-city-service-${page.path.slice(1)}`}
+                  >
+                    <span className="text-base md:text-lg font-bold font-display uppercase text-white group-hover:text-primary transition-colors">
+                      {getSeoPageLabel(page)}
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-primary shrink-0" />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
+      {/* 2.6 City narrative — renders only for cities that have hub content */}
+      <CityIntro intro={cityHub.intro} />
+      <CityLocalMarket localMarket={cityHub.localMarket} />
+      <CityLogistics logistics={cityHub.logistics} />
+      <LocationContact location={getLocationForCity(location)} />
+
+      {/* 3. Event Signature Section — suppressed on city hubs with their own
+           intro, where the city intro replaces this generic question. */}
+      {!cityHub.intro && <EventSignatureSection />}
+
+      {/* 4. Brand Reviews (city-filtered where the city has its own reviews) */}
       <section id="reviews" className="container mx-auto px-4 py-8 md:py-16">
-        <GoogleReviews />
+        <GoogleReviews content={cityHub.reviews} />
       </section>
 
       {/* 4. Vibe Reel */}
@@ -153,9 +202,9 @@ export default function LocationPage({ location }: LocationPageProps) {
         <VibeReel />
       </section>
 
-      {/* 5. FAQ Section */}
+      {/* 5. FAQ Section (city FAQ + FAQPage schema where the city has its own) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ />
+        <FAQ content={cityHub.faq} emitSchema={Boolean(cityHub.faq)} />
       </section>
 
       {/* 6. Mantra Section */}
@@ -188,42 +237,61 @@ export default function LocationPage({ location }: LocationPageProps) {
         </div>
       </section>
 
-      {/* 7. Resources Slider */}
+      {/* 7. Resources Slider — city-specific tiles where the city has them,
+           otherwise the original shared tiles (Dallas/Denver not populated yet). */}
       <section id="resources" className="container mx-auto px-4 py-8 md:py-16 space-y-8">
         <div>
-          <h2 className="text-4xl md:text-6xl font-black font-display mb-2 uppercase">RESOURCES</h2>
+          <h2 className="text-4xl md:text-6xl font-black font-display mb-2 uppercase">{cityHub.resources?.title ?? "RESOURCES"}</h2>
           <div className="h-1 w-24 bg-primary rounded-full" />
         </div>
-        
+
         <div className="overflow-x-auto pb-8 -mx-4 px-4 scrollbar-hide">
           <div className="flex gap-6 w-max">
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res1} alt="Checklist" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Planning</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Chicago, IL</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Ultimate Wedding DJ Checklist</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.</p>
-            </div>
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res2} alt="Lights" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Venues</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Denver, CO</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Top 5 Industrial Venues in Denver</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">Explore the most unique raw spaces and industrial warehouses perfect for modern, high-energy events.</p>
-            </div>
-            <div className="w-[300px] group cursor-pointer flex-shrink-0">
-              <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
-                <img src={res3} alt="Party" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
-                <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Corporate</div>
-              </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Dallas, TX</div>
-              <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Corporate Event Vibe Guide</h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">How to balance professional networking with a high-energy party atmosphere for your next gala.</p>
-            </div>
+            {cityHub.resources ? (
+              cityHub.resources.cards.map((card, i) => (
+                <div key={i} className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    {card.image && (
+                      <img src={card.image} alt={card.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    )}
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">{card.category}</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> {card.city}</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">{card.title}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{card.description}</p>
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res1} alt="Checklist" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Planning</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Chicago, IL</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Ultimate Wedding DJ Checklist</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">Ensure your big day sounds perfect with our comprehensive guide to wedding music planning and DJ selection.</p>
+                </div>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res2} alt="Lights" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Venues</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Denver, CO</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Top 5 Industrial Venues in Denver</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">Explore the most unique raw spaces and industrial warehouses perfect for modern, high-energy events.</p>
+                </div>
+                <div className="w-[300px] group cursor-pointer flex-shrink-0">
+                  <div className="aspect-video rounded-2xl bg-white/5 mb-4 overflow-hidden relative border border-white/10">
+                    <img src={res3} alt="Party" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" decoding="async" />
+                    <div className="absolute top-3 left-3 px-2 py-1 bg-black/50 backdrop-blur-md rounded text-xs font-bold text-primary border border-primary/20">Corporate</div>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2 uppercase font-bold tracking-widest"><MapPin className="w-3 h-3" /> Dallas, TX</div>
+                  <h3 className="text-xl font-bold font-display leading-tight group-hover:text-primary transition-colors uppercase mb-2">Corporate Event Vibe Guide</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">How to balance professional networking with a high-energy party atmosphere for your next gala.</p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>

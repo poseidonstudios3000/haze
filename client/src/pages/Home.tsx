@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link, useLocation } from "wouter";
 import { MapPin } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
@@ -14,9 +15,24 @@ import { CorporateEventPlanning } from "@/components/CorporateEventPlanning";
 import { WeddingEventPlanning } from "@/components/WeddingEventPlanning";
 import { PrivateEventPlanning } from "@/components/PrivateEventPlanning";
 import { useTheme } from "@/context/ThemeContext";
-import { useEventContent, layoutToEventType as getEventType } from "@/hooks/use-event-content";
+import {
+  useEventContent,
+  useCityContent,
+  mergeCityIntoEvent,
+  layoutToEventType as getEventType,
+  type CityContentKey,
+} from "@/hooks/use-event-content";
+import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
+import { LocationContact } from "@/components/LocationContact";
 import { useSiteImages } from "@/hooks/use-site-images";
-import { getSeoPage } from "@shared/seo";
+import {
+  getSeoPage,
+  getCityHubPath,
+  getCityPagesForLayout,
+  getSeoPageLabel,
+  getLocationForCity,
+  normalizePath,
+} from "@shared/seo";
 
 const heroImages: Record<string, string> = {
   corporate_event: "/assets/corporate-events-wide-B-d8CPwl.webp",
@@ -53,13 +69,25 @@ const layoutToFormEventType: Record<string, string> = {
   pr_show: "other",
 };
 
-export default function Home() {
+export default function Home({ city }: { city?: string }) {
   const targetRef = useRef<HTMLDivElement>(null);
+  const [currentPath] = useLocation();
   const { layout } = useTheme();
   const { getImage } = useSiteImages();
   const aboutImage = getImage("about_photo");
   const evtType = getEventType(layout);
-  const { content: eventContent } = useEventContent(evtType);
+  const { content: baseContent } = useEventContent(evtType);
+
+  // On a city+service route (e.g. /chicago-wedding-dj) `city` is set and the
+  // layout is wedding or corporate. Resolve that city's content for the surface
+  // and merge it over the event default section by section; on non-city routes
+  // citySections is empty and `eventContent` is just the event default.
+  const citySlug = city?.toLowerCase();
+  const cityContentKey: CityContentKey | null =
+    citySlug && (evtType === "wedding" || evtType === "corporate") ? evtType : null;
+  const citySections = useCityContent(citySlug, cityContentKey);
+  const eventContent = mergeCityIntoEvent(baseContent, citySections);
+
   const heroSubtitle = eventContent.hero.subtitle;
   const eventType = layoutToFormEventType[layout] || "other";
   const isCorporate = layout === "corporate_event";
@@ -112,13 +140,33 @@ export default function Home() {
               {heroSubtitle}
             </p>
 
+            {eventContent.hero.subline && (
+              <p className="text-xs sm:text-sm md:text-base text-white/80 italic mb-2">
+                {eventContent.hero.subline}
+              </p>
+            )}
+
             <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 text-[8px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white/80 uppercase tracking-wider md:tracking-widest mb-2 sm:mb-3">
-              {eventContent.hero.locations.map((location: string, index: number) => (
-                <span key={index} className="flex items-center gap-1 sm:gap-1.5">
-                  <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-primary" />
-                  <span>{location}</span>
-                </span>
-              ))}
+              {eventContent.hero.locations.map((location: string, index: number) => {
+                // Locations are admin-editable, so only link the ones we have a hub page for.
+                const hubPath = getCityHubPath(location);
+                return (
+                  <span key={index} className="flex items-center gap-1 sm:gap-1.5">
+                    <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-primary" />
+                    {hubPath ? (
+                      <Link
+                        href={hubPath}
+                        className="hover:text-primary transition-colors underline-offset-4 hover:underline"
+                        data-testid={`link-hero-city-${location.toLowerCase().replace(/\s+/g, "-")}`}
+                      >
+                        {location}
+                      </Link>
+                    ) : (
+                      <span>{location}</span>
+                    )}
+                  </span>
+                );
+              })}
             </div>
 
             <CompactBookingForm defaultEventType={eventType} />
@@ -157,15 +205,16 @@ export default function Home() {
         );
       })()}
 
-      {/* 3. Event Signature Section */}
-      <EventSignatureSection />
+      {/* 3. Event Signature Section — suppressed on city pages, where the more
+           specific city intro replaces this generic question. */}
+      {!eventContent.intro && <EventSignatureSection />}
 
       {/* Client Logos Banner */}
       {!isPrivate && !isOther && <ClientLogos />}
 
-      {/* 4. Brand Reviews */}
+      {/* 4. Brand Reviews (city-filtered on city pages) */}
       <section id="reviews" className="container mx-auto px-4 py-8 md:py-16">
-        <GoogleReviews />
+        <GoogleReviews content={eventContent.reviews} />
       </section>
 
       {/* Production Included */}
@@ -429,9 +478,15 @@ export default function Home() {
       {/* 8.7 Private Event Planning Section (Private Only) */}
       {isPrivate && <PrivateEventPlanning />}
 
-      {/* 9. FAQ Section */}
+      {/* 8.9 City narrative — renders only on city pages that have content */}
+      <CityIntro intro={eventContent.intro} />
+      <CityLocalMarket localMarket={eventContent.localMarket} />
+      <CityLogistics logistics={eventContent.logistics} />
+      {eventContent.intro && <LocationContact location={getLocationForCity(citySlug)} />}
+
+      {/* 9. FAQ Section (city FAQ + FAQPage schema on city pages) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
-        <FAQ />
+        <FAQ content={eventContent.faq} emitSchema={Boolean(eventContent.intro)} />
       </section>
 
       {/* 10. About Section */}
@@ -469,6 +524,36 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 10.5 Also Serving - city variants of this service page */}
+      {(() => {
+        const cityPages = getCityPagesForLayout(layout).filter(
+          (page) => page.path !== normalizePath(currentPath),
+        );
+        if (cityPages.length === 0) return null;
+
+        return (
+          <section className="container mx-auto px-4 py-8 md:py-12">
+            <div className="max-w-3xl mx-auto text-center space-y-5">
+              <h2 className="text-xs font-black font-display uppercase tracking-widest text-primary">
+                Also Serving
+              </h2>
+              <div className="flex flex-wrap justify-center gap-3">
+                {cityPages.map((page) => (
+                  <Link
+                    key={page.path}
+                    href={page.path}
+                    className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-sm font-bold text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors"
+                    data-testid={`link-also-serving-${page.path.slice(1)}`}
+                  >
+                    {getSeoPageLabel(page)}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* 11. Final CTA Section */}
       <section className="container mx-auto px-4 py-16 md:py-24 text-center">
