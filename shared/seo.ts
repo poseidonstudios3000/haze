@@ -192,6 +192,86 @@ export const SEO_PAGES: SeoPage[] = [
 
 export const PUBLIC_SEO_PAGES = SEO_PAGES.filter((page) => !page.noindex);
 
+// === BUSINESS LOCATIONS (NAP) ===
+// One record per metro, keyed to the city slug used by the city pages. Feeds
+// the footer (all three, visible + LocalBusiness schema) and the per-city NAP
+// block. Phone numbers are exactly as the client provided them.
+export interface BusinessLocation {
+  slug: string;
+  areaLabel: string;
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion: string;
+  postalCode: string;
+  phoneDisplay: string;
+  phoneHref: string;
+  // TODO(client): Dallas street address has no house number — confirm the
+  // full address before relying on it for local ranking.
+  addressIncomplete?: boolean;
+}
+
+export const BUSINESS_LOCATIONS: BusinessLocation[] = [
+  {
+    slug: "chicago",
+    areaLabel: "Chicago area",
+    streetAddress: "627 N York St",
+    addressLocality: "Elmhurst",
+    addressRegion: "IL",
+    postalCode: "60126",
+    phoneDisplay: "(312) 270-1114",
+    phoneHref: "tel:+13122701114",
+  },
+  {
+    slug: "denver",
+    areaLabel: "Denver area",
+    streetAddress: "2584 Meadows Blvd",
+    addressLocality: "Castle Rock",
+    addressRegion: "CO",
+    postalCode: "80109",
+    phoneDisplay: "(970) 316-2778",
+    phoneHref: "tel:+19703162778",
+  },
+  {
+    slug: "dallas",
+    areaLabel: "Dallas area",
+    streetAddress: "Adelaide St",
+    addressLocality: "Frisco",
+    addressRegion: "TX",
+    postalCode: "75034",
+    phoneDisplay: "(708) 745-6708",
+    phoneHref: "tel:+17087456708",
+    addressIncomplete: true,
+  },
+];
+
+export function getLocationForCity(slug?: string): BusinessLocation | undefined {
+  if (!slug) return undefined;
+  return BUSINESS_LOCATIONS.find((loc) => loc.slug === slug);
+}
+
+// LocalBusiness structured data, one node per location. Rendered in-body by the
+// footer so it prerenders onto every page.
+export function getLocalBusinessSchema() {
+  return BUSINESS_LOCATIONS.map((loc) => ({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "@id": `${SITE_URL}/#business-${loc.slug}`,
+    name: "DJ Miss Haze",
+    image: OG_IMAGE,
+    url: SITE_URL,
+    telephone: loc.phoneHref.replace(/^tel:/, ""),
+    priceRange: "$$$",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: loc.streetAddress,
+      addressLocality: loc.addressLocality,
+      addressRegion: loc.addressRegion,
+      postalCode: loc.postalCode,
+      addressCountry: "US",
+    },
+  }));
+}
+
 // Owner-editable title/description overrides, stored in the database as
 // site_content rows keyed "seo:<path>". Baked into pages at build time
 // (and applied live in local dev) — see script/generate-seo-pages.ts.

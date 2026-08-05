@@ -505,7 +505,7 @@ export const DEFAULT_CITY_CONTENT: Record<
         title: "FREQUENTLY ASKED",
         items: [
           { category: "Locations", question: "Do you travel to the Chicago suburbs?", answer: "Yes. Naperville, Oak Brook, Glenview, Hinsdale, Downers Grove, Burr Ridge, Lombard, Oak Park and the wider Chicagoland area are all standard territory. For venues further out, travel is quoted transparently upfront." },
-          { category: "DJ & MC Services", question: "Can you handle a multicultural or multilingual reception?", answer: "Absolutely, and I genuinely enjoy them. Chicago families often blend traditions, and I plan those nights carefully — learning the key songs, the order of traditions, and the pronunciation of every name I'll announce. If part of your evening runs in another language, we plan those announcements together in advance." },
+          { category: "DJ & MC Services", question: "Can you handle a multicultural or multilingual reception?", answer: "Absolutely, and I genuinely enjoy them. Chicago families often blend traditions, and I plan those nights carefully — learning the key songs, the order of traditions, and the pronunciation of every name I'll announce. For a reception that runs in another language, I work with a bilingual MC on request — common across Chicago and Dallas–Fort Worth — and we plan the announcements and running order together in advance." },
           { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, and they're not separate services here. Grand entrance, toasts, parent dances, cake, bouquet — I handle the announcements and the room's attention, so your coordinator isn't holding a microphone and your uncle isn't either." },
           { category: "Logistics & Reliability", question: "My venue has an end time and a volume limit. Is that a problem?", answer: "No. It's normal in Chicago, and it's a planning question rather than a problem. I confirm the restrictions with your venue directly and shape the evening so the peak arrives before the cutoff." },
           { category: "Logistics & Reliability", question: "Do you have liability insurance?", answer: "Yes — a Certificate of Insurance is available on request, which most Chicago venues require from vendors." },
@@ -620,7 +620,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
           { category: "Logistics & Reliability", question: "Do you carry liability insurance?", answer: "Yes, with a Certificate of Insurance available on request." },
           { category: "Booking", question: "How far in advance should I book?", answer: "Peak wedding Saturdays and early-December corporate dates go twelve to eighteen months out. Everything else is more flexible. Ask about your date directly — availability changes." },
-          { category: "DJ & MC Services", question: "Can you handle multiple languages or cultural traditions?", answer: "Yes. Chicago weddings and celebrations often blend traditions, and I plan those evenings in advance — the music, the order of events, and the correct pronunciation of every name I announce." },
+          { category: "DJ & MC Services", question: "Can you handle multiple languages or cultural traditions?", answer: "Yes. Chicago weddings and celebrations often blend traditions, and I plan those evenings in advance — the music, the order of events, and the correct pronunciation of every name I announce. For bilingual receptions I work with a bilingual MC on request — common across Chicago and Dallas–Fort Worth." },
         ],
       },
       reviews: {
@@ -824,14 +824,14 @@ export const DEFAULT_CITY_CONTENT: Record<
     },
   },
 
-  // === DALLAS–FORT WORTH — angle: heat, distance and large bilingual events ===
+  // === DALLAS–FORT WORTH — angle: heat, distance and large events ===
   // Named DFW venues: NYLO Plano (from a testimonial) and 4 Eleven Fort Worth
   // (her own event video in the VibeReel).
-  // TODO(client): bilingual (English/Spanish) receptions are treated as routine
-  // here per the market brief, but her doc flags this as unconfirmed — confirm
-  // she offers bilingual MC/receptions before this goes live.
+  // Bilingual receptions: she DJs and MCs in English and German only, and brings
+  // in a bilingual MC on request for Spanish — copy reflects that, here and on
+  // the Chicago pages.
   // NOTE: no South Asian wedding content anywhere in DFW, per the client — the
-  // DFW angle is heat, distances, large guest counts and bilingual receptions.
+  // DFW angle is heat, distances and large guest counts.
   dallas: {
     wedding: {
       hero: {
@@ -857,7 +857,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Heat is the defining factor here, and it shapes the whole calendar.", text: "Peak season runs March through May and September through November. Summer weddings happen, but outdoor ceremonies move late into the evening and guests spend most of the night indoors. That changes the pacing — the floor fills later and stays fuller once it does. Spring brings its own variable: Texas storms arrive fast, and any outdoor ceremony between March and May needs a plan B that's ready rather than theoretical." },
         ],
         closing: [
-          "And DFW weddings are rarely one-note. The metroplex has a large Hispanic community, and bilingual receptions are routine here — a night that moves between English and Spanish, between a father-daughter dance and a full cumbia set. Texas weddings also tend to run bigger and later than most markets, with guest lists that stretch across several generations. That means a floor that has to hold grandparents at nine and college friends at midnight. I welcome and respect all cultures, religions, identities and orientations, and I learn a family's music before the day rather than during it.",
+          "And DFW weddings are rarely one-note. The metroplex has a large Hispanic community, and bilingual receptions are common here — for those I work with a bilingual MC on request, so the night can move between English and Spanish, between a father-daughter dance and a full cumbia set. Texas weddings also tend to run bigger and later than most markets, with guest lists that stretch across several generations — a floor that has to hold grandparents at nine and college friends at midnight. I welcome and respect all cultures, religions, identities and orientations, and I learn a family's music before the day rather than during it.",
         ],
       },
       logistics: {
@@ -875,7 +875,7 @@ export const DEFAULT_CITY_CONTENT: Record<
         items: [
           { category: "Locations", question: "Which parts of the metroplex do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding areas. I've worked venues including NYLO Plano and 4 Eleven Fort Worth. Anything beyond the standard service area is quoted transparently upfront." },
           { category: "Logistics & Reliability", question: "Our wedding is a large one — three hundred guests or more. Is that a problem?", answer: "Not at all, and it's common in DFW. Larger rooms need different speaker placement so the sound carries to the back without punishing the front tables. That's planned with the venue in advance." },
-          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "Yes. Bilingual receptions are routine in DFW, and we plan the announcements together in advance so nothing gets improvised on the microphone." },
+          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "For bilingual receptions I work with a bilingual MC on request — common across Dallas–Fort Worth and Chicago. I DJ and MC in English (I also speak German); the bilingual MC covers the Spanish announcements, and we plan the running order together in advance." },
           { category: "Logistics & Reliability", question: "Our ceremony is outdoors in summer. What should we know?", answer: "Texas heat is a real planning factor. Outdoor ceremonies work best later in the evening, and equipment needs shade and airflow — electronics fail in direct sun. I plan the setup around that rather than hoping for a mild day." },
           { category: "Logistics & Reliability", question: "Our venue is a ranch with limited power. Is that a problem?", answer: "Common in DFW and entirely manageable. I confirm the electrical supply with your venue in advance and plan the system around what's actually available." },
           { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, as one service. Grand entrance, toasts, parent dances, cake, closing — announcements and room management included, so your coordinator isn't holding a microphone." },
@@ -970,7 +970,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Heat shapes the year.", text: "Peak season runs March to May and September to November. Summer events move indoors or late into the evening, and outdoor functions simply don't get scheduled for a Texas afternoon in July. Spring storms are the other variable — anything outdoors between March and May needs a real plan B." },
         ],
         closing: [
-          "And DFW celebrations run big. The metroplex has a substantial Hispanic community and bilingual receptions are routine, and Texas events generally carry larger guest lists and later nights than most markets. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those events in advance rather than improvising on the night.",
+          "And DFW celebrations run big. The metroplex has a substantial Hispanic community and bilingual receptions are common — for those I work with a bilingual MC on request — and Texas events generally carry larger guest lists and later nights than most markets. I welcome and respect all cultures, religions, identities and orientations, and I prepare for those events in advance rather than improvising on the night.",
         ],
       },
       logistics: {
@@ -988,7 +988,7 @@ export const DEFAULT_CITY_CONTENT: Record<
         items: [
           { category: "Locations", question: "Which areas do you cover?", answer: "Dallas, Fort Worth, Plano, Frisco, McKinney and the surrounding metroplex. Anything further out is quoted transparently upfront." },
           { category: "DJ & MC Services", question: "Do you DJ and MC, or just DJ?", answer: "Both, as a single service. Announcements, introductions, timeline management and the microphone are included — no separate MC needed." },
-          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "Yes. Bilingual receptions are routine in DFW, and we plan the announcements together in advance so nothing gets improvised on the microphone." },
+          { category: "DJ & MC Services", question: "Can you run a bilingual reception?", answer: "For bilingual receptions I work with a bilingual MC on request — common across Dallas–Fort Worth and Chicago. I DJ and MC in English (I also speak German); the bilingual MC covers the Spanish announcements, and we plan the running order together in advance." },
           { category: "DJ & MC Services", question: "What kind of events do you take here?", answer: "Weddings, corporate events, private parties, milestone celebrations and brand activations." },
           { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a 360 photo booth, dancing on the clouds, smoke effects, CO2 cannons, glow sticks and yard games." },
           { category: "Logistics & Reliability", question: "Do you carry liability insurance?", answer: "Yes, with a Certificate of Insurance available on request." },

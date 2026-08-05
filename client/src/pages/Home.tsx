@@ -23,12 +23,14 @@ import {
   type CityContentKey,
 } from "@/hooks/use-event-content";
 import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
+import { LocationContact } from "@/components/LocationContact";
 import { useSiteImages } from "@/hooks/use-site-images";
 import {
   getSeoPage,
   getCityHubPath,
   getCityPagesForLayout,
   getSeoPageLabel,
+  getLocationForCity,
   normalizePath,
 } from "@shared/seo";
 
@@ -480,6 +482,7 @@ export default function Home({ city }: { city?: string }) {
       <CityIntro intro={eventContent.intro} />
       <CityLocalMarket localMarket={eventContent.localMarket} />
       <CityLogistics logistics={eventContent.logistics} />
+      {eventContent.intro && <LocationContact location={getLocationForCity(citySlug)} />}
 
       {/* 9. FAQ Section (city FAQ + FAQPage schema on city pages) */}
       <section id="faq" className="container mx-auto px-4 py-8 md:py-16">

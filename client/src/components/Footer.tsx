@@ -4,14 +4,12 @@ import { SOCIAL_LINKS } from "./Navbar";
 import {
   CITY_HUB_PAGES,
   SERVICE_PAGES,
+  BUSINESS_LOCATIONS,
   getCityPagesForLayout,
   getSeoPageLabel,
+  getLocalBusinessSchema,
   type SeoPage,
 } from "@shared/seo";
-
-const PHONE_DISPLAY = "(312) 270-1114";
-const PHONE_HREF = "tel:+13122701114";
-const SERVICE_AREAS = ["Chicago, IL", "Dallas–Fort Worth, TX", "Denver, CO"];
 
 // All four link columns are derived from SEO_PAGES, so adding a route there
 // puts it in the footer automatically — no second list to keep in sync.
@@ -31,11 +29,20 @@ function FooterHeading({ children }: { children: React.ReactNode }) {
 }
 
 export function Footer() {
+  // Site-wide LocalBusiness structured data, one node per location. Rendered
+  // in-body so it prerenders onto every page.
+  const localBusinessSchema = getLocalBusinessSchema();
+
   return (
     <footer className="border-t border-white/10 bg-black/40">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+
       {/* Extra bottom padding clears the fixed FooterCTA bar. */}
       <div className="container mx-auto px-4 pt-12 md:pt-16 pb-28 md:pb-32">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
           {LINK_COLUMNS.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
               <FooterHeading>{column.heading}</FooterHeading>
@@ -54,44 +61,46 @@ export function Footer() {
               </ul>
             </nav>
           ))}
+        </div>
 
-          <div className="col-span-2 md:col-span-3 lg:col-span-1">
+        {/* Contact — full NAP for all three locations */}
+        <div className="mt-12 pt-10 border-t border-white/5 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8">
+          <div className="flex-1">
             <FooterHeading>Contact</FooterHeading>
-            <p className="text-sm font-bold text-white uppercase font-display tracking-wider mb-3">
+            <p className="text-sm font-bold text-white uppercase font-display tracking-wider mb-5">
               DJ Miss Haze
             </p>
-
-            <a
-              href={PHONE_HREF}
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-4"
-              data-testid="link-footer-phone"
-            >
-              <Phone className="w-3.5 h-3.5 text-primary" />
-              <span>{PHONE_DISPLAY}</span>
-            </a>
-
-            {/*
-              TODO(client): street address intentionally NOT published yet —
-              pending confirmation from the client on whether she wants one listed.
-              When confirmed, drop the address in here and it will render under
-              the phone number. Until then nothing unverified goes on the live site.
-
-              <address className="not-italic text-sm text-muted-foreground mb-4" data-testid="text-footer-address">
-                STREET ADDRESS PLACEHOLDER
-              </address>
-            */}
-
-            <ul className="space-y-2 mb-6">
-              {SERVICE_AREAS.map((area) => (
-                <li key={area} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MapPin className="w-3.5 h-3.5 text-primary shrink-0" />
-                  <span>{area}</span>
-                </li>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+              {BUSINESS_LOCATIONS.map((loc) => (
+                <div key={loc.slug} className="space-y-2">
+                  <p className="text-xs font-black font-display uppercase tracking-widest text-primary">
+                    {loc.areaLabel}
+                  </p>
+                  <address
+                    className="not-italic flex items-start gap-2 text-sm text-muted-foreground"
+                    data-testid={`text-footer-address-${loc.slug}`}
+                  >
+                    <MapPin className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                    <span>
+                      {loc.streetAddress}, {loc.addressLocality}, {loc.addressRegion} {loc.postalCode}
+                    </span>
+                  </address>
+                  <a
+                    href={loc.phoneHref}
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                    data-testid={`link-footer-phone-${loc.slug}`}
+                  >
+                    <Phone className="w-3.5 h-3.5 text-primary" />
+                    <span>{loc.phoneDisplay}</span>
+                  </a>
+                </div>
               ))}
-            </ul>
+            </div>
+          </div>
 
+          <div className="lg:text-right">
             <FooterHeading>Follow</FooterHeading>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1 lg:justify-end">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = social.icon;
                 return (

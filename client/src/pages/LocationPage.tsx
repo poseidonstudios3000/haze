@@ -2,9 +2,10 @@ import { useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { MapPin, ArrowRight } from "lucide-react";
-import { getServicePagesForCity, getSeoPageLabel } from "@shared/seo";
+import { getServicePagesForCity, getSeoPageLabel, getLocationForCity } from "@shared/seo";
 import { useCityContent } from "@/hooks/use-event-content";
 import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
+import { LocationContact } from "@/components/LocationContact";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { VibeReel } from "@/components/VibeReel";
@@ -185,6 +186,7 @@ export default function LocationPage({ location }: LocationPageProps) {
       <CityIntro intro={cityHub.intro} />
       <CityLocalMarket localMarket={cityHub.localMarket} />
       <CityLogistics logistics={cityHub.logistics} />
+      <LocationContact location={getLocationForCity(location)} />
 
       {/* 3. Event Signature Section — suppressed on city hubs with their own
            intro, where the city intro replaces this generic question. */}

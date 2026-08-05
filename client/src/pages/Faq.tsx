@@ -10,26 +10,23 @@ import type { FAQContent } from "@/hooks/use-event-content";
 // questions (equipment, insurance, lead time) so each page stands alone; the
 // wording differs.
 //
-// TODO(client) — confirm before these go live (flagged in the source doc):
-//  - "One event per day" — is that her actual policy?
-//  - Backup-DJ network "across all three markets" — does it exist?
-//  - Retainer / balance-before-event payment terms, and retainer amount.
-//  - Does she carry backup (redundant) equipment?
-//  Pricing is deliberately left open (her call whether to publish a range).
+// TODO(client): pricing is deliberately left open — her call whether to
+// publish a range. Email address pending (she wants one on the site but hasn't
+// given it yet). Everything else here is confirmed.
 const FAQ_PAGE_CONTENT: FAQContent = {
   title: "FREQUENTLY ASKED",
   items: [
     // 1. Booking & Availability
     { category: "Booking & Availability", question: "How far in advance should I book?", answer: "For peak Saturdays, twelve to eighteen months isn't unusual — September and October in Chicago, June through September for Colorado mountain weddings, spring and autumn across Dallas–Fort Worth. Corporate holiday parties in the first two weeks of December book similarly early. Off-peak dates and weekdays have far more availability. If your date is close, ask anyway — cancellations happen." },
     { category: "Booking & Availability", question: "How do I check if my date is available?", answer: "Send an enquiry with your date, location and event type. I'll come back with availability and a quote. If your date is taken I'll tell you straight away rather than leaving you waiting." },
-    { category: "Booking & Availability", question: "Do you take more than one event per day?", answer: "No. One event per day, so nothing is rushed and setup happens without pressure." },
-    { category: "Booking & Availability", question: "What happens if you're ill or can't make it?", answer: "I maintain a network of professional DJs across all three markets who can step in, and your event details, timeline and music selections are documented so a replacement isn't starting from nothing. It's never happened, but planning for it is part of the job." },
-    { category: "Booking & Availability", question: "Do you require a deposit?", answer: "Yes — a retainer secures your date, with the balance due before the event. Terms are set out in the contract before anything is signed." },
+    { category: "Booking & Availability", question: "Do you take more than one event per day?", answer: "Usually one — and always just one for a wedding, which gets my full day. For shorter events I can sometimes take two, like a wedding and a separate afterparty, or a corporate event and its afterparty. Ask about your date and I'll tell you what's possible." },
+    { category: "Booking & Availability", question: "What happens if you're ill or can't make it?", answer: "You book me and you get me — I don't hand your event off to someone else. For a genuine emergency only, I keep trusted professional DJs I can call on, and your event details, timeline and music selections are documented so a stand-in wouldn't be starting from nothing. It's never happened, but planning for it is part of the job." },
+    { category: "Booking & Availability", question: "Do you require a deposit?", answer: "Yes — a retainer secures your date, with the balance due on the day of the event. Terms are set out in the contract before anything is signed." },
 
     // 2. Services
     { category: "Services", question: "Do you DJ and MC, or just DJ?", answer: "Both, as a single service. Grand entrance, toasts, parent dances, cake cutting, closing announcements — I handle the microphone and the room's attention alongside the music. You don't need to hire a separate MC, and your coordinator doesn't end up doing it." },
     { category: "Services", question: "What kinds of events do you take?", answer: "Weddings, corporate events, private parties, milestone celebrations and brand activations. Across Chicago, Dallas–Fort Worth, Denver, and destination events beyond those." },
-    { category: "Services", question: "Can you handle multiple cultural traditions or languages?", answer: "Yes, and I prepare for it properly. Chicago and DFW families in particular often blend traditions — the music, the running order and the correct pronunciation of every name I'll announce are all worked out in advance rather than improvised. I welcome and respect all cultures, religions, identities and orientations." },
+    { category: "Services", question: "Can you handle multiple cultural traditions or languages?", answer: "Yes, and I prepare for it properly. Chicago and DFW families in particular often blend traditions — the music, the running order and the correct pronunciation of every name I'll announce are all worked out in advance rather than improvised. I DJ and MC in English and German; for bilingual receptions I work with a bilingual MC on request, common across both markets. I welcome and respect all cultures, religions, identities and orientations." },
     { category: "Services", question: "Do you do ceremony music as well as the reception?", answer: "Yes. Processional, recessional, cocktail hour and reception can all be covered, with the sound set up appropriately for each — a ceremony needs something very different from a dance floor." },
     { category: "Services", question: "Can you take requests from guests?", answer: "That's your call, and we agree it in advance. Some couples want an open request policy, others want a do-not-play list respected without exception. Either works — what matters is deciding beforehand rather than during." },
 
@@ -63,8 +60,8 @@ const FAQ_PAGE_CONTENT: FAQContent = {
 
     // 7. Practical
     { category: "Practical", question: "How much does it cost?", answer: "Pricing depends on the event type, location, duration and any add-ons. Packages are built around your timeline and budget — send an enquiry with your details and you'll get a clear quote rather than a range." },
-    { category: "Practical", question: "What forms of payment do you accept?", answer: "Payment details are set out in the contract. A retainer secures the date, with the balance due before the event." },
-    { category: "Practical", question: "Do you carry backup equipment?", answer: "Yes. Redundancy on the critical components is standard — a failure mid-event isn't something to improvise around." },
+    { category: "Practical", question: "What forms of payment do you accept?", answer: "Payment details are set out in the contract. A retainer secures the date, with the balance due on the day of the event." },
+    { category: "Practical", question: "Do you carry backup equipment?", answer: "Yes — every piece of equipment I bring has a backup on site with me at the event. A failure mid-event isn't something to improvise around, so there's redundancy on everything that matters." },
     { category: "Practical", question: "Are you insured?", answer: "Yes, with a Certificate of Insurance available on request." },
     { category: "Practical", question: "How do we get started?", answer: "Send an enquiry with your date, location and event type, or book a Zoom call. From there we'll talk through what you're planning and whether it's a fit." },
   ],
