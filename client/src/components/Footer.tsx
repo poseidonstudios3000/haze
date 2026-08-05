@@ -74,14 +74,18 @@ export function Footer() {
             <p className="text-sm font-bold text-white uppercase font-display tracking-wider mb-5">
               DJ Miss Haze
             </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl">
+            {/* Wider than before so addresses fit on one line at typical desktop
+                widths; each column is equal-height (grid stretch) with the
+                address growing (flex-1) so the phone links stay on a common
+                baseline even if an address wraps at a narrower width. */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-6 gap-y-8 max-w-5xl">
               {BUSINESS_LOCATIONS.map((loc) => (
-                <div key={loc.slug} className="space-y-2">
+                <div key={loc.slug} className="flex flex-col gap-2">
                   <p className="text-xs font-black font-display uppercase tracking-widest text-primary">
                     {loc.areaLabel}
                   </p>
                   <address
-                    className="not-italic flex items-start gap-2 text-sm text-muted-foreground"
+                    className="not-italic flex items-start gap-2 text-sm text-muted-foreground flex-1"
                     data-testid={`text-footer-address-${loc.slug}`}
                   >
                     <MapPin className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
