@@ -160,6 +160,36 @@ export const EVENT_TYPES: { key: EventType; label: string; layoutKey: string }[]
   { key: "other", label: "Other / PR Show", layoutKey: "pr_show" },
 ];
 
+// === PRICING / INVESTMENT ================================================
+// Rendered as a visible page section (InvestmentSection), NOT via the FAQ or
+// the DB-merged `faq` section — so production DB content can never silently
+// replace it. One tier per event type; a page shows the tier for its event
+// type, and the hub pages show all tiers. Wording is the client's, verbatim.
+export interface PricingTier {
+  label: string;
+  investment: string;
+}
+
+export const PRICING_TIERS: Record<EventType, PricingTier> = {
+  wedding: { label: "Weddings", investment: "Investment begins at $3,500 during main season, off-season pricing available" },
+  corporate: { label: "Corporate Events", investment: "Investment begins at $2,500" },
+  private: { label: "Private Events", investment: "Investment begins at $2,200" },
+  other: { label: "Other Events", investment: "priced upon request" },
+};
+
+// Shown on every service and city page in event-type order.
+export const PRICING_ORDER: EventType[] = ["wedding", "corporate", "private", "other"];
+
+export const PRICING_INCLUDED: string[] = [
+  "Custom DJ and MC services",
+  "Preparation meetings",
+  "Vendor collaboration",
+  "Custom song edits for key moments",
+  "Full audio setup",
+  "Microphone setup",
+  "Dance floor lighting",
+];
+
 const WEDDING_FAQ: FAQItem[] = [
   { category: "DJ & MC Services", question: "Can you DJ and MC?", answer: "Yes, DJ Miss Haze is a professional DJ with live, dynamic music mixing who also MCs her events and is known to engage the audience while hosting. This is a critical dual role for a seamless wedding. DJ Miss Haze handles all necessary announcements, introductions (with phonetic pronunciation checks), and coordinates with your planner/vendors to ensure every timeline transition (grand entrance, toasts, first dance, etc.) is executed flawlessly and professionally." },
   { category: "DJ & MC Services", question: "How experienced are you with weddings?", answer: "Over the past 7 years, DJ Miss Haze curated almost 500 weddings. She typically covers music from pre-ceremony to the last song/exit. She is also available for wedding afterparties." },

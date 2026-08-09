@@ -23,6 +23,7 @@ import {
   type CityContentKey,
 } from "@/hooks/use-event-content";
 import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
+import { InvestmentSection } from "@/components/InvestmentSection";
 import { LocationContact } from "@/components/LocationContact";
 import { useSiteImages } from "@/hooks/use-site-images";
 import {
@@ -219,6 +220,9 @@ export default function Home({ city }: { city?: string }) {
 
       {/* Production Included */}
       <EquipmentIncluded />
+
+      {/* Investment — visible pricing for this page's event type */}
+      <InvestmentSection eventType={evtType} />
 
       {isOther && (
         <section className="container mx-auto px-4 py-16 md:py-24">
