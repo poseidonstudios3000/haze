@@ -477,10 +477,36 @@ ${jsonLd}
     </script>`;
 }
 
+// Inline, synchronous theme bootstrap injected into <head>. It sets data-layout
+// on <html> before the first paint, so the accent theme is correct from the very
+// first frame instead of flashing the base theme until React mounts and applies
+// it. The priority mirrors ThemeContext.getLayoutFromUrl + its fallback exactly —
+// route eventLayout > ?event param > saved preference > "wedding" — so the value
+// it sets always matches what the client's first render computes, and the later
+// createRoot mount is a no-op recolor. Deterministic routes bake their layout in;
+// the rest resolve at runtime from the saved preference, which only the client
+// knows. Being synchronous and in <head>, it runs before any body paint.
+function renderThemeBootstrap(page: SeoPage): string {
+  const routeLayout = page.eventLayout ? JSON.stringify(page.eventLayout) : "null";
+  return `    <script>
+      (function () {
+        try {
+          var route = ${routeLayout};
+          var byParam = { corporate: "corporate_event", wedding: "wedding", private: "private_event", pr: "pr_show" };
+          var ev = new URLSearchParams(window.location.search).get("event");
+          var layout = route || byParam[ev] || localStorage.getItem("dj-layout") || "wedding";
+          document.documentElement.setAttribute("data-layout", layout);
+        } catch (e) {}
+      })();
+    </script>`;
+}
+
 export function injectSeoMeta(html: string, page: SeoPage) {
   const replacement = `    <!-- SEO_META_START -->\n${renderSeoMeta(page)}\n    <!-- SEO_META_END -->`;
-  return html.replace(
-    /    <!-- SEO_META_START -->[\s\S]*?    <!-- SEO_META_END -->/,
-    () => replacement,
-  );
+  return html
+    .replace(
+      /    <!-- SEO_META_START -->[\s\S]*?    <!-- SEO_META_END -->/,
+      () => replacement,
+    )
+    .replace(/    <!-- THEME_LAYOUT -->/, () => renderThemeBootstrap(page));
 }
