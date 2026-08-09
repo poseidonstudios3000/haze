@@ -14,6 +14,13 @@
  * The step is non-fatal by design. If SKIP_PRERENDER=true, or no Chromium can be
  * resolved (e.g. a build environment without a browser), it logs and exits 0 so
  * the deploy is never broken — the pages simply stay client-rendered.
+ *
+ * Chromium resolution tries a locally installed browser first (dev + this repo's
+ * CI, via PLAYWRIGHT_BROWSERS_PATH or a system path), then falls back to the
+ * @sparticuz/chromium binary in serverless build environments like Vercel, which
+ * ship no browser of their own. That dependency is build-time only (a
+ * devDependency) and is imported lazily here, so it never enters the serverless
+ * function bundle and its absence never breaks the build.
  */
 import fs from "fs";
 import path from "path";
@@ -68,6 +75,63 @@ function resolveChromiumPath(): string | null {
   return candidates.find((candidate) => fs.existsSync(candidate)) || null;
 }
 
+interface ResolvedBrowser {
+  executablePath: string;
+  args: string[];
+  source: string;
+}
+
+/**
+ * Resolve a launchable Chromium, preferring a local browser so dev and CI behave
+ * exactly as before, then falling back to @sparticuz/chromium for serverless
+ * build environments (Vercel) that ship no browser. Returns null when neither
+ * resolves — the caller then skips gracefully. Never throws: a missing or broken
+ * @sparticuz/chromium is caught and treated as "no browser".
+ */
+async function resolveBrowser(): Promise<ResolvedBrowser | null> {
+  const local = resolveChromiumPath();
+  if (local) {
+    return {
+      executablePath: local,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      source: "local",
+    };
+  }
+
+  // Serverless fallback. Imported lazily and defensively: if the dependency
+  // isn't installed (or fails to unpack its binary), we return null and the
+  // build carries on with client-rendered pages.
+  try {
+    const mod: any = await import("@sparticuz/chromium");
+    const sparticuz = mod.default ?? mod;
+    // We only capture #root markup, so we don't need WebGL/canvas — disabling
+    // graphics drops the swiftshader/ANGLE flags and speeds cold start.
+    if ("graphicsMode" in sparticuz) sparticuz.graphicsMode = false;
+
+    const executablePath: string = await sparticuz.executablePath();
+    if (!executablePath || !fs.existsSync(executablePath)) {
+      log("@sparticuz/chromium resolved no executable — skipping.");
+      return null;
+    }
+
+    // @sparticuz/chromium targets direct Chromium launches, so its args include
+    // flags Playwright can't drive: --single-process stops Playwright attaching
+    // over CDP, and --headless='shell' is Playwright's to set. Strip both; keep
+    // the rest (no-sandbox, swiftshader off, etc.).
+    const args: string[] = (sparticuz.args as string[]).filter(
+      (arg) => arg !== "--single-process" && !arg.startsWith("--headless"),
+    );
+
+    return { executablePath, args, source: "@sparticuz/chromium" };
+  } catch (error) {
+    log(
+      `@sparticuz/chromium unavailable (${(error as Error).message}) — ` +
+        "skipping body prerendering.",
+    );
+    return null;
+  }
+}
+
 /** Serve dist/public so clean route URLs map to their generated index.html. */
 function startStaticServer(): Promise<{ server: Server; port: number }> {
   const app = express();
@@ -110,23 +174,23 @@ async function main() {
     return;
   }
 
-  const executablePath = resolveChromiumPath();
-  if (!executablePath) {
+  const resolved = await resolveBrowser();
+  if (!resolved) {
     log(
       "No Chromium executable found — skipping body prerendering (pages stay " +
         "client-rendered). Set PRERENDER_CHROMIUM_PATH to enable it here.",
     );
     return;
   }
-  log(`Using Chromium at ${executablePath}`);
+  log(`Using Chromium (${resolved.source}) at ${resolved.executablePath}`);
 
   const startedAt = Date.now();
   const { server, port } = await startStaticServer();
   const baseUrl = `http://127.0.0.1:${port}`;
 
   const browser = await chromium.launch({
-    executablePath,
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    executablePath: resolved.executablePath,
+    args: resolved.args,
   });
 
   let rendered = 0;
@@ -134,6 +198,18 @@ async function main() {
 
   try {
     const page = await browser.newPage();
+
+    // We only snapshot #root markup, never pixels, so image/media/font bytes are
+    // dead weight — blocking them cuts the render time and, more importantly,
+    // avoids a slow build hanging on an external asset that's unreachable from
+    // the build network. The DOM structure we capture is unaffected.
+    await page.route("**/*", (route) => {
+      const type = route.request().resourceType();
+      if (type === "image" || type === "media" || type === "font") {
+        return route.abort();
+      }
+      return route.continue();
+    });
 
     for (const seoPage of PUBLIC_SEO_PAGES) {
       const filePath = routeFilePath(seoPage.path);
