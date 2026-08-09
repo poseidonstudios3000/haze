@@ -6,6 +6,7 @@ import { getServicePagesForCity, getSeoPageLabel, getLocationForCity } from "@sh
 import { useCityContent } from "@/hooks/use-event-content";
 import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityContentSections";
 import { LocationContact } from "@/components/LocationContact";
+import { InvestmentSection } from "@/components/InvestmentSection";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { VibeReel } from "@/components/VibeReel";
@@ -186,6 +187,10 @@ export default function LocationPage({ location }: LocationPageProps) {
       <CityIntro intro={cityHub.intro} />
       <CityLocalMarket localMarket={cityHub.localMarket} />
       <CityLogistics logistics={cityHub.logistics} />
+
+      {/* Investment — hub pages cover every event type, so show all tiers */}
+      <InvestmentSection />
+
       <LocationContact location={getLocationForCity(location)} />
 
       {/* 3. Event Signature Section — suppressed on city hubs with their own

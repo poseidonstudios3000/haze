@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -46,6 +47,19 @@ function Router() {
   );
 }
 
+// wouter doesn't reset scroll on route change, so clicking a footer link would
+// leave you at the bottom of the next page (in its footer). Reset to the top on
+// every path change — but skip when the URL has a hash, so in-page anchor jumps
+// aren't overridden. Mounted once, renders nothing.
+function ScrollToTop() {
+  const [pathname] = useLocation();
+  useEffect(() => {
+    if (window.location.hash) return;
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
 // The admin surfaces are noindex dashboards, so the marketing footer is skipped
 // there. Every public route — including 404 — renders it.
 function SiteFooter() {
@@ -59,6 +73,7 @@ function App() {
     <ThemeProvider>
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
+          <ScrollToTop />
           <Router />
           <SiteFooter />
           <Toaster />
