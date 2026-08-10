@@ -1,0 +1,37 @@
+name: Website update release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-notes
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create release with change list
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -n "$last_tag" ]; then
+            notes=$(git log "$last_tag..HEAD" --no-merges --pretty=format:'- %s' | head -30)
+          else
+            notes=$(git log -5 --no-merges --pretty=format:'- %s')
+          fi
+          if [ -z "$notes" ]; then
+            notes="- Minor internal update"
+          fi
+          tag="update-$(date -u +%Y%m%d)-${{ github.run_number }}"
+          title="Website update $(date -u +'%B %d, %Y')"
+          gh release create "$tag" --title "$title" --notes "$notes"
