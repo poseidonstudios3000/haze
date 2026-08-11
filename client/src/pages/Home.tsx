@@ -133,13 +133,15 @@ export default function Home({ city }: { city?: string }) {
 
         <div className="relative z-10 h-full flex flex-col items-center justify-end pb-12 sm:pb-14 md:pb-16 px-4 sm:px-6">
           <div className="w-full max-w-2xl text-center">
-            <h1 className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[5.5vw] leading-none font-black font-display tracking-tighter text-white flex justify-center gap-[0.03em] uppercase mb-1">
+            {/* Brand lettering — decorative, not the document heading. */}
+            <div className="text-[12vw] sm:text-[10vw] md:text-[8vw] lg:text-[5.5vw] leading-none font-black font-display tracking-tighter text-white flex justify-center gap-[0.03em] uppercase mb-1">
               <span>D</span><span>J</span><span className="ml-[0.08em]">M</span><span>I</span><span>S</span><span>S</span><span className="ml-[0.08em]">H</span><span>A</span><span>Z</span><span>E</span>
-            </h1>
+            </div>
 
-            <p className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-primary uppercase tracking-[0.12em] sm:tracking-[0.15em] md:tracking-[0.2em] whitespace-pre-line mb-1">
+            {/* The page's single h1: the descriptive, keyword-rich headline. */}
+            <h1 className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-primary uppercase tracking-[0.12em] sm:tracking-[0.15em] md:tracking-[0.2em] whitespace-pre-line mb-1">
               {heroSubtitle}
-            </p>
+            </h1>
 
             {eventContent.hero.subline && (
               <p className="text-xs sm:text-sm md:text-base text-white/80 italic mb-2">
@@ -327,12 +329,12 @@ export default function Home({ city }: { city?: string }) {
                 { title: "Confident Mic Presence", text: "When announcements or guidance are needed, they're delivered clearly and tastefully — never overbearing, never awkward." },
               ].map((item, index) => (
                 <div key={index} className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5 space-y-3">
-                  <h4 className="text-lg font-black font-display text-primary uppercase">{item.title}</h4>
+                  <h3 className="text-lg font-black font-display text-primary uppercase">{item.title}</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{item.text}</p>
                 </div>
               ))}
               <div className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5 space-y-3">
-                <h4 className="text-lg font-black font-display text-primary uppercase">Versatile Across Event Types</h4>
+                <h3 className="text-lg font-black font-display text-primary uppercase">Versatile Across Event Types</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">Trusted for:</p>
                 <ul className="space-y-1.5">
                   {["Sports Events", "Fundraisers & Galas", "Fashion Shows & Creative Productions", "Community & Cultural Events", "And more."].map((item, index) => (
@@ -346,7 +348,7 @@ export default function Home({ city }: { city?: string }) {
               </div>
             </div>
             <div className="bg-zinc-900/50 p-8 rounded-2xl border border-white/5 space-y-4">
-              <h4 className="text-lg font-black font-display text-primary uppercase">Multi-Market, Travel-Ready</h4>
+              <h3 className="text-lg font-black font-display text-primary uppercase">Multi-Market, Travel-Ready</h3>
               <p className="text-muted-foreground leading-relaxed">
                 Based in Chicago, Dallas-Fort Worth, and Denver — with worldwide travel available — DJ Miss Haze brings consistency and excellence wherever your event is held.
               </p>

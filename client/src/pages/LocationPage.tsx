@@ -99,17 +99,17 @@ export default function LocationPage({ location }: LocationPageProps) {
 
         <div className="container relative z-20 px-4 text-center flex flex-col items-center justify-center h-full">
           <div className="space-y-4 md:space-y-6">
-            {/* Title */}
+            {/* Brand lettering — decorative, not the document heading. */}
             <div className="flex flex-col items-center w-full max-w-[98vw]">
-              <h1 className="text-[13vw] md:text-[11vw] leading-none font-black font-display tracking-tighter text-white w-full flex justify-between uppercase">
+              <div className="text-[13vw] md:text-[11vw] leading-none font-black font-display tracking-tighter text-white w-full flex justify-between uppercase">
                 <span>D</span><span>J</span><span className="ml-[0.1em]">M</span><span>I</span><span>S</span><span>S</span><span className="ml-[0.1em]">H</span><span>A</span><span>Z</span><span>E</span>
-              </h1>
+              </div>
             </div>
 
-            {/* Subtitle */}
-            <p className="text-xl md:text-2xl font-bold text-primary uppercase tracking-[0.2em]">
+            {/* The page's single h1: the descriptive, keyword-rich headline. */}
+            <h1 className="text-xl md:text-2xl font-bold text-primary uppercase tracking-[0.2em]">
               Event DJ & MC
-            </p>
+            </h1>
 
             {/* Location Badge */}
             <div className="flex justify-center">
