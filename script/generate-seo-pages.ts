@@ -3,6 +3,7 @@ import path from "path";
 import {
   PUBLIC_SEO_PAGES,
   SEO_PAGES,
+  NOT_FOUND_PAGE,
   SITE_URL,
   injectSeoMeta,
   applySeoOverride,
@@ -40,6 +41,15 @@ for (const basePage of SEO_PAGES) {
     writeRouteHtml(page.path, html);
   }
 }
+
+// 404 page: Vercel serves dist/public/404.html with a real 404 status for any
+// path that isn't a built route. Its head carries noindex + its own title, so a
+// missing page can't be mistaken for a copy of the homepage. The body is
+// client-rendered by the NotFound route (same as any other page).
+fs.writeFileSync(
+  path.join(distPublicDir, "404.html"),
+  injectSeoMeta(baseHtml, NOT_FOUND_PAGE),
+);
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
