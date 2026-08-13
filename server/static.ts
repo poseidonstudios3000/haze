@@ -24,8 +24,10 @@ export function serveStatic(app: Express) {
 
   app.use(express.static(distPath));
 
-  // Let the client render its not-found route without returning a soft 200.
+  // Unknown paths get a real 404 with the dedicated 404.html — its own noindex
+  // head and title — never a soft-200 copy of the homepage. Mirrors how Vercel
+  // serves dist/public/404.html in production.
   app.use("*", (_req, res) => {
-    res.status(404).sendFile(path.resolve(distPath, "index.html"));
+    res.status(404).sendFile(path.resolve(distPath, "404.html"));
   });
 }

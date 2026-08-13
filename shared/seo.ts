@@ -192,6 +192,20 @@ export const SEO_PAGES: SeoPage[] = [
 
 export const PUBLIC_SEO_PAGES = SEO_PAGES.filter((page) => !page.noindex);
 
+// Standalone 404 page. Deliberately NOT part of SEO_PAGES, so it never enters the
+// sitemap, the footer/internal-link lists, or the prerender loop. It is rendered
+// to dist/public/404.html at build time; Vercel serves that file with a real 404
+// status for any unmatched path (the catch-all rewrite to index.html was removed,
+// which is what made every mistyped URL a soft-200 duplicate of the homepage). Its
+// own noindex + title mean a 404 can never be read as the homepage.
+export const NOT_FOUND_PAGE: SeoPage = {
+  path: "/404",
+  title: "Page Not Found (404) | DJ Miss Haze",
+  description:
+    "This page doesn't exist. Explore DJ Miss Haze's wedding, corporate and private event DJ and MC services across Chicago, Dallas–Fort Worth and Denver.",
+  noindex: true,
+};
+
 // === BUSINESS LOCATIONS (NAP) ===
 // One record per metro, keyed to the city slug used by the city pages. Feeds
 // the footer (all three, visible + LocalBusiness schema) and the per-city NAP
