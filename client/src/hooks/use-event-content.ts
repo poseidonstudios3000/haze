@@ -430,7 +430,7 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
 // also her stated order of importance.
 //
 // PRESENCE: DJ Miss Haze is Chicago-based (confirmed). She splits time between
-// Chicago and Denver in summer and autumn, and travels to Dallas–Fort Worth
+// Chicago and Denver in summer and fall, and travels to Dallas–Fort Worth
 // mainly in winter but is available there year-round. She keeps a full set of
 // equipment in each market — a selling point surfaced on the city pages and FAQ.
 //
@@ -543,7 +543,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine, glow sticks, and more on request." },
           { category: "Booking", question: "How far in advance should I book a Chicago wedding date?", answer: "For weddings, 6 to 24 months is typical in Chicago, and September and October Saturdays go earliest. I'm already booking into 2028, so inquire early — off-peak and weekday dates have more availability, and if your date is close it's always worth asking." },
           { category: "Booking", question: "What's the investment?", answer: "DJ Miss Haze thinks of it as an investment, not a price. Wedding investment begins at $3,500 during main season, with off-season pricing available — covering custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup." },
-          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and autumn." },
+          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and fall." },
         ],
       },
       reviews: {
@@ -561,7 +561,7 @@ export const DEFAULT_CITY_CONTENT: Record<
         locations: CHICAGO_HERO_LOCATIONS,
       },
       intro: {
-        question: "Are you planning a company event that people actually talk about afterwards?",
+        question: "Are you planning a company event that people actually talk about afterward?",
         body: [
           "Corporate events in Chicago live or die on the run of show. A gala has an awards segment that can't drift, a conference reception has ninety minutes before people leave for dinner, a holiday party needs to carry three hundred colleagues from polite conversation to a full dance floor. As both DJ and MC, I hold the timeline and the room at once — so your team can be guests at their own event.",
         ],
@@ -576,7 +576,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "The suburbs", text: "— Oak Brook, Naperville, Downers Grove, Burr Ridge, Oak Park, Elmhurst, Lombard, Schaumburg, Hoffman Estates — hold the corporate campuses and the country clubs that serve them, from The Drake Oak Brook to the Morton Arboretum in Lisle and Cantigny Park in Wheaton. Summer outings, sales kickoffs, holiday parties for teams that don't want to travel downtown in December." },
         ],
         closing: [
-          "The Chicago corporate year has two peaks. November and December are holiday party season, and the good dates go early — companies often book a year ahead for the first two weekends of December. Spring and autumn carry the conference and gala calendar. Summer belongs to outdoor company events, which bring their own questions about power, weather and sound outdoors.",
+          "The Chicago corporate year has two peaks. November and December are holiday party season, and the good dates go early — companies often book a year ahead for the first two weekends of December. Spring and fall carry the conference and gala calendar. Summer belongs to outdoor company events, which bring their own questions about power, weather and sound outdoors.",
           "What corporate work really demands is reading a room that didn't choose to be together. At a wedding, everyone knows the couple. At a company party, half the room reports to the other half. That changes what opens the floor, when to push and when to hold back — and it's the part that experience buys you.",
         ],
       },
@@ -600,7 +600,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Booking", question: "How far ahead should we book a December holiday party?", answer: "Corporate events are typically 2 to 4 months out, but the first two weekends of December are the most contested dates of the Chicago corporate year and companies frequently book them a year ahead. I'm already taking 2028 dates, so inquire early — other dates have more flexibility." },
           { category: "Equipment", question: "What's included?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting. Optional additions include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine and glow sticks — popular for launches and brand events." },
           { category: "Booking", question: "What's the investment?", answer: "DJ Miss Haze thinks of it as an investment, not a price. Corporate event investment begins at $2,500, covering custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup." },
-          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and autumn." },
+          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and fall." },
         ],
       },
       reviews: {
@@ -656,7 +656,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Logistics & Reliability", question: "Do you carry liability insurance?", answer: "Yes, with a Certificate of Insurance available on request." },
           { category: "Booking", question: "How far in advance should I book?", answer: "It depends on the event: weddings run 6 to 24 months in Chicago, corporate events are typically 2 to 4 months (early December much further), and private events 1 to 6 months. I'm already booking into 2028, so inquire early — everything else is more flexible." },
           { category: "DJ & MC Services", question: "Can you handle multiple languages or cultural traditions?", answer: "Yes. Chicago weddings and celebrations often blend traditions, and I plan those evenings in advance — the music, the order of events, and the correct pronunciation of every name I announce. For bilingual receptions I work with a bilingual MC on request — common across Chicago and Dallas–Fort Worth." },
-          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and autumn." },
+          { category: "Locations", question: "Are you local to Chicago?", answer: "Yes — DJ Miss Haze is Chicago-based and keeps a full set of equipment here, so nothing has to travel in and setup is never a compromise. She splits time between Chicago and Denver through summer and fall." },
         ],
       },
       reviews: {
@@ -714,7 +714,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Estes Park in particular", text: "has become a wedding destination in its own right, and it's a stretch of Colorado I know venue by venue — The Stanley Hotel and Della Terra up on the mountainside, the Estes Park Resort down by the lake, Black Canyon Inn and The Landing at Estes Park in town. An hour and a half from Denver, high enough that a weather contingency always matters, and a setting that does half the work on its own." },
           { label: "And Colorado runs north as well as up.", text: "The stretch toward Loveland, Lyons and Fort Collins has become wedding country of its own — Fort Collins Country Club, Sylvan Dale Ranch in Loveland, RiverBend and the Lyons Farmette, The St Vrain in Longmont, Windsong Estate up in Severance. An hour or so from Denver, comfortably within range, and a gentler, greener feel than the high-mountain venues." },
           { label: "Altitude changes the night, and most couples don't expect it.", text: "Denver sits at 5,280 feet; mountain venues sit at eight or nine thousand. Guests arriving from sea level feel alcohol faster and tire earlier. That isn't a warning, it's a pacing decision — the energy curve for a wedding at altitude peaks differently than one at sea level, and reading that correctly is the difference between a full floor at ten and an empty one." },
-          { label: "Weather is a live variable, not a footnote.", text: "Summer afternoons bring thunderstorms that arrive fast and leave fast. Snow is possible well into June and from September onwards. Every outdoor ceremony needs a plan B that's genuinely ready — equipment covered, a defined move-indoors trigger, and a decision made early rather than at the last minute." },
+          { label: "Weather is a live variable, not a footnote.", text: "Summer afternoons bring thunderstorms that arrive fast and leave fast. Snow is possible well into June and from September onward. Every outdoor ceremony needs a plan B that's genuinely ready — equipment covered, a defined move-indoors trigger, and a decision made early rather than at the last minute." },
           { label: "And Colorado is destination country.", text: "Many of these weddings run across three days: welcome party, wedding, farewell brunch. Each has its own music, its own energy and its own crowd — the welcome party is louder than people expect, and the brunch needs almost nothing. Planning all three together is better than treating them as separate bookings." },
         ],
         closing: [
@@ -744,7 +744,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine, glow sticks, and more on request." },
           { category: "Booking", question: "How far ahead should we book a summer mountain wedding?", answer: "Peak summer mountain Saturdays, June to September, go 6 to 24 months out, and the most sought-after venues go further. I'm already booking into 2028, so inquire early — winter and shoulder-season dates have real availability." },
           { category: "Booking", question: "What's the investment?", answer: "DJ Miss Haze thinks of it as an investment, not a price. Wedding investment begins at $3,500 during main season, with off-season pricing available — covering custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup." },
-          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and autumn, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
+          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and fall, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
         ],
       },
       reviews: {
@@ -774,7 +774,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Downtown and the convention district", text: "carry the formal end — industry galas, association dinners, awards nights, conference receptions, in rooms like the Ritz-Carlton Denver and Mile High Station, and cultural venues such as the Denver Art Museum and Denver Botanic Gardens. These run to a written schedule with an AV team and a planner who has thought about every minute. My job is to fit into that precisely: hit the cue, hand over the microphone cleanly, bring the energy back the moment the program ends." },
           { label: "RiNo and the warehouse districts", text: "hold the launches, client events and anything meant to feel less corporate than it is. Breweries, rooftops and converted industrial rooms like Skylight, Moss and Ironworks — beautiful spaces with difficult acoustics, worth the extra setup time." },
           { label: "The Denver Tech Center and the southern suburbs", text: "bring the campus events: sales kickoffs, summer outings, holiday parties for teams that don't want to drive downtown in December." },
-          { label: "And then there's the mountain retreat,", text: "which is genuinely a Colorado speciality. Companies book Vail, Breckenridge or Estes Park for multi-day leadership offsites — and resorts like The Broadmoor down in Colorado Springs for the larger conferences — and the evening program runs differently to a city event: smaller groups, longer evenings, a mix of formal dinner and something much looser afterwards. These come with the same infrastructure questions as mountain weddings: power, connectivity, drive time." },
+          { label: "And then there's the mountain retreat,", text: "which is genuinely a Colorado specialty. Companies book Vail, Breckenridge or Estes Park for multi-day leadership offsites — and resorts like The Broadmoor down in Colorado Springs for the larger conferences — and the evening program runs differently from a city event: smaller groups, longer evenings, a mix of formal dinner and something much looser afterward. These come with the same infrastructure questions as mountain weddings: power, connectivity, drive time." },
         ],
         closing: [
           "Two things shape the Colorado corporate year. Holiday parties peak across the first two weeks of December and book far ahead. And the outdoor season — roughly June to September — carries company outings, retreats and everything that takes advantage of being here rather than somewhere else.",
@@ -802,7 +802,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Booking", question: "How far ahead should we book a December holiday party?", answer: "Corporate events are typically 2 to 4 months out, though the first two weeks of December are the most contested dates of the year and often book a year ahead. I'm already taking 2028 dates, so inquire early — other dates are far more flexible." },
           { category: "Equipment", question: "What's included?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting. Optional extras include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine and glow sticks — popular for launches and brand events." },
           { category: "Booking", question: "What's the investment?", answer: "DJ Miss Haze thinks of it as an investment, not a price. Corporate event investment begins at $2,500, covering custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup." },
-          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and autumn, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
+          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and fall, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
         ],
       },
       reviews: {
@@ -858,7 +858,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Equipment", question: "What equipment comes with a booking?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting as standard. Optional extras include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine, glow sticks, and more on request." },
           { category: "Booking", question: "How far in advance should I book?", answer: "It depends: mountain weddings run 6 to 24 months, corporate events are typically 2 to 4 months (early December further), and private events 1 to 6 months. I'm already booking into 2028, so inquire early — winter and shoulder-season dates have far more availability." },
           { category: "DJ & MC Services", question: "Do you cover multi-day destination events?", answer: "Yes, and they work better planned as one piece. A welcome party, a main event and a farewell brunch each need a different energy, and planning them together makes the weekend feel intentional." },
-          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and autumn, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
+          { category: "Locations", question: "Are you local to the Denver market?", answer: "DJ Miss Haze is Chicago-based but splits time between Chicago and Denver through summer and fall, and she keeps a full set of equipment in the Denver market — so gear never has to travel far and setup is never a compromise." },
         ],
       },
       reviews: {
@@ -940,7 +940,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { category: "Logistics & Reliability", question: "Our venue is a ranch with limited power. Is that a problem?", answer: "Common in DFW and entirely manageable. I confirm the electrical supply with your venue in advance and plan the system around what's actually available." },
           { category: "DJ & MC Services", question: "Do you MC as well as DJ?", answer: "Yes, as one service. Grand entrance, toasts, parent dances, cake, closing — announcements and room management included, so your coordinator isn't holding a microphone." },
           { category: "Equipment", question: "What's included when I book you?", answer: "A professional BOSE sound system, a Shure wireless handheld microphone and stand, and dance floor lighting come standard. Optional additions include a stationary photo booth, a 360 photo booth, a mobile photo booth trailer, an audio guestbook, CO2 cannons, a fog machine, glow sticks, and more on request." },
-          { category: "Booking", question: "How far ahead should we book?", answer: "Dallas–Fort Worth weddings book on a shorter runway than most markets — typically 2 to 8 months, with peak spring and autumn Saturdays going earliest. That said, I'm already holding 2028 dates, so inquire early; summer and winter have considerably more availability." },
+          { category: "Booking", question: "How far ahead should we book?", answer: "Dallas–Fort Worth weddings book on a shorter runway than most markets — typically 2 to 8 months, with peak spring and fall Saturdays going earliest. That said, I'm already holding 2028 dates, so inquire early; summer and winter have considerably more availability." },
           { category: "Booking", question: "What's the investment?", answer: "DJ Miss Haze thinks of it as an investment, not a price. Wedding investment begins at $3,500 during main season, with off-season pricing available — covering custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup." },
           { category: "Locations", question: "Are you local to Dallas–Fort Worth?", answer: "DJ Miss Haze is Chicago-based and travels to Dallas–Fort Worth mainly in winter, but she's available year-round and keeps a full set of equipment in the DFW market — so nothing has to travel in and setup is never a compromise." },
         ],
@@ -975,7 +975,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Fort Worth", text: "runs its own calendar with a distinctly different character — the Stockyards and cultural district venues, 4 Eleven Fort Worth among them, suit companies wanting something with local identity rather than another ballroom." },
         ],
         closing: [
-          "The Texas corporate year has a particular shape. Holiday parties peak across the first two weeks of December and book far ahead. Sales kickoffs cluster in January. Spring and autumn carry the conference and gala calendar. And summer outdoor company events run early or late in the day — nobody schedules an outdoor function for a Texas afternoon in July.",
+          "The Texas corporate year has a particular shape. Holiday parties peak across the first two weeks of December and book far ahead. Sales kickoffs cluster in January. Spring and fall carry the conference and gala calendar. And summer outdoor company events run early or late in the day — nobody schedules an outdoor function for a Texas afternoon in July.",
           "Reading a corporate crowd is a different skill to reading a wedding. At a wedding, everyone knows the couple. At a company party, half the room reports to the other half, and the floor doesn't open the same way. Knowing when to push and when to hold back is the part experience buys.",
         ],
       },
@@ -1043,7 +1043,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Distance", text: "Fort Worth to McKinney is fifty miles and metroplex traffic is real. Travel time goes into the schedule realistically." },
           { label: "Heat", text: "Outdoor equipment needs shade and airflow in Texas summer — electronics fail in direct sun. Outdoor setups are planned around that." },
           { label: "Power", text: "Ranch and rustic venues often have limited electrical capacity. Confirmed with the venue in advance." },
-          { label: "Season and booking", text: "Spring and autumn Saturdays go earliest. Early-December corporate dates and January sales kickoffs also fill fast. Summer and winter have genuine availability." },
+          { label: "Season and booking", text: "Spring and fall Saturdays go earliest. Early-December corporate dates and January sales kickoffs also fill fast. Summer and winter have genuine availability." },
           { label: "Insurance", text: "A Certificate of Insurance is available on request." },
         ],
       },
