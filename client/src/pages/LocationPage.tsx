@@ -71,7 +71,7 @@ export default function LocationPage({ location }: LocationPageProps) {
   const heroImage = cityImages[location];
   const locationData = locations[location];
   // Hub content for this city (defaults + any DB overrides). Empty for cities
-  // not populated yet (Dallas, Denver), which keeps their current behaviour.
+  // not populated yet (Dallas, Denver), which keeps their current behavior.
   const cityHub = useCityContent(location, "hub");
 
   useEffect(() => {
