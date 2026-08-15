@@ -701,7 +701,7 @@ export const DEFAULT_CITY_CONTENT: Record<
       intro: {
         question: "Are you planning a Colorado wedding that feels effortless, joyful and deeply personal?",
         body: [
-          "Colorado weddings are rarely just one evening. Guests fly in on Thursday, there's a welcome party, the ceremony is at eight thousand feet with a view people will talk about for years, and by Sunday brunch nobody wants to leave. As both your DJ and MC, I plan for the whole arc — not just the reception — with the presence, intention and leadership a weekend like that deserves.",
+          "Colorado weddings are rarely just one evening. Guests fly in on Thursday, there's a welcome party, the ceremony is at eight thousand feet with a view people will talk about for years, and by Sunday brunch nobody wants to leave. As both your DJ and MC, I plan for the whole arc — not just the reception — so three days at altitude feel like one celebration, start to finish.",
         ],
       },
       localMarket: {
@@ -728,7 +728,7 @@ export const DEFAULT_CITY_CONTENT: Record<
           { label: "Power and setup", text: "Rustic and outdoor venues often have limited electrical capacity. I confirm what's available in advance and plan the system around it, rather than discovering the problem on the day." },
           { label: "Travel and timing", text: "Mountain venues mean real drive time from Denver — an hour to Estes Park, closer to two toward Vail or Breckenridge, and longer when weather is in play. I build buffers into the schedule as standard." },
           { label: "Connectivity", text: "Plenty of Colorado venues have no reliable cell signal. Everything I need is downloaded and ready offline before I leave — nothing streams on the day." },
-          { label: "Season", text: "June through September is peak for mountain weddings, and the best Saturdays go early. Denver proper has a longer usable season. Winter mountain weddings are beautiful and worth considering — availability is much better and the setting does half the work." },
+          { label: "Season", text: "June through September is peak for mountain weddings, and the best Saturdays go early. Denver proper has a longer usable season. Winter mountain weddings are beautiful and worth considering — availability is much better and the mountains look their best under snow." },
           { label: "Insurance", text: "A Certificate of Insurance is available on request, which most Colorado venues require from vendors." },
         ],
       },
@@ -902,7 +902,7 @@ export const DEFAULT_CITY_CONTENT: Record<
       intro: {
         question: "Are you planning a Texas wedding that feels effortless, joyful and deeply personal?",
         body: [
-          "Dallas–Fort Worth is not one city, it's a dozen. A ceremony in the Fort Worth Stockyards and a reception in a Frisco ballroom are forty miles and two different worlds apart, and a wedding in July asks completely different questions than one in October. As both your DJ and MC, I plan for the metroplex as it actually is — with the presence, intention and leadership your day deserves.",
+          "Dallas–Fort Worth is not one city, it's a dozen. A ceremony in the Fort Worth Stockyards and a reception in a Frisco ballroom are forty miles and two different worlds apart, and a wedding in July asks completely different questions than one in October. As both your DJ and MC, I plan for the metroplex as it actually is — the distances, the heat and the guest counts all worked out well before your date.",
         ],
       },
       localMarket: {
