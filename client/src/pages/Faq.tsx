@@ -56,11 +56,11 @@ const FAQ_PAGE_CONTENT: FAQContent = {
     { category: "Corporate Events", question: "Can you handle events for several hundred guests?", answer: "Yes. Larger rooms need different speaker placement and coverage planning, which is confirmed with the venue in advance." },
 
     // 7. Practical
-    { category: "Practical", question: "How much does it cost?", answer: "DJ Miss Haze thinks of it as an investment, and it depends on the event type, date and any add-ons. Investment begins at $3,500 for weddings in main season (off-season pricing available), $2,500 for corporate events and $2,200 for private events; other events are priced upon request. Every booking includes custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup. Send an inquiry with your details for a clear quote." },
-    { category: "Practical", question: "What forms of payment do you accept?", answer: "Payment details are set out in the contract. A retainer secures the date, with the balance due on the day of the event." },
+    { category: "Practical", question: "How much does it cost?", answer: "Investment begins at $3,500 for weddings in main season (off-season pricing available), $2,500 for corporate events and $2,200 for private events; other events are priced upon request. Every booking includes custom DJ and MC services, preparation meetings, vendor collaboration, custom song edits for key moments, and the full audio, microphone and dance-floor lighting setup. Send an inquiry with your details for a clear quote." },
+    { category: "Practical", question: "What forms of payment do you accept?", answer: "Payment details are set out in the contract. A retainer secures the date, with the balance due on the day of the event. Accepted payment methods are ACH, check, debit and credit card, wire and Zelle." },
     { category: "Practical", question: "Do you carry backup equipment?", answer: "Yes — every piece of equipment I bring has a backup on site with me at the event. A failure mid-event isn't something to improvise around, so there's redundancy on everything that matters." },
     { category: "Practical", question: "Are you insured?", answer: "Yes, with a Certificate of Insurance available on request." },
-    { category: "Practical", question: "How do we get started?", answer: "Send an inquiry with your date, location and event type, email letstalk@djmisshaze.com, or book a Zoom call. From there we'll talk through what you're planning and whether it's a fit." },
+    { category: "Practical", question: "How do we get started?", answer: "Send an inquiry with your date, location and event type, email letstalk@djmisshaze.com, or book a Zoom call at https://calendly.com/djmisshaze/30min. From there we'll talk through what you're planning and whether it's a fit." },
   ],
 };
 

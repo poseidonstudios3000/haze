@@ -6,25 +6,46 @@ import type { FAQItem, FAQContent } from "@/hooks/use-event-content";
 
 // Answers are plain strings — they're rendered here AND passed verbatim into
 // the FAQPage schema's acceptedAnswer.text, so markup can't live in the source
-// copy. Any email address in an answer is turned into a mailto link at render
-// time; the schema keeps the plain text, which is what it should carry.
-const EMAIL_IN_TEXT = /([\w.+-]+@[\w-]+\.[\w.-]+)/g;
+// copy. Email addresses and http(s) URLs in an answer are turned into links at
+// render time; the schema keeps the plain text, which is what it should carry.
+const LINK_IN_TEXT = "(https?:\\/\\/[^\\s]+)|([\\w.+-]+@[\\w-]+\\.[\\w.-]+)";
+// A URL at the end of a sentence would otherwise swallow the full stop.
+const TRAILING_PUNCTUATION = /[.,;:!?)]+$/;
 
 function renderAnswer(answer: string) {
-  return answer.split(EMAIL_IN_TEXT).map((part, i) =>
-    i % 2 === 1 ? (
+  const parts: React.ReactNode[] = [];
+  let cursor = 0;
+  // Fresh regex per call: a shared /g/ instance carries lastIndex between
+  // renders, which would make matching depend on what was rendered before.
+  const pattern = new RegExp(LINK_IN_TEXT, "g");
+
+  for (let match = pattern.exec(answer); match; match = pattern.exec(answer)) {
+    const start = match.index;
+    if (start > cursor) parts.push(answer.slice(cursor, start));
+
+    let token = match[0];
+    const trailing = token.match(TRAILING_PUNCTUATION)?.[0] ?? "";
+    if (trailing) token = token.slice(0, -trailing.length);
+
+    const isUrl = Boolean(match[1]);
+    parts.push(
       <a
-        key={i}
-        href={`mailto:${part}`}
+        key={start}
+        href={isUrl ? token : `mailto:${token}`}
         className="text-primary hover:underline"
-        data-testid="link-faq-answer-email"
+        data-testid={isUrl ? "link-faq-answer-url" : "link-faq-answer-email"}
+        {...(isUrl ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
-        {part}
+        {token}
       </a>
-    ) : (
-      part
-    )
-  );
+    );
+
+    if (trailing) parts.push(trailing);
+    cursor = start + match[0].length;
+  }
+
+  if (cursor < answer.length) parts.push(answer.slice(cursor));
+  return parts;
 }
 
 interface FAQCategory {
