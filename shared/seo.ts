@@ -17,6 +17,12 @@ export const SITE_URL = "https://www.djmisshaze.com";
 export const SITE_NAME = "DJ Miss Haze";
 export const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
+// One booking inbox for every market, so it lives here rather than on each
+// BUSINESS_LOCATIONS record — the same address under all three cities would
+// just be the same line three times.
+export const BUSINESS_EMAIL = "letstalk@djmisshaze.com";
+export const BUSINESS_EMAIL_HREF = `mailto:${BUSINESS_EMAIL}`;
+
 export const SEO_PAGES: SeoPage[] = [
   {
     path: "/",
@@ -281,6 +287,7 @@ export function getLocalBusinessSchema(citySlug?: string) {
     image: OG_IMAGE,
     url: SITE_URL,
     telephone: loc.phoneHref.replace(/^tel:/, ""),
+    email: BUSINESS_EMAIL,
     priceRange: "$$$",
     address: {
       "@type": "PostalAddress",

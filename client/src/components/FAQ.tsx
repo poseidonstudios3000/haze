@@ -4,6 +4,29 @@ import { useTheme } from "@/context/ThemeContext";
 import { useEventContent, layoutToEventType } from "@/hooks/use-event-content";
 import type { FAQItem, FAQContent } from "@/hooks/use-event-content";
 
+// Answers are plain strings — they're rendered here AND passed verbatim into
+// the FAQPage schema's acceptedAnswer.text, so markup can't live in the source
+// copy. Any email address in an answer is turned into a mailto link at render
+// time; the schema keeps the plain text, which is what it should carry.
+const EMAIL_IN_TEXT = /([\w.+-]+@[\w-]+\.[\w.-]+)/g;
+
+function renderAnswer(answer: string) {
+  return answer.split(EMAIL_IN_TEXT).map((part, i) =>
+    i % 2 === 1 ? (
+      <a
+        key={i}
+        href={`mailto:${part}`}
+        className="text-primary hover:underline"
+        data-testid="link-faq-answer-email"
+      >
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
+}
+
 interface FAQCategory {
   category: string;
   icon: React.ReactNode;
@@ -119,7 +142,7 @@ export function FAQ({
               <div className="px-5 pb-5 pt-0">
                 <div className="h-px bg-white/10 mb-4" />
                 <p className="text-muted-foreground leading-relaxed text-sm md:text-base">
-                  {item.answer}
+                  {renderAnswer(item.answer)}
                 </p>
               </div>
             </div>
