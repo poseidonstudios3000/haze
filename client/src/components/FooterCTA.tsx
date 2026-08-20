@@ -36,7 +36,7 @@ export function FooterCTA() {
           </a>
           
           <a 
-            href="https://scheduler.zoom.us/dj-miss-haze" 
+            href="https://calendly.com/djmisshaze/30min" 
             target="_blank" 
             rel="noopener noreferrer"
             className="flex-1 md:flex-none h-7 px-3 rounded-full btn-gradient text-primary-foreground text-xs font-bold transition-colors flex items-center justify-center gap-1 beam-effect"
