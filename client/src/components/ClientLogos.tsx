@@ -6,6 +6,7 @@ const corporateClients = [
   { name: "BUICK", icon: null },
   { name: "CONVERSE", icon: null },
   { name: "DENVER ART MUSEUM", icon: null },
+  { name: "GAMESQUARE", icon: null },
   { name: "JE DUNN", icon: null },
   { name: "Hyundai", icon: SiHyundai },
   { name: "MACY'S", icon: null },
@@ -13,6 +14,7 @@ const corporateClients = [
   { name: "Nike", icon: SiNike },
   { name: "RANE", icon: null },
   { name: "THE NORTH FACE", icon: null },
+  { name: "TINDER", icon: null },
   { name: "UNIVERSITY OF CHICAGO", icon: null },
 ];
 
