@@ -1,10 +1,12 @@
 import { Link, useLocation } from "wouter";
-import { MapPin, Phone } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { SOCIAL_LINKS } from "./Navbar";
 import {
   CITY_HUB_PAGES,
   SERVICE_PAGES,
   BUSINESS_LOCATIONS,
+  BUSINESS_EMAIL,
+  BUSINESS_EMAIL_HREF,
   getCityPagesForLayout,
   getSeoPageLabel,
   getLocalBusinessSchema,
@@ -104,6 +106,17 @@ export function Footer() {
                 </div>
               ))}
             </div>
+
+            {/* One inbox for all three markets, so it sits under the grid
+                rather than repeating in every metro column. */}
+            <a
+              href={BUSINESS_EMAIL_HREF}
+              className="mt-8 inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+              data-testid="link-footer-email"
+            >
+              <Mail className="w-3.5 h-3.5 text-primary" />
+              <span>{BUSINESS_EMAIL}</span>
+            </a>
           </div>
 
           <div className="lg:text-right">

@@ -9,9 +9,6 @@ import type { FAQContent } from "@/hooks/use-event-content";
 // questions stay on the city pages. Some intentional overlap on the core
 // questions (equipment, insurance, lead time) so each page stands alone; the
 // wording differs.
-//
-// TODO(client): email address pending — she wants one on the site but hasn't
-// given it yet. Everything else here is confirmed.
 const FAQ_PAGE_CONTENT: FAQContent = {
   title: "FREQUENTLY ASKED",
   items: [
@@ -63,7 +60,7 @@ const FAQ_PAGE_CONTENT: FAQContent = {
     { category: "Practical", question: "What forms of payment do you accept?", answer: "Payment details are set out in the contract. A retainer secures the date, with the balance due on the day of the event." },
     { category: "Practical", question: "Do you carry backup equipment?", answer: "Yes — every piece of equipment I bring has a backup on site with me at the event. A failure mid-event isn't something to improvise around, so there's redundancy on everything that matters." },
     { category: "Practical", question: "Are you insured?", answer: "Yes, with a Certificate of Insurance available on request." },
-    { category: "Practical", question: "How do we get started?", answer: "Send an inquiry with your date, location and event type, or book a Zoom call. From there we'll talk through what you're planning and whether it's a fit." },
+    { category: "Practical", question: "How do we get started?", answer: "Send an inquiry with your date, location and event type, email letstalk@djmisshaze.com, or book a Zoom call. From there we'll talk through what you're planning and whether it's a fit." },
   ],
 };
 
