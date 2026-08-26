@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { useLocation } from "wouter";
 import { getEventLayoutForPath, type EventLayout } from "@shared/seo";
 
 export type { EventLayout };
@@ -32,6 +33,22 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const saved = localStorage.getItem("dj-layout");
     return (saved as EventLayout) || "wedding";
   });
+
+  const [location] = useLocation();
+
+  // Keep the layout in sync with the route on client-side (wouter) navigation.
+  // The provider only reads the path in the useState initializer above, so on a
+  // <Link> click it doesn't remount and the layout would otherwise stay on the
+  // page you started from. Only routes that carry their own eventLayout drive a
+  // change; hubs, /faq and the admin pages have no eventLayout, so
+  // getEventLayoutForPath returns null and their behaviour is unchanged.
+  useEffect(() => {
+    const fromRoute = getEventLayoutForPath(location);
+    if (fromRoute && fromRoute !== layout) setLayout(fromRoute);
+    // Keyed on `location` only, on purpose: a manual layout change on the same
+    // route must not be reverted by this sync.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location]);
 
   useEffect(() => {
     localStorage.setItem("dj-layout", layout);
