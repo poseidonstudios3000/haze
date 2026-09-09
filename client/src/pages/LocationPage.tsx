@@ -108,7 +108,7 @@ export default function LocationPage({ location }: LocationPageProps) {
 
             {/* The page's single h1: the descriptive, keyword-rich headline. */}
             <h1 className="text-xl md:text-2xl font-bold text-primary uppercase tracking-[0.2em]">
-              Event DJ & MC
+              {locationData.city ? `${locationData.city} DJ & MC` : "Event DJ & MC"}
             </h1>
 
             {/* Location Badge */}
