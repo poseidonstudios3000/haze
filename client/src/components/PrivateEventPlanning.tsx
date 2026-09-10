@@ -23,7 +23,7 @@ const features = [
   {
     icon: Sparkles,
     title: "Holiday Events",
-    description: "New Year's Eve, Halloween bashes, themed parties — we bring the energy to match your celebration."
+    description: "New Year's Eve, Halloween bashes, themed parties: we bring the energy to match your celebration."
   },
   {
     icon: Music,

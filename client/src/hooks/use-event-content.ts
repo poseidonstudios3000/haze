@@ -570,13 +570,13 @@ export const DEFAULT_CITY_CONTENT: Record<
         title: "Corporate Events Across Chicago",
         lead: "A corporate crowd is not a wedding crowd, and Chicago's corporate calendar has its own shape.",
         blocks: [
-          { label: "Downtown hotel ballrooms", text: "handle the formal end: awards nights, annual meetings, industry galas, in downtown rooms like Walden, The Carter and Private Dining by Sepia. These come with a production schedule, an AV team and a timeline that someone has already agonised over. My job is to fit into it precisely: hit the cue, hand the microphone over cleanly, bring the energy back up the second the presentation ends." },
+          { label: "Downtown hotel ballrooms", text: "handle the formal end: awards nights, annual meetings, industry galas, in downtown rooms like Walden, The Carter and Private Dining by Sepia. These come with a production schedule, an AV team and a timeline that someone has already agonized over. My job is to fit into it precisely: hit the cue, hand the microphone over cleanly, bring the energy back up the second the presentation ends." },
           { label: "West Loop and Fulton Market", text: "have become the city's corporate playground as much as its restaurant district. Converted warehouses, exposed brick, long communal tables. Companies book these for launches, client events and anything meant to feel less like a conference and more like a night out. Beautiful rooms, difficult acoustics, and worth setting up carefully." },
           { label: "Museums and cultural venues", text: "carry the prestige end of the calendar. Fundraisers, board dinners, milestone anniversaries. These evenings usually need restraint first and volume later: guests need to hear each other during the reception, and the room only opens up after the program ends." },
           { label: "The suburbs", text: "cover Oak Brook, Naperville, Downers Grove, Burr Ridge, Oak Park, Elmhurst, Lombard, Schaumburg and Hoffman Estates. They hold the corporate campuses and the country clubs that serve them, from The Drake Oak Brook to the Morton Arboretum in Lisle and Cantigny Park in Wheaton. Summer outings, sales kickoffs, holiday parties for teams that don't want to travel downtown in December." },
         ],
         closing: [
-          "The Chicago corporate year has two peaks. November and December are holiday party season, and the good dates go early. Companies often book a year ahead for the first two weekends of December. Spring and fall carry the conference and gala calendar. Summer belongs to outdoor company events, which bring their own questions about power, weather and sound outdoors.",
+          "The Chicago corporate year has two peaks. November and December are holiday party season, and the good dates go early. Companies often book a year ahead for the first two weekends of December. Spring and fall carry the conference and gala calendar. Summer belongs to outdoor company events, which bring their own questions about power, weather and sound.",
           "What corporate work really demands is reading a room that didn't choose to be together. At a wedding, everyone knows the couple. At a company party, half the room reports to the other half. That changes what opens the floor, when to push and when to hold back, and it's the part that experience buys you.",
         ],
       },
@@ -962,7 +962,7 @@ export const DEFAULT_CITY_CONTENT: Record<
       intro: {
         question: "Are you planning a company event that people actually want to attend?",
         body: [
-          "DFW has one of the country's densest concentrations of corporate headquarters, and the event calendar reflects it: sales kickoffs, industry galas, holiday parties for teams of five hundred. Every one runs to a schedule someone has agonised over. As both DJ and MC, I hold that timeline precisely and still leave the room somewhere it wants to be at eleven.",
+          "DFW has one of the country's densest concentrations of corporate headquarters, and the event calendar reflects it: sales kickoffs, industry galas, holiday parties for teams of five hundred. Every one runs to a schedule someone has agonized over. As both DJ and MC, I hold that timeline precisely and still leave the room somewhere it wants to be at eleven.",
         ],
       },
       localMarket: {
