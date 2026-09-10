@@ -362,7 +362,7 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
       locations: ["Chicago", "Dallas", "Denver"],
     },
     ticker: {
-      items: ["HIGH-ENERGY", "TAILORED", "PERSONALIZED", "SOPHISTICATED", "FUN", "CURATED"],
+      items: ["HIGH-ENERGY", "LIVE-MIXED", "PERSONALIZED", "SOPHISTICATED", "FUN", "CURATED"],
     },
     signature: {
       quote: "Every private celebration deserves an atmosphere that feels both exclusive and effortlessly fun.",
