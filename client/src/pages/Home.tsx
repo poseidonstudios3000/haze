@@ -241,7 +241,7 @@ export default function Home({ city }: { city?: string }) {
                 This isn't background music. It's energy architecture.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Every event has its unique vibe. My role is to read the room, guide momentum, and create a natural space through entertainment — your guests will feel engaged, present, and connected from the first moment to the last.
+                Every event has its unique vibe. My role is to read the room, guide momentum, and create a natural space through entertainment. Your guests will feel engaged, present, and connected from the first moment to the last.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
                 Whether the goal is celebration, storytelling, brand impact, or pure hype, the music always supports why people are gathering.
@@ -320,13 +320,13 @@ export default function Home({ city }: { city?: string }) {
               Because your event deserves intention, not just music.
               <br />
               <span className="text-white font-bold">DJ Miss Haze is chosen by hosts, planners, and brands who want more than a playlist.</span>{" "}
-              What sets her apart is a disciplined, experience-first approach to sound, flow, and energy — designed to elevate the entire room and leave a lasting impression.
+              What sets her apart is a disciplined, experience-first approach to sound, flow, and energy, designed to elevate the entire room and leave a lasting impression.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { title: "Premium, Polished Presentation", text: "Clean, modern setups that complement your space — not distract from it. Professional sound, thoughtful lighting, and camera-friendly aesthetics are standard." },
+                { title: "Premium, Polished Presentation", text: "Clean, modern setups that complement your space, not distract from it. Professional sound, thoughtful lighting, and camera-friendly aesthetics are standard." },
                 { title: "Strategic Planning & White-Glove Execution", text: "From your first inquiry to final track, every detail is planned with clarity and care. DJ Miss Haze collaborates seamlessly with planners, venues, producers, and vendors to keep your event running smoothly." },
-                { title: "Confident Mic Presence", text: "When announcements or guidance are needed, they're delivered clearly and tastefully — never overbearing, never awkward." },
+                { title: "Confident Mic Presence", text: "When announcements or guidance are needed, they're delivered clearly and tastefully, never overbearing, never awkward." },
               ].map((item, index) => (
                 <div key={index} className="bg-zinc-900/50 p-6 rounded-2xl border border-white/5 space-y-3">
                   <h3 className="text-lg font-black font-display text-primary uppercase">{item.title}</h3>
@@ -350,7 +350,7 @@ export default function Home({ city }: { city?: string }) {
             <div className="bg-zinc-900/50 p-8 rounded-2xl border border-white/5 space-y-4">
               <h3 className="text-lg font-black font-display text-primary uppercase">Multi-Market, Travel-Ready</h3>
               <p className="text-muted-foreground leading-relaxed">
-                Based in Chicago, Dallas-Fort Worth, and Denver — with worldwide travel available — DJ Miss Haze brings consistency and excellence wherever your event is held.
+                Based in Chicago, Dallas-Fort Worth, and Denver, with worldwide travel available, DJ Miss Haze brings consistency and excellence wherever your event is held.
               </p>
             </div>
           </div>
@@ -367,14 +367,14 @@ export default function Home({ city }: { city?: string }) {
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
               Wedding clients who choose DJ Miss Haze become hosts who lead with intention, inclusion, confidence, and elevated taste.
               <br />
-              <span className="text-white font-bold">They are no longer "hoping the music works" — they are curating an experience people remember and talk about.</span>
+              <span className="text-white font-bold">They are no longer "hoping the music works." They are curating an experience people remember and talk about.</span>
             </p>
             <div className="space-y-4">
               {[
-                { from: "Stressed Planners", to: "Calm, Confident Hosts", text: "They can trust that every transition, cue, and moment will flow smoothly — allowing them to stay present at their wedding instead of managing details." },
-                { from: "Throwing an Event", to: "Creating an Experience", text: "Their event feels thoughtful, polished, and immersive — not generic or thrown together." },
+                { from: "Stressed Planners", to: "Calm, Confident Hosts", text: "They can trust that every transition, cue, and moment will flow smoothly, allowing them to stay present at their wedding instead of managing details." },
+                { from: "Throwing an Event", to: "Creating an Experience", text: "Their event feels thoughtful, polished, and immersive, not generic or thrown together." },
                 { from: "Playing Music", to: "Setting the Energy", text: "They become hosts who understand that how people feel matters." },
-                { from: "Entertaining Guests", to: "Bringing People Together", text: "Their space feels inclusive, connected, and welcoming — across generations, cultures, and personalities." },
+                { from: "Entertaining Guests", to: "Bringing People Together", text: "Their space feels inclusive, connected, and welcoming, across generations, cultures, and personalities." },
                 { from: "Hiring a Vendor", to: "Partnering with a Professional", text: "They work with someone who anticipates needs, communicates clearly, and leads with calm authority and mindful presence." },
               ].map((item, index) => (
                 <div key={index} className="bg-zinc-900/50 rounded-2xl border border-white/5 p-6 space-y-4">
@@ -422,7 +422,7 @@ export default function Home({ city }: { city?: string }) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
               <div className="space-y-6">
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  Corporate clients choose DJ Miss Haze for her ability to balance energy, professionalism, and brand sensitivity—without compromising on vibe.
+                  Corporate clients choose DJ Miss Haze for her ability to balance energy, professionalism, and brand sensitivity, without compromising on vibe.
                 </p>
                 <div className="space-y-4">
                   <p className="text-xl font-bold text-white uppercase tracking-wider">You can expect:</p>
@@ -450,7 +450,7 @@ export default function Home({ city }: { city?: string }) {
                   </ul>
                 </div>
                 <p className="text-lg text-white font-medium italic border-l-4 border-primary pl-4">
-                  This is not a "wedding DJ crossover" or club-only approach—it's a corporate-ready DJ experience built for business environments.
+                  This is not a "wedding DJ crossover" or club-only approach. It's a corporate-ready DJ experience built for business environments.
                 </p>
               </div>
               

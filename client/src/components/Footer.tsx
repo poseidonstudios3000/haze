@@ -160,7 +160,7 @@ export function Footer() {
             </Link>
           </div>
           <p className="text-[10px] text-white/30 tracking-widest uppercase text-center">
-            Event DJ &amp; MC — Chicago, IL | Dallas, TX | Denver, CO
+            Event DJ &amp; MC: Chicago, IL | Dallas, TX | Denver, CO
           </p>
         </div>
       </div>
