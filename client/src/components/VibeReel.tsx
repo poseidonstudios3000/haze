@@ -11,12 +11,13 @@ const corporateVideos = [
 ];
 
 const weddingVideos = [
-  { id: 1, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Reel-xL-QkZ92.mp4", title: "Wedding DJ Reel" },
-  { id: 2, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Colorado-Reel-DbwMh-nV.mp4", title: "Colorado Wedding DJ" },
-  { id: 3, src: "/assets/DJ-Miss-Haze-Top-10-Wedding-Songs-of-2025-BJQbdgXj.mp4", title: "Top 10 Wedding Songs 2025" },
-  { id: 4, src: "/assets/DJ-Miss-Haze-Black-Canyon-Inn-Colorado-Wedding-DJ-Qi7EQQuP.mp4", title: "Black Canyon Inn Wedding" },
-  { id: 5, src: "/assets/360-Photo-Booth-Add-On-Video-Reel-hiXiLvqj.mp4", title: "360 Photo Booth Add-On" },
-  { id: 6, src: "/assets/DJ-Miss-Haze-2026-Wedding-DJ-Reel-4-Eleven-Fort-Worth-Bu_e-Gi3.mp4", title: "4 Eleven Fort Worth Wedding" },
+  { id: 1, src: "/assets/DJ-Miss-Haze-Wedding-Reel-2026.mp4", title: "DJ Miss Haze Wedding Energy" },
+  { id: 2, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Reel-xL-QkZ92.mp4", title: "Wedding DJ Reel" },
+  { id: 3, src: "/assets/DJ-Miss-Haze-Wedding-DJ-Colorado-Reel-DbwMh-nV.mp4", title: "Colorado Wedding DJ" },
+  { id: 4, src: "/assets/DJ-Miss-Haze-Top-10-Wedding-Songs-of-2025-BJQbdgXj.mp4", title: "Top 10 Wedding Songs 2025" },
+  { id: 5, src: "/assets/DJ-Miss-Haze-Black-Canyon-Inn-Colorado-Wedding-DJ-Qi7EQQuP.mp4", title: "Black Canyon Inn Wedding" },
+  { id: 6, src: "/assets/360-Photo-Booth-Add-On-Video-Reel-hiXiLvqj.mp4", title: "360 Photo Booth Add-On" },
+  { id: 7, src: "/assets/DJ-Miss-Haze-2026-Wedding-DJ-Reel-4-Eleven-Fort-Worth-Bu_e-Gi3.mp4", title: "4 Eleven Fort Worth Wedding" },
 ];
 
 export function VibeReel() {
