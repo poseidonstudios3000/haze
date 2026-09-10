@@ -13,7 +13,7 @@ const features = [
   {
     icon: PartyPopper,
     title: "Milestone Celebrations",
-    description: "Birthdays, anniversaries, graduations, and life's biggest moments deserve the perfect soundtrack."
+    description: "Birthdays, anniversaries, graduations, and life's biggest moments deserve music that fits them."
   },
   {
     icon: Users,
@@ -98,10 +98,10 @@ export function PrivateEventPlanning() {
 
           <div className="bg-zinc-900/50 p-8 rounded-2xl border border-white/5 space-y-6 text-center max-w-2xl mx-auto">
             <h3 className="text-2xl md:text-3xl font-black font-display uppercase">
-              Let's Make Your Party <span className="text-primary italic">Unforgettable</span>
+              Host a party your guests will <span className="text-primary italic">rave about</span> for years
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Whether it's an intimate gathering of 20 or a blowout bash of 200+, DJ Miss Haze brings the energy, expertise, and personal attention to make your private event truly memorable.
+              Whether it's an intimate gathering of 20 or a blowout bash of 200+, DJ Miss Haze brings the energy, expertise, and personal attention to make your private event feel like yours.
             </p>
             <a 
               href="#" 
