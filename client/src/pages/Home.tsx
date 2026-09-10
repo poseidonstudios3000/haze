@@ -398,7 +398,7 @@ export default function Home({ city }: { city?: string }) {
                 ].map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <span className="text-primary mt-1">&#10003;</span>
-                    <span className="text-muted-foreground"><span className="text-white font-bold">{item.trait}</span> — {item.desc}</span>
+                    <span className="text-muted-foreground"><span className="text-white font-bold">{item.trait}</span>: {item.desc}</span>
                   </li>
                 ))}
               </ul>
