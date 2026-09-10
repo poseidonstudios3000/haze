@@ -7,7 +7,7 @@ export const layouts = {
     accent: "text-primary",
     card: "bg-zinc-900 border-primary/30",
     subtitle: "Wedding DJ & Event Specialist",
-    tagline: "Creating unforgettable moments for your special day",
+    tagline: "Creating the moments you'll want to relive",
     experiences: [
       "Reception Vibes",
       "Ceremony Transitions",
