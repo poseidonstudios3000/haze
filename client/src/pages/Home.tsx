@@ -459,7 +459,7 @@ export default function Home({ city }: { city?: string }) {
                   Let's Elevate Your Next <span className="text-primary">Corporate Event</span>
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Whether you're planning a formal corporate gala, a large-scale conference, or a high-energy company celebration, DJ Miss Haze brings the expertise and presence needed to make your event land the way it should.
+                  Whether you're planning a formal corporate gala, a large-scale conference, or a high-energy company celebration, work with DJ Miss Haze to deliver an on-brand experience that fully resonates with your clients and employees.
                 </p>
                 <a 
                   href="#" 

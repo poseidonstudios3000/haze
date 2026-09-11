@@ -400,7 +400,7 @@ export const DEFAULT_EVENT_CONTENT: Record<EventType, EventSections> = {
     },
     signature: {
       quote: "From red carpets to brand activations, DJ Miss Haze commands the room with style and precision.",
-      description: "Specializing in PR Shows, Brand Activations, and High-Profile Events across Chicago, Dallas–Fort Worth, and Denver plus surrounding areas, DJ Miss Haze collaborates with publicists, brands, and creative agencies to deliver experiences people talk about afterwards. Her ability to elevate any space with curated sound design makes her the go-to choice for launches, galas, and exclusive showcases. Available for nationwide and international travel.",
+      description: "Specializing in PR Shows, Brand Activations, and High-Profile Events across Chicago, Dallas–Fort Worth, and Denver plus surrounding areas, DJ Miss Haze collaborates with publicists, brands, and creative agencies to create an immersive brand experience your target audience can truly feel and leaves them craving more. Her ability to elevate any space with curated sound design makes her the go-to choice for launches, galas, and exclusive showcases. Available for nationwide and international travel.",
     },
     mantra: { ...SHARED_MANTRA },
     about: { ...SHARED_ABOUT },

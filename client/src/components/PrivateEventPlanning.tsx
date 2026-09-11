@@ -13,7 +13,7 @@ const features = [
   {
     icon: PartyPopper,
     title: "Milestone Celebrations",
-    description: "Birthdays, anniversaries, graduations, and life's biggest moments deserve music that fits them."
+    description: "Birthdays, anniversaries, graduations, and life's big moments deserve big music energy."
   },
   {
     icon: Users,
@@ -101,7 +101,7 @@ export function PrivateEventPlanning() {
               Host a party your guests will <span className="text-primary italic pr-1">rave about</span> for years
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Whether it's an intimate gathering of 20 or a blowout bash of 200+, DJ Miss Haze brings the energy, expertise, and personal attention to make your private event feel like yours.
+              Whether it's an intimate gathering of 20 or a blowout bash of 200+, DJ Miss Haze brings the energy and expertise to entertain your guests the right way at your private event.
             </p>
             <a 
               href="#" 

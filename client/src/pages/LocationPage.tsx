@@ -56,7 +56,7 @@ const locations: Record<string, LocationData> = {
     city: "Denver",
     state: "CO",
     tagline: "The Mile High City's Go-To Event DJ",
-    description: "Creating the moments that make Denver weddings, mountain venues and corporate gatherings feel like yours.",
+    description: "You can now host a raving party in Denver and across Colorado, from fancy downtown rooftops to intimate or large gatherings in Colorado's mountains: celebrate your corporate event, private event and wedding in style.",
     seoTitle: "Denver DJ | Event DJ & MC | DJ Miss Haze",
     seoDescription: "Professional event DJ services in Denver, CO. DJ Miss Haze delivers curated music experiences for weddings, corporate events, and private parties.",
   },
