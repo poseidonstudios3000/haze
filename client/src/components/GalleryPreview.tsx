@@ -64,7 +64,6 @@ const privateImages: GalleryImage[] = [
   { id: 5, src: "/assets/Pro-Mobile-DJ-Chicago-CPGYrjc-.webp", title: "Pro Mobile DJ Chicago" },
   { id: 6, src: "/assets/Private-Event-book-DJ-now-Colorado-CyhlfpRN.webp", title: "Private Event Book DJ Now Colorado" },
   { id: 7, src: "/assets/female-DJ-chicago-rooftop-De5czptt.webp", title: "Female DJ Chicago Rooftop" },
-  { id: 8, src: "/assets/Female-DJ-Glenview-Illinois-CL6Zoy3A.webp", title: "Female DJ Glenview Illinois" },
 ];
 
 const otherImages: GalleryImage[] = [
