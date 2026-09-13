@@ -1,13 +1,5 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, PartyPopper, Users, Sparkles, Music, Heart, Clock } from "lucide-react";
-
-const slides = [
-  { src: "/assets/Private-Event-DJ-Miss-Haze-DIzMz1_Z.webp", alt: "Holiday Party DJ Experience" },
-  { src: "/assets/Private-Event-DJ-Chicago-BWcYfPYB.webp", alt: "Birthday Celebration Energy" },
-  { src: "/assets/Private-Events-DJ-energy-chicago-Bg5ibJvV.webp", alt: "Private Party Moments" },
-  { src: "/assets/DJ-Miss-Haze-Event-DJ-and-MC-BjFMJQkD.webp", alt: "Dance Floor Vibes" },
-];
+import { motion } from "framer-motion";
+import { PartyPopper, Users, Sparkles, Music, Heart, Clock } from "lucide-react";
 
 const features = [
   {
@@ -43,32 +35,6 @@ const features = [
 ];
 
 export function PrivateEventPlanning() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % slides.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [isAutoPlaying]);
-
-  const goTo = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
-  };
-
-  const goNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % slides.length);
-    setIsAutoPlaying(false);
-  };
-
-  const goPrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length);
-    setIsAutoPlaying(false);
-  };
-
   return (
     <>
       <section id="why-private" className="container mx-auto px-4 py-16 md:py-24">
@@ -111,98 +77,6 @@ export function PrivateEventPlanning() {
             >
               Plan Your Party
             </a>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 border-t border-white/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10 md:mb-14">
-            <h2 className="text-2xl md:text-4xl font-black font-display mb-4 uppercase" data-testid="text-private-moments-heading">Private Event Moments</h2>
-            <div className="h-1 w-24 bg-primary rounded-full mx-auto" />
-          </div>
-
-          <div className="relative max-w-4xl mx-auto">
-            <div 
-              className="relative aspect-[16/9] max-h-[500px] mx-auto overflow-hidden rounded-3xl bg-zinc-900/50 border border-white/10"
-              onMouseEnter={() => setIsAutoPlaying(false)}
-              onMouseLeave={() => setIsAutoPlaying(true)}
-            >
-              <AnimatePresence mode="wait">
-                <motion.img
-                  key={currentIndex}
-                  src={slides[currentIndex].src}
-                  alt={slides[currentIndex].alt}
-                  className="w-full h-full object-cover"
-                  initial={{ opacity: 0, scale: 1.1 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.5 }}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </AnimatePresence>
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-              <button
-                onClick={goPrev}
-                className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-black/80 transition-all z-10"
-                aria-label="Previous slide"
-                data-testid="button-private-carousel-prev"
-              >
-                <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-
-              <button
-                onClick={goNext}
-                className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-black/60 backdrop-blur-sm border border-white/20 flex items-center justify-center hover:bg-black/80 transition-all z-10"
-                aria-label="Next slide"
-                data-testid="button-private-carousel-next"
-              >
-                <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
-              </button>
-
-              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-                {slides.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goTo(index)}
-                    className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${
-                      index === currentIndex 
-                        ? "bg-primary w-6 md:w-8" 
-                        : "bg-white/40 hover:bg-white/60"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                    data-testid={`button-private-dot-${index}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-center gap-2 mt-6">
-              {slides.map((slide, index) => (
-                <button
-                  key={index}
-                  onClick={() => goTo(index)}
-                  className={`w-14 h-14 md:w-16 md:h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                    index === currentIndex 
-                      ? "border-primary opacity-100 scale-105" 
-                      : "border-transparent opacity-50 hover:opacity-75"
-                  }`}
-                  aria-label={slide.alt}
-                  data-testid={`button-private-thumb-${index}`}
-                >
-                  <img 
-                    src={slide.src} 
-                    alt={slide.alt} 
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                </button>
-              ))}
-            </div>
           </div>
         </div>
       </section>
