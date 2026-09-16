@@ -10,6 +10,8 @@
     { "source": "/corporate-events/", "destination": "/corporate-event-dj", "permanent": true },
     { "source": "/private-events", "destination": "/private-event-dj", "permanent": true },
     { "source": "/private-events/", "destination": "/private-event-dj", "permanent": true },
+    { "source": "/brand-activation-dj", "destination": "/event-dj", "permanent": true },
+    { "source": "/brand-activation-dj/", "destination": "/event-dj", "permanent": true },
 
     { "source": "/chicago-wedding-dj/", "destination": "/chicago-wedding-dj", "permanent": true },
     { "source": "/denver-wedding-dj/", "destination": "/denver-wedding-dj", "permanent": true },
