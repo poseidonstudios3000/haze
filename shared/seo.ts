@@ -63,7 +63,7 @@ export const SEO_PAGES: SeoPage[] = [
     changefreq: "weekly",
   },
   {
-    path: "/brand-activation-dj",
+    path: "/event-dj",
     title: "Brand Activation DJ & Event MC | DJ Miss Haze",
     description:
       "DJ and MC for brand activations, PR events, launches, influencer events, galas, and high-profile event experiences in Chicago, Dallas-Fort Worth, Denver, and beyond.",

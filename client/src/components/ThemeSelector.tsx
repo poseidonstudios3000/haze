@@ -7,7 +7,7 @@ const layoutOptions: { key: EventLayout; label: string; href: string }[] = [
   { key: "corporate_event", label: "Corporate", href: "/corporate-event-dj" },
   { key: "private_event", label: "Private", href: "/private-event-dj" },
   { key: "wedding", label: "Wedding", href: "/wedding-dj" },
-  { key: "pr_show", label: "Other", href: "/brand-activation-dj" },
+  { key: "pr_show", label: "Other", href: "/event-dj" },
 ];
 
 export function ThemeSelector() {

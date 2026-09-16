@@ -18,7 +18,7 @@ const homeRoutes = [
   "/wedding-dj",
   "/corporate-event-dj",
   "/private-event-dj",
-  "/brand-activation-dj",
+  "/event-dj",
   "/chicago-wedding-dj",
   "/dallas-wedding-dj",
   "/denver-wedding-dj",

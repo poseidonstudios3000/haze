@@ -28,7 +28,7 @@ const eventButtons: EventButtonData[] = [
   { label: "Corporate Events", href: "/corporate-event-dj", color: "hsl(217 91% 60%)", glow: "hsla(217,91%,60%,0.5)", textClass: "text-white", subClass: "text-white/70" },
   { label: "Private Events", href: "/private-event-dj", color: "hsl(62 84% 54%)", glow: "hsla(62,84%,54%,0.45)", textClass: "text-black", subClass: "text-black/60" },
   { label: "Weddings", href: "/wedding-dj", color: "hsl(15 39% 51%)", glow: "hsla(15,39%,51%,0.5)", textClass: "text-white", subClass: "text-white/70" },
-  { label: "Other Events", href: "/brand-activation-dj", color: "hsl(330 85% 54%)", glow: "hsla(330,85%,54%,0.5)", textClass: "text-white", subClass: "text-white/70" },
+  { label: "Other Events", href: "/event-dj", color: "hsl(330 85% 54%)", glow: "hsla(330,85%,54%,0.5)", textClass: "text-white", subClass: "text-white/70" },
 ];
 
 function EventButton({ data }: { data: EventButtonData }) {
