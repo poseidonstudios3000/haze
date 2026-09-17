@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import { useLocation } from "wouter";
 import { getEventLayoutForPath, type EventLayout } from "@shared/seo";
 
@@ -54,6 +54,26 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     localStorage.setItem("dj-layout", layout);
     document.documentElement.setAttribute("data-layout", layout);
   }, [layout]);
+
+  // GA4 only fires a page_view automatically on the first (hard) load via the
+  // gtag('config', ...) snippet in index.html. wouter navigations are
+  // client-side and never reload the page, so without this every SPA route
+  // change would go uncounted. Listen to the same `location` this provider
+  // already tracks and send a page_view on each change. Skip the very first run
+  // so we don't double-count the initial load that config already reported.
+  const isFirstPageView = useRef(true);
+  useEffect(() => {
+    if (isFirstPageView.current) {
+      isFirstPageView.current = false;
+      return;
+    }
+    if (typeof window.gtag !== "function") return;
+    window.gtag("event", "page_view", {
+      page_path: location,
+      page_location: window.location.href,
+      page_title: document.title,
+    });
+  }, [location]);
 
   return (
     <ThemeContext.Provider value={{ layout, setLayout }}>

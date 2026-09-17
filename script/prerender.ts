@@ -203,9 +203,26 @@ async function main() {
     // dead weight — blocking them cuts the render time and, more importantly,
     // avoids a slow build hanging on an external asset that's unreachable from
     // the build network. The DOM structure we capture is unaffected.
+    //
+    // We also block Google Analytics (gtag.js and its collect beacons). The GA4
+    // snippet lives in <head> and would otherwise execute during prerender,
+    // firing a real page_view from the build environment for every route on
+    // every build — polluting the property with phantom traffic. Blocking the
+    // script means gtag never loads, so nothing is sent; the captured #root
+    // markup is unaffected either way.
+    const ANALYTICS_HOSTS = [
+      "googletagmanager.com",
+      "google-analytics.com",
+      "analytics.google.com",
+    ];
     await page.route("**/*", (route) => {
-      const type = route.request().resourceType();
+      const request = route.request();
+      const type = request.resourceType();
       if (type === "image" || type === "media" || type === "font") {
+        return route.abort();
+      }
+      const host = new URL(request.url()).hostname;
+      if (ANALYTICS_HOSTS.some((h) => host === h || host.endsWith(`.${h}`))) {
         return route.abort();
       }
       return route.continue();

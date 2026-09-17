@@ -1,5 +1,11 @@
 /// <reference types="vite/client" />
 
+// Google Analytics 4 gtag.js, loaded via the snippet in index.html.
+interface Window {
+  dataLayer: unknown[];
+  gtag: (...args: unknown[]) => void;
+}
+
 declare module "*.mp4" {
   const src: string;
   export default src;
