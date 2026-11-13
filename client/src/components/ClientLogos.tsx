@@ -84,7 +84,6 @@ export function ClientLogos() {
                   src={client.img}
                   alt={client.name}
                   className={`${client.imgClassName ?? "h-8 md:h-10"} w-auto opacity-60 hover:opacity-100 transition-opacity`}
-                  loading="lazy"
                 />
               ) : client.icon ? (
                 <client.icon className="h-8 md:h-10 w-auto text-white/60 hover:text-primary transition-colors" />
@@ -107,7 +106,6 @@ export function ClientLogos() {
                   src={client.img}
                   alt={client.name}
                   className={`${client.imgClassName ?? "h-8 md:h-10"} w-auto opacity-60 hover:opacity-100 transition-opacity`}
-                  loading="lazy"
                 />
               ) : client.icon ? (
                 <client.icon className="h-8 md:h-10 w-auto text-white/60 hover:text-primary transition-colors" />
