@@ -13,7 +13,7 @@ const corporateClients: CorporateClient[] = [
   { name: "BMW", icon: SiBmw },
   { name: "BUICK", icon: null },
   { name: "CONVERSE", icon: null },
-  { name: "CYERA", icon: null, img: "/assets/cyera-logo-white.png", imgClassName: "h-4 md:h-5" },
+  { name: "CYERA", icon: null, img: "/assets/cyera-logo-white.png", imgClassName: "h-5 md:h-6" },
   { name: "DENVER ART MUSEUM", icon: null },
   { name: "GAMESQUARE", icon: null },
   { name: "JE DUNN", icon: null },
