@@ -1,14 +1,24 @@
 import { SiNike, SiBmw, SiHyundai } from "react-icons/si";
+import type { IconType } from "react-icons";
 import { useTheme } from "@/context/ThemeContext";
 
-const corporateClients = [
+type CorporateClient = {
+  name: string;
+  icon: IconType | null;
+  img?: string;
+  imgClassName?: string;
+};
+
+const corporateClients: CorporateClient[] = [
   { name: "BMW", icon: SiBmw },
   { name: "BUICK", icon: null },
   { name: "CONVERSE", icon: null },
+  { name: "CYERA", icon: null, img: "/assets/cyera-logo-white.png", imgClassName: "h-6 md:h-8" },
   { name: "DENVER ART MUSEUM", icon: null },
   { name: "GAMESQUARE", icon: null },
   { name: "JE DUNN", icon: null },
   { name: "Hyundai", icon: SiHyundai },
+  { name: "JAGUAR", icon: null, img: "/assets/jaguar-logo-white.png", imgClassName: "h-4 md:h-5" },
   { name: "MACY'S", icon: null },
   { name: "NEIMAN MARCUS", icon: null },
   { name: "Nike", icon: SiNike },
@@ -69,7 +79,14 @@ export function ClientLogos() {
               key={`a-${index}`}
               className="flex items-center justify-center mx-8 md:mx-12"
             >
-              {client.icon ? (
+              {client.img ? (
+                <img
+                  src={client.img}
+                  alt={client.name}
+                  className={`${client.imgClassName ?? "h-8 md:h-10"} w-auto opacity-60 hover:opacity-100 transition-opacity`}
+                  loading="lazy"
+                />
+              ) : client.icon ? (
                 <client.icon className="h-8 md:h-10 w-auto text-white/60 hover:text-primary transition-colors" />
               ) : (
                 <span className="text-lg md:text-xl font-bold text-white/60 hover:text-primary transition-colors whitespace-nowrap uppercase tracking-wider">
@@ -85,7 +102,14 @@ export function ClientLogos() {
               key={`b-${index}`}
               className="flex items-center justify-center mx-8 md:mx-12"
             >
-              {client.icon ? (
+              {client.img ? (
+                <img
+                  src={client.img}
+                  alt={client.name}
+                  className={`${client.imgClassName ?? "h-8 md:h-10"} w-auto opacity-60 hover:opacity-100 transition-opacity`}
+                  loading="lazy"
+                />
+              ) : client.icon ? (
                 <client.icon className="h-8 md:h-10 w-auto text-white/60 hover:text-primary transition-colors" />
               ) : (
                 <span className="text-lg md:text-xl font-bold text-white/60 hover:text-primary transition-colors whitespace-nowrap uppercase tracking-wider">
