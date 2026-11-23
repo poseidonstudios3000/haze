@@ -7,6 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { Footer } from "@/components/Footer";
 import { getSeoPage } from "@shared/seo";
+import { useContactLinkTracking } from "@/lib/analytics";
 import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
 import LocationPage from "@/pages/LocationPage";
@@ -60,6 +61,12 @@ function ScrollToTop() {
   return null;
 }
 
+// GA4 click_phone / click_email for every tel: and mailto: link. Renders nothing.
+function ContactLinkTracking() {
+  useContactLinkTracking();
+  return null;
+}
+
 // The admin surfaces are noindex dashboards, so the marketing footer is skipped
 // there. Every public route — including 404 — renders it.
 function SiteFooter() {
@@ -74,6 +81,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <ScrollToTop />
+          <ContactLinkTracking />
           <Router />
           <SiteFooter />
           <Toaster />

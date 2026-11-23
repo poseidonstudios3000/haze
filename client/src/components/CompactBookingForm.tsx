@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import { apiRequest } from "@/lib/queryClient";
+import { trackEvent } from "@/lib/analytics";
 import { useToast } from "@/hooks/use-toast";
 
 function parseDate(input: string): Date | null {
@@ -109,7 +110,13 @@ export function CompactBookingForm({ defaultLocation, defaultEventType }: Compac
 
   const onSubmit = async (data: BookingFormData) => {
     try {
+      // apiRequest throws on a non-2xx response, so this line is only reached
+      // once the inquiry has actually been accepted by the server.
       await apiRequest("POST", "/api/inquiries", data);
+      trackEvent("generate_lead", {
+        form_location: window.location.pathname,
+        event_type: data.eventType,
+      });
       setSubmitted(true);
       setTimeout(() => {
         form.reset();
