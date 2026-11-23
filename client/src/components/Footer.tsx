@@ -2,8 +2,9 @@ import { Link, useLocation } from "wouter";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { SOCIAL_LINKS } from "./Navbar";
 import {
-  CITY_HUB_PAGES,
-  SERVICE_PAGES,
+  LOCATION_LINK_PAGES,
+  SERVICE_LINK_PAGES,
+  RESOURCE_LINK_PAGES,
   BUSINESS_LOCATIONS,
   BUSINESS_EMAIL,
   BUSINESS_EMAIL_HREF,
@@ -14,13 +15,15 @@ import {
   type SeoPage,
 } from "@shared/seo";
 
-// All four link columns are derived from SEO_PAGES, so adding a route there
+// All link columns are derived from SEO_PAGES, so adding a route there
 // puts it in the footer automatically — no second list to keep in sync.
+// Pages outside the city/service pattern join a column via `linkGroup`.
 const LINK_COLUMNS: { heading: string; pages: SeoPage[] }[] = [
-  { heading: "Locations", pages: CITY_HUB_PAGES },
-  { heading: "Services", pages: SERVICE_PAGES },
+  { heading: "Locations", pages: LOCATION_LINK_PAGES },
+  { heading: "Services", pages: SERVICE_LINK_PAGES },
   { heading: "Weddings by City", pages: getCityPagesForLayout("wedding") },
   { heading: "Corporate by City", pages: getCityPagesForLayout("corporate_event") },
+  { heading: "Event Resources", pages: RESOURCE_LINK_PAGES },
 ];
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
@@ -48,7 +51,7 @@ export function Footer() {
 
       {/* Extra bottom padding clears the fixed FooterCTA bar. */}
       <div className="container mx-auto px-4 pt-12 md:pt-16 pb-28 md:pb-32">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 md:gap-10">
           {LINK_COLUMNS.map((column) => (
             <nav key={column.heading} aria-label={column.heading}>
               <FooterHeading>{column.heading}</FooterHeading>
@@ -58,7 +61,7 @@ export function Footer() {
                     <Link
                       href={page.path}
                       className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                      data-testid={`link-footer-${page.path.slice(1)}`}
+                      data-testid={`link-footer-${page.path.slice(1).replace(/\//g, "-")}`}
                     >
                       {getSeoPageLabel(page)}
                     </Link>

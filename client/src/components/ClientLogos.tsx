@@ -34,9 +34,11 @@ const weddingPublications = [
   { name: "SOCIÉTÉ PRIVÉE" },
 ];
 
-export function ClientLogos() {
+// By default the strip follows the event theme (wedding pages show "As Seen In").
+// Pass a variant to pin it, e.g. the homepage always shows the brands.
+export function ClientLogos({ variant }: { variant?: "brands" | "publications" } = {}) {
   const { layout } = useTheme();
-  const isWedding = layout === "wedding";
+  const isWedding = variant ? variant === "publications" : layout === "wedding";
   const clients = isWedding ? weddingPublications : corporateClients;
   const title = isWedding ? "As Seen In" : "Trusted by Leading Brands";
 

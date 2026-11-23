@@ -64,6 +64,11 @@ const HOVER_CLOSE_DELAY_MS = 150;
 
 const testIdFor = (href: string) => href.replace(/^\/+/, "") || "home";
 
+// A menu link is active on its own page and on pages nested under it
+// (e.g. Resources stays highlighted on /event-resources/chicago).
+const isActivePath = (currentPath: string, href: string) =>
+  currentPath === href || currentPath.startsWith(`${href}/`);
+
 const topLevelClass =
   "inline-flex items-center gap-1 rounded-md px-2.5 xl:px-3 py-2 text-xs font-bold uppercase tracking-wider transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
@@ -160,7 +165,7 @@ function DesktopMenu({ currentPath }: { currentPath: string }) {
     <ul ref={menuRef} className="flex self-stretch items-stretch gap-0.5 xl:gap-1">
       {MAIN_MENU.map((entry) => {
         if (entry.kind === "link") {
-          const active = currentPath === entry.href;
+          const active = isActivePath(currentPath, entry.href);
           return (
             <li key={entry.href} className="flex items-center">
               <Link
@@ -177,7 +182,7 @@ function DesktopMenu({ currentPath }: { currentPath: string }) {
 
         const isOpen = openId === entry.id;
         const panelId = `${baseId}-${entry.id}-panel`;
-        const hasActiveChild = entry.items.some((link) => link.href === currentPath);
+        const hasActiveChild = entry.items.some((link) => isActivePath(currentPath, link.href));
 
         return (
           <li
@@ -249,7 +254,7 @@ function DesktopMenu({ currentPath }: { currentPath: string }) {
                 className="min-w-56 overflow-hidden rounded-xl border border-white/20 bg-black py-1.5 shadow-2xl"
               >
                 {entry.items.map((link) => {
-                  const active = currentPath === link.href;
+                  const active = isActivePath(currentPath, link.href);
                   return (
                     <li key={link.href}>
                       <Link
@@ -318,7 +323,7 @@ function MobileMenu({ currentPath }: { currentPath: string }) {
     );
 
   const renderLink = (link: MenuLink) => {
-    const active = currentPath === link.href;
+    const active = isActivePath(currentPath, link.href);
     return (
       <li key={link.href}>
         <Link

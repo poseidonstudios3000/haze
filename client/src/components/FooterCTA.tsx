@@ -27,7 +27,14 @@ export function FooterCTA() {
         <div className="flex w-full md:w-auto gap-2">
           <a 
             href="#" 
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            onClick={(e) => {
+              e.preventDefault();
+              // Pages with the booking form further down (destination, rentals)
+              // mark it id="inquire"; everywhere else the form is in the hero.
+              const form = document.getElementById("inquire");
+              if (form) form.scrollIntoView({ behavior: "smooth", block: "start" });
+              else window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="flex-1 md:flex-none h-7 px-3 rounded-full bg-white text-black text-xs font-bold hover:bg-gray-200 transition-colors flex items-center justify-center gap-1 beam-effect"
             data-testid="link-book-now"
           >

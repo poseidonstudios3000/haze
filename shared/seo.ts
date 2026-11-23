@@ -11,6 +11,21 @@ export type SeoPage = {
   serviceName?: string;
   city?: string;
   state?: string;
+  /** Short link text for nav and footer lists, when the title's first segment is too long. */
+  label?: string;
+  /**
+   * Footer column for pages that are neither a city hub nor a DJ service page:
+   * "locations" joins the city hubs, "services" joins the DJ services, and
+   * "resources" forms the Event Resources column.
+   */
+  linkGroup?: "locations" | "services" | "resources";
+  /**
+   * Built and prerendered like any public page, but left out of the generated
+   * sitemap.xml. Used for pages that are not launched yet; remove it at go-live.
+   */
+  excludeFromSitemap?: boolean;
+  /** Breadcrumb trail (Home first, this page last). Emitted as BreadcrumbList JSON-LD. */
+  breadcrumbs?: { name: string; path: string }[];
 };
 
 export const SITE_URL = "https://www.djmisshaze.com";
@@ -26,9 +41,9 @@ export const BUSINESS_EMAIL_HREF = `mailto:${BUSINESS_EMAIL}`;
 export const SEO_PAGES: SeoPage[] = [
   {
     path: "/",
-    title: "DJ Miss Haze | Premium Event DJ & MC | Chicago, Dallas, Denver",
+    title: "DJ Miss Haze | Event DJ & MC in Chicago, Dallas and Denver",
     description:
-      "Premium DJ and MC for weddings, corporate events, private parties, and brand activations in Chicago, Dallas-Fort Worth, and Denver. Book DJ Miss Haze for high-energy live mixing and polished event hosting.",
+      "Event DJ and MC for corporate events, weddings and private parties in Chicago, Dallas-Fort Worth, Denver and beyond. Live-mixed sets and event rentals.",
     priority: "1.0",
     changefreq: "weekly",
   },
@@ -175,6 +190,89 @@ export const SEO_PAGES: SeoPage[] = [
     changefreq: "monthly",
   },
   {
+    path: "/destination-dj",
+    title: "Destination Wedding & Event DJ | DJ Miss Haze",
+    description:
+      "Destination wedding and event DJ and MC from Chicago, Dallas and Denver, available for events across the U.S. and abroad.",
+    linkGroup: "locations",
+    priority: "0.7",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
+    path: "/event-rentals",
+    title: "Event Rentals: Photo Booths, Sound & More | DJ Miss Haze",
+    description:
+      "Event rentals in Chicago, Dallas-Fort Worth and Denver: sound systems, microphones, audio guestbooks, 360 and classic photo booths and CO2 cannons.",
+    label: "Event Rentals",
+    linkGroup: "services",
+    priority: "0.7",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
+    path: "/event-resources",
+    title: "Event Resources: Chicago, Dallas & Denver | DJ Miss Haze",
+    description:
+      "Wedding and event venues, planners, photographers and vendors in Chicago, Dallas-Fort Worth and Denver that DJ Miss Haze works with.",
+    label: "Event Resources",
+    linkGroup: "resources",
+    priority: "0.6",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
+    path: "/event-resources/chicago",
+    title: "Chicago Event Venues & Vendors | DJ Miss Haze",
+    description:
+      "Venues, wedding planners, photographers and other event vendors in Chicago and across Illinois that DJ Miss Haze works with.",
+    linkGroup: "resources",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Event Resources", path: "/event-resources" },
+      { name: "Chicago", path: "/event-resources/chicago" },
+    ],
+    priority: "0.5",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
+    path: "/event-resources/dallas-fort-worth",
+    title: "Dallas-Fort Worth Event Venues & Vendors | DJ Miss Haze",
+    description:
+      "Venues, photographers and other event vendors in Dallas, Fort Worth and across North Texas that DJ Miss Haze works with.",
+    linkGroup: "resources",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Event Resources", path: "/event-resources" },
+      { name: "Dallas-Fort Worth", path: "/event-resources/dallas-fort-worth" },
+    ],
+    priority: "0.5",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
+    path: "/event-resources/denver",
+    title: "Denver Event Venues & Vendors | DJ Miss Haze",
+    description:
+      "Denver wedding venues, planners, photographers and trusted event vendors across Colorado that DJ Miss Haze works with.",
+    linkGroup: "resources",
+    breadcrumbs: [
+      { name: "Home", path: "/" },
+      { name: "Event Resources", path: "/event-resources" },
+      { name: "Denver", path: "/event-resources/denver" },
+    ],
+    priority: "0.5",
+    changefreq: "monthly",
+    // TODO(go-live): remove so the page enters sitemap.xml.
+    excludeFromSitemap: true,
+  },
+  {
     path: "/faq",
     title: "Wedding & Event DJ FAQ | DJ Miss Haze",
     description:
@@ -197,6 +295,9 @@ export const SEO_PAGES: SeoPage[] = [
 ];
 
 export const PUBLIC_SEO_PAGES = SEO_PAGES.filter((page) => !page.noindex);
+
+// Public pages that belong in sitemap.xml (not-yet-launched pages opt out).
+export const SITEMAP_PAGES = PUBLIC_SEO_PAGES.filter((page) => !page.excludeFromSitemap);
 
 // Standalone 404 page. Deliberately NOT part of SEO_PAGES, so it never enters the
 // sitemap, the footer/internal-link lists, or the prerender loop. It is rendered
@@ -346,6 +447,15 @@ export function getServicePagesForCity(city: string): SeoPage[] {
   );
 }
 
+// Footer columns: the city hubs and DJ service pages plus the extra pages that
+// opt into each column via linkGroup (destination, rentals), and the Event
+// Resources overview with its city pages.
+const getLinkGroupPages = (group: SeoPage["linkGroup"]) =>
+  PUBLIC_SEO_PAGES.filter((page) => page.linkGroup === group);
+export const LOCATION_LINK_PAGES = [...CITY_HUB_PAGES, ...getLinkGroupPages("locations")];
+export const SERVICE_LINK_PAGES = [...SERVICE_PAGES, ...getLinkGroupPages("services")];
+export const RESOURCE_LINK_PAGES = getLinkGroupPages("resources");
+
 // Hub path for a city name, or null when the name isn't one we have a page for.
 // Hero city badges are admin-editable content, so unknown names must be tolerated.
 export function getCityHubPath(city: string): string | null {
@@ -358,7 +468,7 @@ export function getCityHubPath(city: string): string | null {
 // Short anchor text from a page title: "Chicago DJ & MC | Weddings, …" -> "Chicago DJ & MC".
 // Keeps link text keyword-rich without a parallel list of labels to maintain.
 export function getSeoPageLabel(page: SeoPage): string {
-  return page.title.split("|")[0].trim();
+  return page.label ?? page.title.split("|")[0].trim();
 }
 
 export function normalizePath(pathname: string) {
@@ -383,8 +493,12 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
+export function getAbsoluteUrl(path: string) {
+  return `${SITE_URL}${path === "/" ? "/" : path}`;
+}
+
 export function getCanonicalUrl(page: SeoPage) {
-  return `${SITE_URL}${page.path === "/" ? "/" : page.path}`;
+  return getAbsoluteUrl(page.path);
 }
 
 export function getJsonLd(page: SeoPage) {
@@ -434,8 +548,22 @@ export function getJsonLd(page: SeoPage) {
       description: page.description,
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#business` },
+      ...(page.breadcrumbs ? { breadcrumb: { "@id": `${canonical}#breadcrumb` } } : {}),
     },
   ];
+
+  if (page.breadcrumbs) {
+    graph.push({
+      "@type": "BreadcrumbList",
+      "@id": `${canonical}#breadcrumb`,
+      itemListElement: page.breadcrumbs.map((crumb, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: crumb.name,
+        item: getAbsoluteUrl(crumb.path),
+      })),
+    });
+  }
 
   if (page.serviceName) {
     graph.push({

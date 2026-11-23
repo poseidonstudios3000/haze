@@ -1,35 +1,52 @@
 import { useEffect, useRef } from "react";
-import { MapPin, ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight, BookOpen, Speaker } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { CompactBookingForm } from "@/components/CompactBookingForm";
+import { ClientLogos } from "@/components/ClientLogos";
+import { LinkCardTile, SectionHeading, TeaserSection } from "@/components/PageSections";
 import { getSeoPage } from "@shared/seo";
+import { homeContent } from "@/content/home";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HERO_IMAGE = "/assets/dj-miss-haze-premium-event-dj-hero-2026.webp";
-const LOCATIONS = ["Chicago", "Dallas", "Denver"];
 
-// Sorted alphabetically: Collaborative, Custom Curated, Dynamic, Fun, Inclusive
-const BANNER_WORDS = ["Collaborative", "Custom Curated", "Dynamic", "Fun", "Inclusive"];
+// All homepage copy lives in client/src/content/home.ts.
+const { hero, bannerWords, eventExperience, locations, rentals, resources } = homeContent;
 
-type EventButtonData = {
-  label: string;
-  href: string;
+type EventButtonStyle = {
   color: string;
   glow: string;
   textClass: string;
   subClass: string;
+  lineClass: string;
 };
 
-const eventButtons: EventButtonData[] = [
-  { label: "Corporate Events", href: "/corporate-event-dj", color: "hsl(217 91% 60%)", glow: "hsla(217,91%,60%,0.5)", textClass: "text-white", subClass: "text-white/70" },
-  { label: "Private Events", href: "/private-event-dj", color: "hsl(62 84% 54%)", glow: "hsla(62,84%,54%,0.45)", textClass: "text-black", subClass: "text-black/60" },
-  { label: "Weddings", href: "/wedding-dj", color: "hsl(15 39% 51%)", glow: "hsla(15,39%,51%,0.5)", textClass: "text-white", subClass: "text-white/70" },
-  { label: "Other Events", href: "/event-dj", color: "hsl(330 85% 54%)", glow: "hsla(330,85%,54%,0.5)", textClass: "text-white", subClass: "text-white/70" },
-];
+// Colors per event button, keyed by the button's link (copy comes from home.ts).
+const EVENT_BUTTON_STYLES: Record<string, EventButtonStyle> = {
+  "/corporate-event-dj": { color: "hsl(217 91% 60%)", glow: "hsla(217,91%,60%,0.5)", textClass: "text-white", subClass: "text-white/70", lineClass: "text-white/90" },
+  "/private-event-dj": { color: "hsl(62 84% 54%)", glow: "hsla(62,84%,54%,0.45)", textClass: "text-black", subClass: "text-black/60", lineClass: "text-black/80" },
+  "/wedding-dj": { color: "hsl(15 39% 51%)", glow: "hsla(15,39%,51%,0.5)", textClass: "text-white", subClass: "text-white/70", lineClass: "text-white/90" },
+  "/event-dj": { color: "hsl(330 85% 54%)", glow: "hsla(330,85%,54%,0.5)", textClass: "text-white", subClass: "text-white/70", lineClass: "text-white/90" },
+};
+
+type EventButtonData = EventButtonStyle & {
+  label: string;
+  line: string;
+  cta: string;
+  href: string;
+};
+
+const eventButtons: EventButtonData[] = eventExperience.buttons.map((button) => ({
+  ...EVENT_BUTTON_STYLES[button.href],
+  label: button.title,
+  line: button.text,
+  cta: eventExperience.buttonCta,
+  href: button.href,
+}));
 
 function EventButton({ data }: { data: EventButtonData }) {
   const linkRef = useRef<HTMLAnchorElement>(null);
@@ -114,8 +131,11 @@ function EventButton({ data }: { data: EventButtonData }) {
         <span className="font-display text-xl font-black uppercase tracking-tight md:text-2xl">
           {data.label}
         </span>
+        <span className={`max-w-xs text-sm font-medium leading-snug md:text-base ${data.lineClass}`}>
+          {data.line}
+        </span>
         <span className={`flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.2em] ${data.subClass}`}>
-          Explore
+          {data.cta}
           <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1.5" />
         </span>
       </span>
@@ -161,7 +181,7 @@ export default function Landing() {
       >
         <img
           src={HERO_IMAGE}
-          alt="DJ Miss Haze Premium Event DJ and MC in Chicago, Dallas, Denver"
+          alt={hero.imageAlt}
           className="absolute z-[2] inset-0 w-full h-full object-cover object-top pointer-events-none select-none"
           loading="eager"
           decoding="sync"
@@ -177,11 +197,11 @@ export default function Landing() {
 
             {/* The page's single h1: the descriptive, keyword-rich headline. */}
             <h1 className="text-[10px] sm:text-xs md:text-sm lg:text-base font-bold text-primary uppercase tracking-[0.12em] sm:tracking-[0.15em] md:tracking-[0.2em] mb-1">
-              Premium Event DJ &amp; MC
+              {hero.heading}
             </h1>
 
             <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 md:gap-3 text-[8px] sm:text-[10px] md:text-xs lg:text-sm font-bold text-white/80 uppercase tracking-wider md:tracking-widest mb-2 sm:mb-3">
-              {LOCATIONS.map((location) => (
+              {hero.locations.map((location) => (
                 <span key={location} className="flex items-center gap-1 sm:gap-1.5">
                   <MapPin className="w-2.5 h-2.5 sm:w-3 sm:h-3 md:w-3.5 md:h-3.5 text-primary" />
                   <span>{location}</span>
@@ -196,7 +216,7 @@ export default function Landing() {
 
       {/* 2. Brand Banner — endless marquee */}
       {(() => {
-        const bannerContent = BANNER_WORDS.map((word, j) => (
+        const bannerContent = bannerWords.map((word, j) => (
           <span key={j} className="shrink-0 flex items-center">
             <span className="flex mx-4">
               {[...Array(5)].map((_, i) => (
@@ -228,11 +248,11 @@ export default function Landing() {
       <section className="container mx-auto px-4 py-12 md:py-20">
         <div className="max-w-4xl mx-auto text-center space-y-3 mb-8 md:mb-12">
           <h2 className="text-2xl md:text-4xl font-black font-display uppercase tracking-tighter">
-            Choose Your Event Experience
+            {eventExperience.heading}
           </h2>
           <div className="h-1 w-24 bg-primary rounded-full mx-auto" />
           <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            High-energy live mixing and tailored DJ and MC experiences across Illinois, Colorado and North Texas.
+            {eventExperience.text}
           </p>
         </div>
 
@@ -242,6 +262,33 @@ export default function Landing() {
           ))}
         </div>
       </section>
+
+      {/* 4. Choose Your Location */}
+      <section className="container mx-auto px-4 pb-12 md:pb-20">
+        <SectionHeading heading={locations.heading} />
+        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+          {locations.cards.map((card) => (
+            <LinkCardTile
+              key={card.href}
+              card={card}
+              icon={MapPin}
+              testId={`link-home-location-${card.href.replace(/\//g, "")}`}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* 5. Event Rentals + 6. Event Resources teasers (side by side on desktop) */}
+      <div className="container mx-auto px-4 pb-12 md:pb-20">
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+          <TeaserSection copy={rentals} icon={Speaker} testId="link-home-rentals" />
+          <TeaserSection copy={resources} icon={BookOpen} testId="link-home-resources" />
+        </div>
+      </div>
+
+      {/* 7. Logo strip. Forced to the brands variant: the theme defaults to
+          wedding on "/", which would otherwise swap in "As Seen In". */}
+      <ClientLogos variant="brands" />
 
       <FooterCTA />
 

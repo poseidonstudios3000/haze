@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {
-  PUBLIC_SEO_PAGES,
+  SITEMAP_PAGES,
   SEO_PAGES,
   NOT_FOUND_PAGE,
   SITE_URL,
@@ -53,7 +53,7 @@ fs.writeFileSync(
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${PUBLIC_SEO_PAGES.map((page) => {
+${SITEMAP_PAGES.map((page) => {
   const loc = `${SITE_URL}${page.path === "/" ? "/" : page.path}`;
   return `  <url>
     <loc>${loc}</loc>

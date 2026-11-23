@@ -12,6 +12,13 @@ import Home from "@/pages/Home";
 import Landing from "@/pages/Landing";
 import LocationPage from "@/pages/LocationPage";
 import Faq from "@/pages/Faq";
+import EventResources from "@/pages/EventResources";
+import CityResources from "@/pages/CityResources";
+import Destination from "@/pages/Destination";
+import EventRentals from "@/pages/EventRentals";
+import { chicagoResources } from "@/content/event-resources/chicago";
+import { dallasFortWorthResources } from "@/content/event-resources/dallas-fort-worth";
+import { denverResources } from "@/content/event-resources/denver";
 import Admin from "@/pages/Admin";
 import NotFound from "@/pages/not-found";
 
@@ -40,6 +47,14 @@ function Router() {
       <Route path="/chicago-dj">{() => <LocationPage location="chicago" />}</Route>
       <Route path="/dallas-dj">{() => <LocationPage location="dallas" />}</Route>
       <Route path="/denver-dj">{() => <LocationPage location="denver" />}</Route>
+      <Route path="/destination-dj" component={Destination} />
+      <Route path="/event-rentals" component={EventRentals} />
+      <Route path="/event-resources" component={EventResources} />
+      {[chicagoResources, dallasFortWorthResources, denverResources].map((content) => (
+        <Route key={content.path} path={content.path}>
+          {() => <CityResources content={content} />}
+        </Route>
+      ))}
       <Route path="/faq" component={Faq} />
       <Route path="/admin" component={Admin} />
       <Route path="/corporate-admin" component={Admin} />
