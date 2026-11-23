@@ -1,7 +1,9 @@
 import type { LinkCard, TeaserCopy } from "./types";
 
-// Photos are existing files in client/public/assets, matched to the city or
-// venue in the file name where one exists. width/height = the file's real size.
+// Photos are files in client/public/assets, matched to the city or venue in the
+// file name where one exists. width/height = the file's real size. Photos wider
+// than 1600px use a web-sized copy ("-1600w.webp", WebP q82); the originals are
+// kept untouched next to them. The others are already under 1600px wide.
 
 // Homepage copy ("/"). SEO title and description live in shared/seo.ts.
 // The hero, banner, "Choose Your Event Experience" heading, its line and the
@@ -55,9 +57,9 @@ export const homeContent = {
         href: "/chicago-dj",
         text: "Home base in Elmhurst, playing the city and the suburbs.",
         image: {
-          src: "/assets/DJ-Miss-Haze-Chicago-BsFlPIRw.webp",
-          width: 2048,
-          height: 1365,
+          src: "/assets/DJ-Miss-Haze-Chicago-BsFlPIRw-1600w.webp",
+          width: 1600,
+          height: 1066,
           position: "58% 40%",
         },
       },
@@ -67,9 +69,9 @@ export const homeContent = {
         text: "Dallas, Fort Worth, Frisco, Plano and the rest of the Metroplex.",
         // The Gardenia Venue, Valley View, TX
         image: {
-          src: "/assets/The-Gardenia-Venue-Valley-View-Texas-Wedding-DJ-Miss-Haze-J6b3gkmq.webp",
-          width: 2803,
-          height: 3024,
+          src: "/assets/The-Gardenia-Venue-Valley-View-Texas-Wedding-DJ-Miss-Haze-J6b3gkmq-1600w.webp",
+          width: 1600,
+          height: 1726,
           position: "50% 30%",
         },
       },
@@ -90,9 +92,9 @@ export const homeContent = {
         text: "Events across the U.S. and abroad.",
         // Corporate event in Kansas City, MO (outside the three home markets)
         image: {
-          src: "/assets/Corporate-Event-DJ-Miss-Haze-Kansas-City-MO-BiAYUCHi.webp",
-          width: 5047,
-          height: 3605,
+          src: "/assets/Corporate-Event-DJ-Miss-Haze-Kansas-City-MO-BiAYUCHi-1600w.webp",
+          width: 1600,
+          height: 1143,
           position: "50% 62%",
         },
       },

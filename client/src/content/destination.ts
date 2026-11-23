@@ -39,12 +39,14 @@ export const destinationContent: DestinationContent = {
   intro:
     "DJ Miss Haze travels for weddings, corporate events and celebrations outside Chicago, Dallas-Fort Worth and Denver.",
 
+  // Corporate event in Kansas City, MO: taken outside her three home markets.
+  // Web-sized copy of Corporate-Event-DJ-Miss-Haze-Kansas-City-MO-BiAYUCHi.webp.
   heroImage: {
-    src: "/assets/Private-Events-DJ-energy-chicago-Bg5ibJvV.webp",
-    width: 2048,
-    height: 1366,
-    position: "50% 4%",
-    alt: "DJ Miss Haze performing at the decks",
+    src: "/assets/Corporate-Event-DJ-Miss-Haze-Kansas-City-MO-BiAYUCHi-1600w.webp",
+    width: 1600,
+    height: 1143,
+    position: "50% 30%",
+    alt: "Guests on the dance floor at a corporate event in Kansas City with DJ Miss Haze",
   },
 
   // EMPTY SLOT: U.S. destinations. Add items to show the section.
