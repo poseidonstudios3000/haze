@@ -1,11 +1,27 @@
 // Shapes for the page copy in client/src/content. Components only read these
 // files, so wording can be swapped here without touching any layout code.
 
+/**
+ * A photo from client/public/assets. width/height are the file's real pixel
+ * size (they reserve space so nothing shifts while it loads). `position` is the
+ * CSS object-position used when the photo is cropped to fit, e.g. "50% 30%".
+ */
+export interface Photo {
+  src: string;
+  width: number;
+  height: number;
+  position?: string;
+  /** Only for photos that carry meaning on their own. Photos behind link text are decorative and get alt="". */
+  alt?: string;
+}
+
 /** A card or tile that links to another page. */
 export interface LinkCard {
   title: string;
   text: string;
   href: string;
+  /** Background photo for image-led tiles (homepage locations). */
+  image?: Photo;
 }
 
 /** A teaser block: heading, one line of copy and a link. */
@@ -14,6 +30,8 @@ export interface TeaserCopy {
   text: string;
   cta: string;
   href: string;
+  /** Photo beside the text in the homepage's editorial blocks. */
+  image?: Photo;
 }
 
 /** The booking form section at the bottom of a page (same copy as the city pages' closing CTA). */

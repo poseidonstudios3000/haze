@@ -1,7 +1,7 @@
 import { Globe, MapPin } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
-import { InquirySection, PageHeader, SectionHeading } from "@/components/PageSections";
+import { InquirySection, PageHero, SectionHeading } from "@/components/PageSections";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { destinationContent as content, type DestinationListSection } from "@/content/destination";
 
@@ -47,7 +47,7 @@ export default function Destination() {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden pt-14">
       <Navbar />
 
-      <PageHeader heading={content.heading} intro={content.intro} />
+      <PageHero heading={content.heading} intro={content.intro} image={content.heroImage} />
 
       {lists.length > 0 && (
         <section className="container mx-auto px-4 py-8 md:py-12">

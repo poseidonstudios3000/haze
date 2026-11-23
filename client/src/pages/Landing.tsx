@@ -6,7 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { CompactBookingForm } from "@/components/CompactBookingForm";
 import { ClientLogos } from "@/components/ClientLogos";
-import { LinkCardTile, SectionHeading, TeaserSection } from "@/components/PageSections";
+import { EditorialFeature, LocationBento } from "@/components/HomeShowcase";
 import { getSeoPage } from "@shared/seo";
 import { homeContent } from "@/content/home";
 
@@ -263,26 +263,14 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* 4. Choose Your Location */}
-      <section className="container mx-auto px-4 pb-12 md:pb-20">
-        <SectionHeading heading={locations.heading} />
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-          {locations.cards.map((card) => (
-            <LinkCardTile
-              key={card.href}
-              card={card}
-              icon={MapPin}
-              testId={`link-home-location-${card.href.replace(/\//g, "")}`}
-            />
-          ))}
-        </div>
-      </section>
+      {/* 4. Choose Your Location: image-led bento grid */}
+      <LocationBento heading={locations.heading} cards={locations.cards} />
 
-      {/* 5. Event Rentals + 6. Event Resources teasers (side by side on desktop) */}
-      <div className="container mx-auto px-4 pb-12 md:pb-20">
-        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-          <TeaserSection copy={rentals} icon={Speaker} testId="link-home-rentals" />
-          <TeaserSection copy={resources} icon={BookOpen} testId="link-home-resources" />
+      {/* 5. Event Rentals (photo left) + 6. Event Resources (photo right) */}
+      <div className="container mx-auto px-4 pb-16 md:pb-24">
+        <div className="mx-auto max-w-6xl space-y-6 md:space-y-8">
+          <EditorialFeature copy={rentals} icon={Speaker} imageSide="left" testId="link-home-rentals" />
+          <EditorialFeature copy={resources} icon={BookOpen} imageSide="right" testId="link-home-resources" />
         </div>
       </div>
 

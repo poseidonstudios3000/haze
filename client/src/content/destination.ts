@@ -1,4 +1,4 @@
-import type { ImageSlot, InquiryCopy } from "./types";
+import type { ImageSlot, InquiryCopy, Photo } from "./types";
 
 // /destination-dj copy. SEO title and description live in shared/seo.ts.
 //
@@ -17,6 +17,8 @@ export interface DestinationListSection {
 export interface DestinationContent {
   heading: string;
   intro: string;
+  /** Full-width photo behind the H1 (existing file in client/public/assets). */
+  heroImage: Photo & { alt: string };
   usDestinations: DestinationListSection;
   international: DestinationListSection;
   howItWorks: {
@@ -36,6 +38,14 @@ export const destinationContent: DestinationContent = {
   heading: "Destination DJ & MC",
   intro:
     "DJ Miss Haze travels for weddings, corporate events and celebrations outside Chicago, Dallas-Fort Worth and Denver.",
+
+  heroImage: {
+    src: "/assets/Private-Events-DJ-energy-chicago-Bg5ibJvV.webp",
+    width: 2048,
+    height: 1366,
+    position: "50% 4%",
+    alt: "DJ Miss Haze performing at the decks",
+  },
 
   // EMPTY SLOT: U.S. destinations. Add items to show the section.
   usDestinations: {
