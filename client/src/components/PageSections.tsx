@@ -4,6 +4,7 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { getSeoPage } from "@shared/seo";
 import { CompactBookingForm } from "@/components/CompactBookingForm";
 import type { InquiryCopy, LinkCard, Photo } from "@/content/types";
+import type { PlanningLinksCopy } from "@/content/planning-links";
 import { cn } from "@/lib/utils";
 
 // Building blocks shared by the content pages (resources, destination,
@@ -187,6 +188,42 @@ export function InquirySection({ copy }: { copy: InquiryCopy }) {
         <p className="text-base md:text-xl text-muted-foreground uppercase tracking-widest font-bold">{copy.text}</p>
         <div className="pt-2 text-left">
           <CompactBookingForm />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/**
+ * Small "Planning your event?" block near the end of the city and event type
+ * pages: the "Also Serving" heading style with the bordered arrow cards used
+ * for "DJ Services in <City>". Plain links (real <a href>), so they are in the
+ * prerendered HTML.
+ */
+export function PlanningLinks({ copy }: { copy: PlanningLinksCopy }) {
+  return (
+    <section className="container mx-auto px-4 py-8 md:py-12" aria-labelledby="planning-links-heading">
+      <div className="max-w-3xl mx-auto space-y-5">
+        <h2
+          id="planning-links-heading"
+          className="text-center text-xs font-black font-display uppercase tracking-widest text-primary"
+        >
+          {copy.heading}
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+          {copy.links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="group flex items-center justify-between gap-4 p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-primary/30 transition-colors"
+              data-testid={`link-planning-${link.href.slice(1).replace(/\//g, "-")}`}
+            >
+              <span className="text-base md:text-lg font-bold font-display uppercase text-white group-hover:text-primary transition-colors">
+                {link.label}
+              </span>
+              <ArrowRight className="w-4 h-4 text-primary shrink-0 transition-transform group-hover:translate-x-1" />
+            </Link>
+          ))}
         </div>
       </div>
     </section>

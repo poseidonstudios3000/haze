@@ -126,4 +126,8 @@ export const denverResources: CityResourcesContent = {
   ],
   overviewLink: { label: "All Event Resources", href: "/event-resources" },
   djPageLink: { label: "Denver DJ & MC", href: "/denver-dj" },
+  serviceLinks: [
+    { label: "Denver Wedding DJ & MC", href: "/denver-wedding-dj" },
+    { label: "Denver Corporate Event DJ & MC", href: "/denver-corporate-event-dj" },
+  ],
 };

@@ -73,4 +73,8 @@ export const chicagoResources: CityResourcesContent = {
   ],
   overviewLink: { label: "All Event Resources", href: "/event-resources" },
   djPageLink: { label: "Chicago DJ & MC", href: "/chicago-dj" },
+  serviceLinks: [
+    { label: "Chicago Wedding DJ & MC", href: "/chicago-wedding-dj" },
+    { label: "Chicago Corporate Event DJ & MC", href: "/chicago-corporate-event-dj" },
+  ],
 };

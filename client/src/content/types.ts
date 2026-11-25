@@ -72,4 +72,6 @@ export interface CityResourcesContent {
   /** Links at the end of the page. */
   overviewLink: { label: string; href: string };
   djPageLink: { label: string; href: string };
+  /** This city's wedding and corporate DJ pages, shown after djPageLink in the same style. */
+  serviceLinks: { label: string; href: string }[];
 }

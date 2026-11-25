@@ -53,4 +53,8 @@ export const dallasFortWorthResources: CityResourcesContent = {
   ],
   overviewLink: { label: "All Event Resources", href: "/event-resources" },
   djPageLink: { label: "Dallas DJ & MC", href: "/dallas-dj" },
+  serviceLinks: [
+    { label: "Dallas Wedding DJ & MC", href: "/dallas-wedding-dj" },
+    { label: "Dallas Corporate Event DJ & MC", href: "/dallas-corporate-event-dj" },
+  ],
 };

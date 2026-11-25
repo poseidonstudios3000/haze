@@ -15,6 +15,8 @@ import { FAQ } from "@/components/FAQ";
 import { GoogleReviews } from "@/components/GoogleReviews";
 import { CompactBookingForm } from "@/components/CompactBookingForm";
 import { EventSignatureSection } from "@/components/EventSignatureSection";
+import { PlanningLinks } from "@/components/PageSections";
+import { getPlanningLinks } from "@/content/planning-links";
 
 const cityImages: Record<string, string> = {
   chicago: "/assets/corporate-events-wide-B-d8CPwl.webp",
@@ -341,6 +343,9 @@ export default function LocationPage({ location }: LocationPageProps) {
           </div>
         </div>
       </section>
+
+      {/* 9.5 Planning links: this city's venues and vendors, and rentals. */}
+      <PlanningLinks copy={getPlanningLinks(location)} />
 
       {/* 10. Final CTA Section */}
       <section className="container mx-auto px-4 py-16 md:py-24 text-center">

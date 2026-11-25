@@ -94,6 +94,19 @@ export default function CityResources({ content }: { content: CityResourcesConte
             </span>
             <ArrowRight className="w-4 h-4 text-primary shrink-0 transition-transform group-hover:translate-x-1" />
           </Link>
+          {content.serviceLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="group flex items-center justify-between gap-4 p-5 rounded-2xl border border-white/10 bg-white/5 hover:border-primary/30 transition-colors"
+              data-testid={`link-resources-service-${link.href.slice(1)}`}
+            >
+              <span className="text-base md:text-lg font-bold font-display uppercase text-white group-hover:text-primary transition-colors">
+                {link.label}
+              </span>
+              <ArrowRight className="w-4 h-4 text-primary shrink-0 transition-transform group-hover:translate-x-1" />
+            </Link>
+          ))}
         </div>
       </section>
 

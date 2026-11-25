@@ -26,6 +26,8 @@ import { CityIntro, CityLocalMarket, CityLogistics } from "@/components/CityCont
 import { InvestmentSection } from "@/components/InvestmentSection";
 import { LocationContact } from "@/components/LocationContact";
 import { useSiteImages } from "@/hooks/use-site-images";
+import { PlanningLinks } from "@/components/PageSections";
+import { getPlanningLinks } from "@/content/planning-links";
 import {
   getSeoPage,
   getCityHubPath,
@@ -560,6 +562,10 @@ export default function Home({ city }: { city?: string }) {
           </section>
         );
       })()}
+
+      {/* 10.6 Planning links: city pages point to that city's venues and
+           vendors, event type pages to the resources overview; both to rentals. */}
+      <PlanningLinks copy={getPlanningLinks(city)} />
 
       {/* 11. Final CTA Section */}
       <section className="container mx-auto px-4 py-16 md:py-24 text-center">
