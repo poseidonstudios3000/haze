@@ -48,13 +48,15 @@ export const eventRentalsContent: EventRentalsContent = {
     {
       id: "360-photo-booth",
       title: "360 Photo Booth",
-      text: "", // EMPTY SLOT
+      // DRAFT: needs Yasmin's OK
+      text: "A rotating camera arm records short slow-motion videos of your guests from every angle. A fun way to get people on their feet between sets.",
       image: undefined,
     },
     {
       id: "classic-photo-booth",
       title: "Classic Photo Booth",
-      text: "", // EMPTY SLOT
+      // DRAFT: needs Yasmin's OK
+      text: "A photo booth for group shots and candid moments. Guests can take photos throughout the night.",
       image: undefined,
     },
     {
@@ -66,7 +68,8 @@ export const eventRentalsContent: EventRentalsContent = {
     {
       id: "co2-cannons",
       title: "CO2 Cannons",
-      text: "", // EMPTY SLOT
+      // DRAFT: needs Yasmin's OK
+      text: "Short bursts of cold CO2 fog for big moments like the grand entrance, the first dance or the peak of the night.",
       image: undefined,
     },
   ],

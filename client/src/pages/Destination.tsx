@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FooterCTA } from "@/components/FooterCTA";
 import { InquirySection, PageHero, SectionHeading } from "@/components/PageSections";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { FAQ } from "@/components/FAQ";
 import { destinationContent as content, type DestinationListSection } from "@/content/destination";
 
 // /destination-dj. The U.S. destinations, International, How It Works and
@@ -49,6 +50,13 @@ export default function Destination() {
 
       <PageHero heading={content.heading} intro={content.intro} image={content.heroImage} />
 
+      {/* Body text under the hero (same paragraph style as the city intros). */}
+      <section className="container mx-auto px-4 py-10 md:py-16">
+        <div className="max-w-3xl mx-auto">
+          <p className="text-lg text-muted-foreground leading-relaxed">{content.body}</p>
+        </div>
+      </section>
+
       {lists.length > 0 && (
         <section className="container mx-auto px-4 py-8 md:py-12">
           <div className={`max-w-5xl mx-auto grid grid-cols-1 gap-4 md:gap-6 ${lists.length > 1 ? "md:grid-cols-2" : ""}`}>
@@ -93,6 +101,11 @@ export default function Destination() {
           </div>
         </section>
       )}
+
+      {/* Short FAQ before the closing CTA, with FAQPage JSON-LD like the other FAQ blocks. */}
+      <section id="faq" className="container mx-auto px-4 py-8 md:py-16">
+        <FAQ content={content.faq} emitSchema />
+      </section>
 
       <InquirySection copy={content.inquiry} />
 

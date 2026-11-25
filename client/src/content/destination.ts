@@ -1,4 +1,5 @@
 import type { ImageSlot, InquiryCopy, Photo } from "./types";
+import type { FAQContent } from "@/hooks/use-event-content";
 
 // /destination-dj copy. SEO title and description live in shared/seo.ts.
 //
@@ -19,6 +20,8 @@ export interface DestinationContent {
   intro: string;
   /** Full-width photo behind the H1 (existing file in client/public/assets). */
   heroImage: Photo & { alt: string };
+  /** Paragraph under the hero. */
+  body: string;
   usDestinations: DestinationListSection;
   international: DestinationListSection;
   howItWorks: {
@@ -31,6 +34,8 @@ export interface DestinationContent {
     heading: string;
     images: ImageSlot[];
   };
+  /** Short FAQ before the closing CTA. Rendered with the site's FAQ component, including FAQPage JSON-LD. */
+  faq: FAQContent;
   inquiry: InquiryCopy;
 }
 
@@ -48,6 +53,10 @@ export const destinationContent: DestinationContent = {
     position: "50% 30%",
     alt: "Guests on the dance floor at a corporate event in Kansas City with DJ Miss Haze",
   },
+
+  // DRAFT: needs Yasmin's OK
+  body:
+    "Getting married or hosting an event outside Illinois, Colorado or North Texas? DJ Miss Haze travels for weddings, corporate events and private celebrations. Same live mixing, same MC work, same planning process as at home. Share your date and location in the inquiry form to check availability.",
 
   // EMPTY SLOT: U.S. destinations. Add items to show the section.
   usDestinations: {
@@ -74,6 +83,26 @@ export const destinationContent: DestinationContent = {
   photos: {
     heading: "Photos",
     images: [],
+  },
+
+  faq: {
+    // Same section title as every other FAQ block on the site (not new copy).
+    title: "FREQUENTLY ASKED",
+    items: [
+      {
+        // DRAFT: needs Yasmin's OK
+        question: "Do you travel outside Illinois, Colorado and North Texas?",
+        // DRAFT: needs Yasmin's OK
+        answer:
+          "Yes. DJ Miss Haze travels for weddings, corporate events and private celebrations. Send your date and location through the inquiry form to check availability.",
+      },
+      {
+        // DRAFT: needs Yasmin's OK
+        question: "Can you work with my planner and venue?",
+        // DRAFT: needs Yasmin's OK
+        answer: "Yes. DJ Miss Haze works with your planner and venue team on timing, setup and the run of show.",
+      },
+    ],
   },
 
   // Closing booking form, same wording as the city pages' closing CTA.

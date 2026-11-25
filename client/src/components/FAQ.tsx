@@ -189,6 +189,12 @@ export function FAQ({
         <div className="h-1 w-24 bg-primary rounded-full" />
       </div>
 
+      {/* A single-category FAQ (e.g. the short /destination-dj FAQ) has nothing
+          to switch between, so it skips the category sidebar and heading and
+          shows the question cards directly. Multi-category FAQs are unchanged. */}
+      {categories.length === 1 ? (
+        <div className="max-w-4xl space-y-3">{categories[0].items.map((item) => renderFAQItem(item))}</div>
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-8 space-y-2">
@@ -240,6 +246,7 @@ export function FAQ({
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }
