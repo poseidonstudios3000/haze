@@ -95,19 +95,21 @@ function LocationTile({
 }
 
 /**
- * Bento grid. Desktop (lg, 3 columns): Chicago as a 2x2 feature on the left,
+ * Bento grid. Desktop (xl, 3 columns): Chicago as a 2x2 feature on the left,
  * Dallas-Fort Worth and Denver stacked on the right, Destination as a wide
- * strip across the bottom. Tablet: Chicago full width, then two up, then
- * Destination full width. Mobile: stacked, Chicago first and tallest. Fixed
- * heights mean nothing moves while photos load.
+ * strip across the bottom. Tablet and small laptops (sm to lg): Chicago full
+ * width, then two up, then Destination full width; the 3-column bento starts
+ * at xl because below 1280px its side tiles are too narrow for the location
+ * copy. Mobile: stacked, Chicago first and tallest. Fixed heights mean nothing
+ * moves while photos load, and leave room above the copy for the photo.
  */
 export function LocationBento({ heading, cards }: { heading: string; cards: LinkCard[] }) {
   const ref = useReveal<HTMLElement>();
   const [featured, ...rest] = cards;
   const restLayout = [
-    "h-[260px] sm:h-[280px] lg:h-auto",
-    "h-[260px] sm:h-[280px] lg:h-auto",
-    "h-[260px] sm:col-span-2 sm:h-[300px] lg:col-span-3 lg:h-auto",
+    "h-[300px] sm:h-[340px] xl:h-auto",
+    "h-[300px] sm:h-[340px] xl:h-auto",
+    "h-[300px] sm:col-span-2 xl:col-span-3 xl:h-auto",
   ];
 
   return (
@@ -115,19 +117,19 @@ export function LocationBento({ heading, cards }: { heading: string; cards: Link
       <div data-reveal>
         <SectionHeading heading={heading} id="home-locations-heading" />
       </div>
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 lg:grid-cols-3 lg:grid-rows-[300px_300px_260px]">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4 xl:grid-cols-3 xl:grid-rows-[340px_340px_260px]">
         {featured && (
           <LocationTile
             card={featured}
             featured
-            className="h-[440px] sm:col-span-2 sm:h-[480px] lg:col-span-2 lg:row-span-2 lg:h-auto"
+            className="h-[440px] sm:col-span-2 sm:h-[480px] xl:col-span-2 xl:row-span-2 xl:h-auto"
           />
         )}
         {rest.map((card, index) => (
           <LocationTile
             key={card.href}
             card={card}
-            className={restLayout[index] ?? "h-[260px] lg:h-auto"}
+            className={restLayout[index] ?? "h-[300px] xl:h-auto"}
           />
         ))}
       </div>

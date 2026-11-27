@@ -3,12 +3,12 @@ import type { LinkCard, TeaserCopy } from "./types";
 // Photos are files in client/public/assets, matched to the city or venue in the
 // file name where one exists. width/height = the file's real size. Photos wider
 // than 1600px use a web-sized copy ("-1600w.webp", WebP q82); the originals are
-// kept untouched next to them. The others are already under 1600px wide.
+// kept untouched next to them. The others are already under 1600px wide. The
+// location tile photos are WebP copies (sRGB, q82) of the client's JPEG/HEIC
+// uploads ("<City>-DJ-Services.*"), which stay next to them unchanged.
 
 // Homepage copy ("/"). SEO title and description live in shared/seo.ts.
-// The hero, banner, "Choose Your Event Experience" heading, its line and the
-// four event buttons are the existing, approved wording; the lines under the
-// buttons and the sections after them are first drafts.
+// All wording below is client-approved; change it only on her instruction.
 
 export const homeContent = {
   hero: {
@@ -23,28 +23,28 @@ export const homeContent = {
 
   eventExperience: {
     heading: "Choose Your Event Experience",
-    text: "High-energy live mixing and tailored DJ and MC experiences across Illinois, Colorado and North Texas.",
+    text: "High-energy live mixing and tailored DJ and MC experiences across Illinois, Colorado and Northern Texas.",
     buttonCta: "Explore",
     buttons: [
       {
         title: "Corporate Events",
         href: "/corporate-event-dj",
-        text: "On-brand music for company parties, galas and conferences.",
+        text: "On-brand music for Brand activations, Company events, Conferences, Galas, and more.",
       },
       {
         title: "Private Events",
         href: "/private-event-dj",
-        text: "Birthdays, anniversaries and milestone celebrations.",
+        text: "Anniversaries, Birthdays, Hosting, and Milestone celebrations.",
       },
       {
         title: "Weddings",
         href: "/wedding-dj",
-        text: "Live-mixed from the ceremony to the last dance.",
+        text: "Live-mixed from the Ceremony to the Last dance, with afterparty availability.",
       },
       {
         title: "Other Events",
         href: "/event-dj",
-        text: "Brand activations, pop-ups and product launches.",
+        text: "Fashion shows, Pop-ups, Product launches, Sports Events and more.",
       },
     ] satisfies LinkCard[],
   },
@@ -55,47 +55,45 @@ export const homeContent = {
       {
         title: "Chicago",
         href: "/chicago-dj",
-        text: "Home base in Elmhurst, playing the city and the suburbs.",
+        text: "Home base in Elmhurst, playing in the city and the suburbs plus Central Illinois, Michigan and Wisconsin.",
         image: {
-          src: "/assets/DJ-Miss-Haze-Chicago-BsFlPIRw-1600w.webp",
-          width: 1600,
-          height: 1066,
-          position: "58% 40%",
+          src: "/assets/Chicagoland-DJ-Services.webp",
+          width: 1320,
+          height: 1759,
+          position: "50% 30%",
         },
       },
       {
         title: "Dallas-Fort Worth",
         href: "/dallas-dj",
-        text: "Dallas, Fort Worth, Frisco, Plano and the rest of the Metroplex.",
-        // The Gardenia Venue, Valley View, TX
+        text: "Home base in Dallas, playing in the city and Fort Worth, Blue Ridge, Celina, Frisco, McKinney, Plano and the rest of the Metroplex.",
         image: {
-          src: "/assets/The-Gardenia-Venue-Valley-View-Texas-Wedding-DJ-Miss-Haze-J6b3gkmq-1600w.webp",
+          src: "/assets/Dallas-DJ-Services-1600w.webp",
           width: 1600,
-          height: 1726,
-          position: "50% 30%",
+          height: 1744,
+          position: "50% 60%",
         },
       },
       {
         title: "Denver",
         href: "/denver-dj",
-        text: "Denver, the Front Range and Colorado's mountain venues.",
+        text: "Home base in Castle Rock, playing across Denver, and Colorado's mountain venues from Aspen to Boulder, Breckenridge, Colorado Springs, Estes Park, Fort Collins, Loveland, Lyons, Vail, and beyond.",
         image: {
-          src: "/assets/dj-miss-haze-wedding-dj-in-colorado-UyTmhhk5.webp",
-          width: 1232,
-          height: 822,
-          position: "50% 35%",
+          src: "/assets/Denver-DJ-Services.webp",
+          width: 960,
+          height: 720,
+          position: "45% 30%",
         },
       },
       {
         title: "Destination",
         href: "/destination-dj",
-        text: "Events across the U.S. and abroad.",
-        // Corporate event in Kansas City, MO (outside the three home markets)
+        text: "Events across the U.S. and internationally including Canada, France, Germany, Greece, Italy, Netherlands, Spain, Switzerland and beyond. Inquire for a custom proposal.",
         image: {
-          src: "/assets/Corporate-Event-DJ-Miss-Haze-Kansas-City-MO-BiAYUCHi-1600w.webp",
+          src: "/assets/Destination-DJ-Services-1600w.webp",
           width: 1600,
-          height: 1143,
-          position: "50% 62%",
+          height: 1067,
+          position: "50% 8%",
         },
       },
     ] satisfies LinkCard[],
@@ -103,7 +101,7 @@ export const homeContent = {
 
   rentals: {
     heading: "Event Rentals",
-    text: "Sound systems, microphones, audio guestbooks, photo booths (360 and classic) and CO2 cannons.",
+    text: "Sound systems, microphones, audio guestbooks, photo booths (360 and stationary), mobile photo booth trailer, CO2 cannons.",
     cta: "See Rentals",
     href: "/event-rentals",
     image: {

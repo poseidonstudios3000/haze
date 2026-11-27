@@ -43,7 +43,7 @@ export const SEO_PAGES: SeoPage[] = [
     path: "/",
     title: "DJ Miss Haze | Event DJ & MC in Chicago, Dallas and Denver",
     description:
-      "Event DJ and MC for corporate events, weddings and private parties in Chicago, Dallas-Fort Worth, Denver and beyond. Live-mixed sets and event rentals.",
+      "Event DJ and MC for corporate events, weddings and private parties in Chicago, Dallas-Fort Worth, Denver and beyond. Live-mixed sets with human connection meets premium production.",
     priority: "1.0",
     changefreq: "weekly",
   },
