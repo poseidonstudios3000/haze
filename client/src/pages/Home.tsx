@@ -226,7 +226,7 @@ export default function Home({ city }: { city?: string }) {
       <EquipmentIncluded />
 
       {/* Investment — visible pricing for this page's event type */}
-      <InvestmentSection eventType={evtType} />
+      <InvestmentSection eventType={evtType} city={citySlug} />
 
       {isOther && (
         <section className="container mx-auto px-4 py-16 md:py-24">

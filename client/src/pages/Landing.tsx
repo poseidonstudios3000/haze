@@ -15,7 +15,7 @@ gsap.registerPlugin(ScrollTrigger);
 const HERO_IMAGE = "/assets/dj-miss-haze-premium-event-dj-hero-2026.webp";
 
 // All homepage copy lives in client/src/content/home.ts.
-const { hero, bannerWords, eventExperience, locations, rentals, resources } = homeContent;
+const { hero, bannerWords, eventExperience, locations, rentals, resources, credentials } = homeContent;
 
 type EventButtonStyle = {
   color: string;
@@ -277,6 +277,42 @@ export default function Landing() {
       {/* 7. Logo strip. Forced to the brands variant: the theme defaults to
           wedding on "/", which would otherwise swap in "As Seen In". */}
       <ClientLogos variant="brands" />
+
+      {/* 8. Credentials: stats, reach line and BBB link. Sits directly under the
+          logo strip, so it shares its band styling without a second top border. */}
+      <section className="py-10 md:py-14 bg-zinc-900/30 border-b border-white/5" data-testid="section-credentials">
+        <div className="container mx-auto px-4">
+          <ul className="mx-auto max-w-5xl flex flex-wrap justify-center gap-y-8">
+            {credentials.stats.map((stat) => (
+              <li key={stat.label} className="w-1/2 sm:w-1/3 lg:w-1/5 px-2 text-center">
+                <span className="block font-display font-black text-3xl md:text-4xl text-white leading-none tracking-tight">
+                  {stat.prefix && (
+                    <span className="mr-0.5 align-baseline text-base md:text-lg font-bold text-white/60">{`${stat.prefix} `}</span>
+                  )}
+                  {stat.value}
+                </span>{" "}
+                <span className="mt-2 block text-xs md:text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                  {stat.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 md:mt-10 text-center text-sm md:text-base text-white/70">
+            {credentials.reach}
+          </p>
+          <p className="mt-3 text-center">
+            <a
+              href={credentials.bbb.href}
+              target="_blank"
+              rel="noopener"
+              className="text-xs font-bold uppercase tracking-widest text-primary underline-offset-4 hover:underline"
+              data-testid="link-bbb"
+            >
+              {credentials.bbb.label}
+            </a>
+          </p>
+        </div>
+      </section>
 
       <FooterCTA />
 

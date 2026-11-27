@@ -114,6 +114,23 @@ export const homeContent = {
     },
   } satisfies TeaserCopy,
 
+  /** Stats strip right after the "Trusted by Leading Brands" logo strip. */
+  credentials: {
+    /** `prefix` renders small before the value, so "Up to 5,000 guests" reads as one line. */
+    stats: [
+      { value: "1,000+", label: "events" },
+      { value: "500", label: "weddings" },
+      { value: "200", label: "corporate events" },
+      { value: "150", label: "private events" },
+      { prefix: "Up to", value: "5,000", label: "guests" },
+    ] as { prefix?: string; value: string; label: string }[],
+    reach: "Performing across the United States, Europe and the Middle East",
+    bbb: {
+      label: "A+ rated on BBB",
+      href: "https://www.bbb.org/us/il/elmhurst/profile/djs/dj-miss-haze-0654-1000119151",
+    },
+  },
+
   resources: {
     heading: "Event Resources",
     text: "Trusted venues, planners, photographers and other vendors in Chicago, Dallas-Fort Worth and Denver.",

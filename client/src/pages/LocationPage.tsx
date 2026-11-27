@@ -191,7 +191,7 @@ export default function LocationPage({ location }: LocationPageProps) {
       <CityLogistics logistics={cityHub.logistics} />
 
       {/* Investment — hub pages cover every event type, so show all tiers */}
-      <InvestmentSection />
+      <InvestmentSection city={location} />
 
       <LocationContact location={getLocationForCity(location)} />
 

@@ -523,6 +523,7 @@ export function getJsonLd(page: SeoPage) {
         "https://instagram.com/djmisshaze",
         "https://www.facebook.com/djmisshaze",
         "https://www.tiktok.com/@djmisshaze",
+        "https://www.bbb.org/us/il/elmhurst/profile/djs/dj-miss-haze-0654-1000119151",
       ],
       areaServed: [
         { "@type": "City", name: "Chicago", containedInPlace: { "@type": "State", name: "Illinois" } },

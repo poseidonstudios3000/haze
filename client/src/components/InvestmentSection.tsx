@@ -1,15 +1,16 @@
 import type { EventType } from "@/hooks/use-event-content";
-import { PRICING_TIERS, PRICING_ORDER, PRICING_INCLUDED } from "@/hooks/use-event-content";
+import { getPricingTier, PRICING_ORDER, PRICING_INCLUDED } from "@/hooks/use-event-content";
 
 // Visible pricing section — real page content, not a FAQ answer and not driven
 // by the DB-merged `faq` section, so it can't be silently overridden.
 //
 // Pass `eventType` on a page tied to one event type (a wedding or corporate
 // page) to show that single tier; omit it on the hub pages to show all tiers.
-export function InvestmentSection({ eventType }: { eventType?: EventType }) {
+// Pass `city` (slug) on city pages so market-specific ranges apply.
+export function InvestmentSection({ eventType, city }: { eventType?: EventType; city?: string }) {
   const tiers = eventType
-    ? [{ key: eventType, ...PRICING_TIERS[eventType] }]
-    : PRICING_ORDER.map((key) => ({ key, ...PRICING_TIERS[key] }));
+    ? [{ key: eventType, ...getPricingTier(eventType, city) }]
+    : PRICING_ORDER.map((key) => ({ key, ...getPricingTier(key, city) }));
   const single = tiers.length === 1;
 
   return (
